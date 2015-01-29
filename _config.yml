@@ -1,0 +1,12 @@
+# Site settings
+title: Just Stuff
+email: therealdante@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  The adventures of a little indie game developer trying to get you to play his games.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://Bytekeeper.github.io.git" # the base hostname & protocol for your site
+twitter_username: Bytekeeper
+github_username:  Bytekeeper
+
+# Build settings
+markdown: kramdown
