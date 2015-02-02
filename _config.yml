@@ -12,4 +12,7 @@ github_username:  Bytekeeper
 markdown: kramdown
 
 collections:
-- sidebar
+  sidebar:
+  cats:
+    output: true
+

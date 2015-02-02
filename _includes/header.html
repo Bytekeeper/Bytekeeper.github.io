@@ -21,12 +21,16 @@
                 {% if link.url == page.url %}
                   {% assign selected = 'selected' %}
                 {% endif %}
-                {% assign name = link.title %}
-                {% if link.category %}
-                  {% capture name %}[{{ name }}]{% endcapture %}
-                {% endif %}
-                <a class="page-link {{selected}}" href="{{ link.url | prepend: site.baseurl }}">{{ name }}</a>
+                <a class="page-link {{selected}}" href="{{ link.url | prepend: site.baseurl }}">{{ link.title }}</a>
               {% endif %}
+            {% endfor %}
+            {% for category in site.cats %}
+                {% assign selected = '' %}
+                {% if category.url == page.url %}
+                  {% assign selected = 'selected' %}
+                {% endif %}
+                 <a class="page-link {{selected}}" href="{{ category.url | prepend: site.baseurl }}">[{{ category.title }}]</a>
+              {{x.url}}
             {% endfor %}
           </div>
         </nav>

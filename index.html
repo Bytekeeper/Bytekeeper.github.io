@@ -10,7 +10,7 @@ layout: default
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
         <div class="post-categories">
           {% for cat in post.categories %}
-            {% for p in site.pages %}
+            {% for p in site.cats %}
               {% if p.category == cat %}
                 <a class="post-category" href="{{p.url}}">[{{ cat | xml_escape }}]</a> 
               {% endif %}
