@@ -9,7 +9,14 @@
 
     <div class="page-content">
       <div class="wrapper">
+        <div class="column boxed two-thirds">
         {{ content }}
+        </div>
+        <div class="sidebar column one-thirds">
+            <div class="boxed">
+            {% include sidebar.html %}
+            </div>
+        </div>
       </div>
     </div>
 
