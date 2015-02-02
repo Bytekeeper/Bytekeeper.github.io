@@ -248,6 +248,10 @@ a.post-link {
     margin-bottom: $spacing-unit;
 }
 
+.post-category {
+    font-size: $tiny-font-size;
+}
+
 .post-title {
     font-size: 42px;
     letter-spacing: -1px;
@@ -284,4 +288,38 @@ a.post-link {
             font-size: 18px;
         }
     }
+}
+
+
+.sbcontent {
+    h1 {
+        font-size: 1em;
+        margin-bottom: 0em;
+        
+        &::after {
+            content: "";
+            border-bottom: 1px solid red;
+            display: block;
+            width: 30%;
+        }
+    }
+    a {
+        font-size: 0.8em;
+        padding-left: 1em;
+    }
+    .author {
+        img {
+            border-radius: 80%;
+            padding-left: 20%;
+        }
+        p {
+            font-size: $small-font-size;
+            color: $grey-color;
+            text-align: justify;
+            line-height: initial;
+        }
+    }
+    .sidebardynamic {
+        line-height: 1em;
+   }
 }

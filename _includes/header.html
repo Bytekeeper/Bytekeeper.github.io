@@ -17,11 +17,15 @@
           <div class="trigger">
             {% for link in site.pages %}
               {% if link.title %}
+                {% assign selected = '' %}
                 {% if link.url == page.url %}
-                <a class="page-link selected" href="{{ link.url | prepend: site.baseurl }}">{{ link.title }}</a>
-                {% else %}
-                <a class="page-link" href="{{ link.url | prepend: site.baseurl }}">{{ link.title }}</a>
+                  {% assign selected = 'selected' %}
                 {% endif %}
+                {% assign name = link.title %}
+                {% if link.category %}
+                  {% capture name %}[{{ name }}]{% endcapture %}
+                {% endif %}
+                <a class="page-link {{selected}}" href="{{ link.url | prepend: site.baseurl }}">{{ name }}</a>
               {% endif %}
             {% endfor %}
           </div>

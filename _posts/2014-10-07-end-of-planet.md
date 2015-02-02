@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "First Game: End of Planet"
+category: games
 ---
 The title is actually wrong. I can't remember the frist game I made, it was
 some (long) time ago. Some years ago I also started modding. You might even have seen [Defence Alliance](http://www.moddb.com/mods/defence-alliance) or [Defence Alliance 2](http://store.steampowered.com/app/35420/).
