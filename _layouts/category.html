@@ -9,6 +9,9 @@ layout: default
   </header>
 
   <article class="category-content">
+      {{ content }}
+  </article>
+  <ul class="post-list"> 
       {% for post in site.posts %}
           {% if post.categories contains page.category %}
           <li>  
@@ -19,6 +22,6 @@ layout: default
           </li>
         {% endif %}
       {% endfor %}
-  </article>
+  </ul>
 
 </div>
