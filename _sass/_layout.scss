@@ -4,10 +4,14 @@
 .site-header {
     border-bottom: 1px solid $grey-color-light;
     min-height: 5em;
-    background-color: #303060;
+    background-color: $header-background-color;
 
     // Positioning context for the mobile navigation icon
     position: relative;
+}
+
+a.site-title {
+    color: $header-color;
 }
 
 .site-title {
@@ -16,35 +20,37 @@
     letter-spacing: -1px;
     margin-bottom: 0;
     float: left;
-
-    &,
-    &:visited {
-        color: #007788;
-    }
 }
 
 .site-nav {
     float: right;
-    line-height: 56px;
+    padding-top: 3.5em;
 
     .menu-icon {
         display: none;
     }
 
     .page-link {
-        color: $text-color;
+        color: $header-color;
         line-height: $base-line-height;
+        padding: 0em 0.5em;
 
         // Gaps between nav items, but not on the first one
         &:not(:first-child) {
-            margin-left: 20px;
+            margin-left: 1em;
         }
+    }
+
+    .selected {
+        color: $header-background-color;
+        background-color: $header-color;
+        border-radius: 1em;
     }
 
     @include media-query($on-palm) {
         position: absolute;
-        top: 9px;
-        right: 30px;
+        top: 1em;
+        right: 1em;
         background-color: $background-color;
         border: 1px solid $grey-color-light;
         border-radius: 5px;
@@ -175,16 +181,26 @@
 .column {
     float: left;
     box-sizing: border-box;
+    padding-left: 2em;
+
+    @include media-query($on-palm) {
+        width: 100%;
+        padding-right: 2em;
+    }
+}
+
+.unboxed {
+    padding: 1em 2em 0em;
+    display: block;
 }
 
 .boxed {
+    @extend .unboxed;
     background-color: white;
     border: 1px solid $grey-color-light;
-    padding: 1em 2em 0em;
 }
 
 .sidebar {
-    padding-left: 2em;
 }
 
 /**
@@ -201,6 +217,7 @@
 .post-list {
     margin-left: 0;
     list-style: none;
+    min-height: 35em;
 
     > li {
         margin-bottom: $spacing-unit;
