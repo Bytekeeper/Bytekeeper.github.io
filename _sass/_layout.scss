@@ -239,7 +239,24 @@ a.post-link {
     font-family: monospace;
 }
 
+a.readmore {
+    color: $grey-color-light;
 
+    &:hover {
+        background-color: $header-background-color;
+        color: $header-color;
+        transition: background-color 0.3s, color 2s;
+    }
+}
+
+.readmore {
+    background-color: $grey-color-dark;
+    border-radius: 0.3em;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.8em;
+    padding: 0.5em 0.5em;
+}
 
 /**
  * Posts
