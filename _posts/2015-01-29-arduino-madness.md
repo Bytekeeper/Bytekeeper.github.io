@@ -2,6 +2,7 @@
 layout: post
 title: "Arduino Madness or The Quest for PS2014 lamp"
 category: hardware
+comments: true
 ---
 If you haven't seen it yet, check out David Bliss' blog on the IKEA PS2014 - or his modification of it: [Transforming Sphere Lamp](http://davidbliss.com/2014/11/18/transforming-sphere-lamp/).
 

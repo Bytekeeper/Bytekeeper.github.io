@@ -2,6 +2,7 @@
 layout: post
 title: "GGJ 2015: The Beer Chronicles"
 category: games
+comments: true
 ---
 Last weekend I took part in the [Global Game Jam](http://globalgamejam.org/). I met some nice guys and girls, the result being a game about beer:
 
