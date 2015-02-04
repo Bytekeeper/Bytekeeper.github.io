@@ -20,6 +20,14 @@ a.site-title {
     letter-spacing: -1px;
     margin-bottom: 0;
     float: left;
+    transition: transform 0.3s;
+
+    &:hover {
+        transform: skew(-10deg);
+        -webkit-transform: skew(-10deg);
+        -ms-transform: skew(-10deg);
+        transition: transform 0.3s;
+    }
 }
 
 .site-nav {
@@ -34,6 +42,11 @@ a.site-title {
         color: $header-color;
         line-height: $base-line-height;
         padding: 0em 0.5em;
+
+        &:hover {
+            color: $grey-color-light;
+            transition: color 0.3s;
+        }
 
         // Gaps between nav items, but not on the first one
         &:not(:first-child) {

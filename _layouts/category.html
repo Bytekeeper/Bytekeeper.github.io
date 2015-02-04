@@ -19,7 +19,7 @@ layout: default
           <h2>
               <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
           </h2>   
-          <p>{{ post.excerpt }}</p>
+          {{ post.excerpt | markdownify }}
             <a class="readmore" href="{{ post.url | prepend: site.baseurl }}">Read more</a>
           </li>
         {% endif %}
