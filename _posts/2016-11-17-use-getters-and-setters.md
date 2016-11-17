@@ -41,6 +41,10 @@ You want to protect `name` from modification? Use `public final String name;`!
 
 You want to protect `name` from being read? Remove the field, obviously you didn't need it!
 
+### Information hiding
+Please try to change the type of the field without changing the getters and setters. Or try the experiment the other way around. If you were careful, this might actually work.
+I bet you were not. So changing the type of a field or even the name of the field will usually cascade through your code - so much for hiding anything.
+
 ### Debugging?
 Unless you use some esoteric IDE, just add a variable break point - just like you would in the getter and setter.
 
@@ -125,11 +129,16 @@ public void setName(String name) {
 {% endhighlight %}
 But then again, you could also add a technical method to check invariants (Hibernates `Validatable` or @NotNull or @Column(nullable=false), ...), which can be checked by the framework.
 
-If you really want to make the check there, thus failing *early* if someone tries to set `null` as a name - then do so. But if you just want to leave an empty shell where someone *could* eventually
- add a validation - don't.
+It's also pretty likely that you cannot decide if an invariant is met, before all properties are set. In that case you have to add even more validation methods. What about invariants depending on the `service` that takes the object? 
+Is it really prudent to place all this validation code in the class itself. What if someone creates a new `service`? He'll have to add validation code elsewhere anyways...
 
 Conclusion
 ----------
+This article, as well as other articles on the topic will most likely not persuade you or your colleagues to change their trained pattern. It's sad that we have to write all this boilerplate code to satisfy some other human being.
+
+Yes, that's right. There's only a small amount of libraries that require the use of getters and setters. But there are a lot of developers using this pattern for almost 20 years, without any added benefit - but they're used to do it this way.
+
+Maybe in your next POC - try not using any getters and setters and check what the code looks like without them. 
 
 
 
