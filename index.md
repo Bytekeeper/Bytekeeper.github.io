@@ -4,4 +4,4 @@
 
 layout: home
 ---
-For now, checkout my [projects page]({% link projects.md %}).
+For now, checkout my [projects page]({{ site.baseurl }}{% link projects.md %}).

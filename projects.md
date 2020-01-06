@@ -22,7 +22,7 @@ My (contributors welcome!) Java Broodwar AI library. Combat sim&#10004;, cluster
 [JBWAPI](https://github.com/JavaBWAPI/JBWAPI)
 I'm part of the team bringing [BWAPI] to the Java world. There are alternative libraries, but this one is currently the only actively developed.
 
-## Build tooling
+## Build Tooling
 
 [Whisk](https://github.com/Bytekeeper/whisk)
 Like programming languages, everyone needs one today. Build task dependency graph base build tool based on a small DSL. Build *only* what is required to reach a goal.
@@ -43,8 +43,12 @@ SimpleTimeTracking - based on the idea of [ti](http://ti.sharats.me/). Allows to
 
 ## Electronics
 
-Bedlight
+[NightLight](https://github.com/bk-arduino/NightLight)
 Using an ESP8266, some sensors and a LED stripe: Avoid requiring to turn on the lights in the bed room. Automatically fade in a low red light at night when standing up. Wake up by pulsing light, and provide bright light when entering the room if required.
+
+[PWMDDIRLib](https://github.com/bk-arduino/PWMDDIRLib)
+Instead of hardware PWM, uses timer based PWM supporting all output pins simultaneously. It also allows switching from `open` <-> `GND` instead of `5V` <-> `GND`. The Arduino can take up to 20V. But a real use case is triggering a MOSFET with a higher voltage.
+
 
 [SSCAIT]: https://www.sscaitournament.com/
 [BWAPI]: https://bwapi.github.io/
