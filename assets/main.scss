@@ -1,0 +1,39 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+fieldset {
+  border: none;
+  padding: unset;
+  margin: unset;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 150px;
+  font: inherit;
+}
+
+label {
+  display: block;
+  font-size: $base-font-size - 2;
+}
+
+input {
+  font: inherit;
+  display: block;
+  width: -webkit-calc(50% - (#{$spacing-unit} / 2));
+  width: calc(50% - (#{$spacing-unit} / 2));
+}
+
+button {
+  font: inherit;
+  margin-top: $base-font-size;
+}
+
+#comments > ol {
+  list-style-type: none;
+}

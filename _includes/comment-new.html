@@ -1,0 +1,50 @@
+<h3>Add Comment</h3>
+<form action="javascript:void(0)" method="post" id="commentform" class="form-horizontal">
+  <fieldset id="commentfields">
+    <input name="redirect" type="hidden" value="{{ site.url }}/thanks">
+    <input name="ref" type="hidden" value="{{ slug }}">
+    <input name="comment-site" type="hidden" value="{{ site.url }}">
+    <textarea name="message" id="message"></textarea>
+
+    <label for="name">Name*</span></label>
+    <input type="text" name="name" id="name" />
+
+    <!--
+    <label for="email">Email <span>(Required, not shown)</span></label>
+    <input type="text" name="email" id="email" placeholder="myemail@somedomain.com" />
+-->
+
+    <label for="url">Website</span></label>
+    <input type="text" name="url" id="url" />
+
+    <button onclick="setupForm()" type="button" class="btn btn-primary" id="commentbutton">Submit</button>
+  </fieldset>
+</form>
+<script>
+  function setupForm() {
+    var status = document.getElementById('commentstatus')
+    status.innerText = ''
+
+    var requiredIds = ['message', 'name']
+    var missing = requiredIds.filter(id => document.getElementById(id).value.length < 3)
+    if (missing.length > 0) {
+      status.innerText = 'Some required fields are missing - (' + missing.join(', ') + ')'
+      return
+    }
+
+    var button = document.getElementById('commentbutton')
+    if (button.innerText != 'Confirm comment') {
+      button.innerText = 'Confirm comment'
+      return
+    }
+
+    var form = document.getElementById('commentform')
+    form.action = '{{ site.comments.receiver }}'
+    button.innerText = 'Posting...'
+    button.disabled = true
+    form.submit()
+    var fields = document.getElementById('commentfields')
+    fields.disabled = true
+  }
+</script>
+<div id="commentstatus" style="clear:both" class="status"></div>

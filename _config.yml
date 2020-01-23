@@ -31,6 +31,19 @@ plugins:
   - jekyll-titles-from-headings
 titles_from_headings:
   enabled:     false
+show_excerpts: true
+defaults:
+  -
+    scope:
+      path: '_posts'
+      type: posts
+    values:
+      layout: post
+      commenting: open
+
+emptyArray: []
+comments:
+  receiver: https://comment.bytekeeper.org/cgi-bin/post
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
