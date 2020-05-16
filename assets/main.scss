@@ -37,3 +37,13 @@ button {
 #comments > ol {
   list-style-type: none;
 }
+
+.image-caption {
+  text-align: center;
+
+  img {
+    margin: auto;
+    clear: both;
+    display: block;
+  }
+}
