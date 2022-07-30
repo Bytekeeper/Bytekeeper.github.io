@@ -1,0 +1,8 @@
+{% if caption %}
+<figure style="margin: 0; line-height: 1em; font-size: 0.9em">
+{% endif %}
+<img src="{{path}}" style="width: 100%" {% if alt %}alt="{{alt}}"{% endif %}/>
+{% if caption %}
+<figcaption>{{caption}}</figcaption>
+</figure>
+{% endif %}
