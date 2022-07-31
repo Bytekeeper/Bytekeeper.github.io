@@ -17,12 +17,13 @@ taxonomies = [
 [markdown]
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = false
+highlight_code = true
 
 [extra]
 # Put all your custom variables here
 after_dark_menu = [
-    {url = "$BASE_URL/blog", name = "Home"},
+    {url = "$BASE_URL/", name = "Home"},
+    {url = "$BASE_URL/blog/", name = "Blog"},
 #    {url = "$BASE_URL/categories", name = "Categories"},
 #    {url = "$BASE_URL/tags", name = "Tags"},
 ]
