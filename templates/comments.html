@@ -1,0 +1,32 @@
+{% block comments %}
+<div id="comments">
+{% set comments = load_data(path= current_path ~ "comments.yaml", required = false) %}
+{% if comments %}
+  <h3>{% if comments | length == 1 %}One response{% else %}{{ comments | length }} responses{% endif %}</h3>
+  <ul>
+    <!-- {% for comment in comments %} -->
+    <li>
+	    {% if comment.url %}
+	    <a href="{{ comment.url }}" rel="nofollow">
+		    {{ comment.url }}
+	    </a>
+	    {% endif %}
+
+	    <div id="{{ comment.id }}" class="comment-body">{{ comment.message | escape | linebreaksbr | safe}}</div>
+	    <cite>
+		    {% if comment.url %}
+		    <a href="{{ comment.url }}" rel="nofollow">{{ comment.name }}</a>
+		    {% else %}
+		    {{ comment.name }}
+		    {% endif %}
+		    &ndash;
+		    <span class="muted">
+			    {{ comment.date | date(format = "%B-%d-%Y") }}
+		    </span>
+	    </cite>
+    </li>
+    <!-- {% endfor %} -->
+  </ul>
+  {% endif %}
+</div>
+{% endblock comments %}

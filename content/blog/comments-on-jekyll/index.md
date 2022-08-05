@@ -1,8 +1,7 @@
----
-layout: post
-title:  "Comments for static pages? - Part 1"
-categories: jekyll
----
++++
+title = "Comments for static pages? - Part 1"
+date = 2020-01-21
++++
 
 [This](/) is actually a static page hosted by [GitHub](https://www.github.com/), powered by [Jekyll](https://jekyllrb.com/). 
 But how to get a comment section?

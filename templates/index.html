@@ -1,5 +1,6 @@
 {% extends "after-dark/templates/index.html" %}
 {% block extra_head %}
+<link rel="stylesheet" href="{{ get_url(path="custom.css", trailing_slash=false) | safe }}">
 <script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
 {% endblock extra_head %}
 {% block content %}

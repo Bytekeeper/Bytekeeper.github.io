@@ -1,0 +1,11 @@
+#comments {
+	h3:before {
+		content: ""
+	}
+
+	> ul > li {
+		&:after {
+			content: ""
+		}
+	}
+}
