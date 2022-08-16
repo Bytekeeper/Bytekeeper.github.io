@@ -1,0 +1,11 @@
+digraph G {
+	rankdir=LR;
+	edge [dir=none];
+	eXplore [pos = "0,0!"];
+	eXplore -> eXpand;
+	eXpand -> eXploit;
+	eXploit -> eXterminate;
+	eXplore -> eXploit;
+	eXplore -> eXterminate;
+	eXpand -> eXterminate;
+}
