@@ -15,3 +15,6 @@ jobs:
         env:
           # Provide personal access token
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
