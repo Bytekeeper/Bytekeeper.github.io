@@ -1,5 +1,8 @@
 +++
-paginate_by = 5
+title = "List of blog posts"
+sort_by = "date"
+template = "index.html"
+page_template = "page.html"
+paginate_by = 20
 +++
 
-# For now, consider clicking "Blog" above

@@ -1,6 +1,7 @@
 # The URL the site will be built for
 base_url = "https://www.bytekeeper.org"
 theme = "after-dark"
+highlight_theme = "solarized-dark"
 ignored_content = ["*.dot"]
 
 # Whether to automatically compile all Sass files in the sass directory
@@ -23,8 +24,7 @@ highlight_code = true
 [extra]
 # Put all your custom variables here
 after_dark_menu = [
-    {url = "$BASE_URL/", name = "Home"},
-    {url = "$BASE_URL/blog/", name = "Blog"},
+    {url = "$BASE_URL/", name = "Blog"},
 #    {url = "$BASE_URL/categories", name = "Categories"},
 #    {url = "$BASE_URL/tags", name = "Tags"},
 ]
