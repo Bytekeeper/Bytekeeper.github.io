@@ -1,6 +1,8 @@
 +++
 title = "Comments for static pages? - Part 1"
 date = 2020-01-21
+[taxonomies]
+tags = ["tech"]
 +++
 
 [This](/) is actually a static page hosted by [GitHub](https://www.github.com/), powered by [Jekyll](https://jekyllrb.com/). 

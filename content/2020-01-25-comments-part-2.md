@@ -1,8 +1,8 @@
----
-layout: post
-title:  "Comments for static pages? - Part 2"
-categories: jekyll
----
++++
+title =  "Comments for static pages? - Part 2"
+[taxonomies]
+tags = ["tech", "jekyll"]
++++
 
 Looking [back](@/comments-on-jekyll/index.md)... I need a bit of DIY GitHub API for Rust.
 

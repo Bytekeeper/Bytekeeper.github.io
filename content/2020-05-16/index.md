@@ -1,6 +1,8 @@
 +++
 title =  "A son was born"
 date = 2020-05-16
+[taxonomies]
+tags = ["personal"]
 +++
 This was meant to be a tech related blog, mostly for Broodwar AI related stuff and private projects. Since private projects are included, I guess one could call my son a private project.
 

@@ -1,7 +1,8 @@
----
-title:  "Slow bots on Basil"
-categories: basil
----
++++
+title = "Slow bots on Basil"
+[taxonomies]
+tags = ["test"]
++++
 
 
 If you haven't yet, check out [BASIL]. It's a 24/7 Starcraft league, but for bots!

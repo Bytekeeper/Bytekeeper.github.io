@@ -1,6 +1,8 @@
 +++
 title = "4X Game Loop"
 date = 2022-08-05
+[taxonomies]
+tags = ["gamedev"]
 +++
 
 I think I don't really need to explain what a 4X game is, maybe not even what the 4X stand for.

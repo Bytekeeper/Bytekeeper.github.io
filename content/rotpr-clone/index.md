@@ -1,6 +1,8 @@
 +++
 title = "MOO resp. ROTPR inspired 4X game"
 date = 2022-07-30
+[taxonomies]
+tags = ["tech", "jekyll"]
 +++
 
 So [Sonko](https://makingcomputerdothings.com/a-new-project-untitled-space-mercenary-game/) started a new project.
