@@ -1,4 +1,6 @@
 {% extends "after-dark/templates/page.html" %}
 {% block extra_footer %}
+{% if page.date %}
 {% include "comments.html" %}
+{% endif %}
 {% endblock extra_footer %}

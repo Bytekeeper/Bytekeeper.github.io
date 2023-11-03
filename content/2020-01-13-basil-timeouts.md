@@ -1,7 +1,7 @@
 +++
 title = "Slow bots on Basil"
 [taxonomies]
-tags = ["test"]
+tags = ["basil"]
 +++
 
 

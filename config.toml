@@ -22,9 +22,10 @@ taxonomies = [
 highlight_code = true
 
 [extra]
+api_url = "https://api.bytekeeper.org"
 # Put all your custom variables here
 after_dark_menu = [
-    {url = "$BASE_URL/", name = "Blog"},
+    {url = "$BASE_URL/blog", name = "Blog"},
     # {url = "$BASE_URL/categories", name = "Categories"},
     {url = "$BASE_URL/tags", name = "Tags"},
 ]

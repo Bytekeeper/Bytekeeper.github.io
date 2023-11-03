@@ -23,10 +23,72 @@
 		    <span class="muted">
 			    {{ comment.date | date(format = "%B-%d-%Y") }}
 		    </span>
+                    <hr/>
 	    </cite>
     </li>
     <!-- {% endfor %} -->
   </ul>
   {% endif %}
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '{{ current_path | safe }}',
+            };
+
+            // Now post the comment to the service
+            fetch('{{ config.extra.api_url | safe }}/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission_failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
 </div>
 {% endblock comments %}

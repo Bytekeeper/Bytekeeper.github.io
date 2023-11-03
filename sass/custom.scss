@@ -13,3 +13,15 @@
 .tagmeta {
     font-size: 12px;
 }
+
+form > div {
+    > input, textarea {
+        min-width: 50%;
+        max-width: 50%;
+    }
+
+    > textarea {
+        height: 10em;
+    }
+}
+
