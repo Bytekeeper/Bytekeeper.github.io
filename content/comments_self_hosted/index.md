@@ -1,6 +1,7 @@
 +++
 title = "Comments - Take 3 - On Zola"
-date = 2022-08-05
+date = 2023-11-03
+updated = 2023-11-04
 [taxonomies]
 tags = ["tech"]
 +++
@@ -22,6 +23,8 @@ So here's what we'll do:
 2. We'll switch from our custom (and now obsolete) GitHub client to a working one I don't have to maintain
 3. Our Javascript client needs to be re-added to the new Zola generated site
 
+Here's a sequence diagram of how it is supposed to work:
+{{ fit_img(path="Sequence Diagram Comments.png", alt="Comment Sequence Diagram") }}
 
 # Our own Web Server
 Now, first, we need to implement our own TCP stack... J/k we'll use [hyper](https://hyper.rs/). We could use [Axum](https://github.com/tokio-rs/axum/) but we won't be needing any full blown web server anytime soon.
