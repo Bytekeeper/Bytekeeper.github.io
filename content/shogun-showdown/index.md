@@ -2,7 +2,7 @@
 title = "Shogun Showdown Core Mechanics"
 date = 2023-12-06
 [taxonomies]
-tags = ["gamedev"]
+tags = ["gamedev", "review"]
 +++
 
 [As promised](@unnamed-game/index.md), in this post, we will take a look at the game [Shogun Showdown](https://store.steampowered.com/app/2084000/Shogun_Showdown/). It is still in early access, but has very good review scores and a sizeable amount too.
