@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>Comments - Take 3 - On Zola - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">Comments - Take 3 - On Zola</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>7 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2023-11-03
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/tech/">tech</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p>A <a href="https://www.bytekeeper.org/comments-self-hosted/@comments-on-jekyll/index.md">while ago</a> I added comments for my Jekyll base blog. Since then, I switched to <a href="https://www.getzola.org/">zola</a>.
+Its basically a Rust based "clone" of the static site generator (SSG) <a href="https://gohugo.io/">Hugo</a>. Compared to Jekyll, it is a lot faster, and I found it to be a lot simpler.
+However, Zola has its own set of challenges. For instance, changing themes is nearly impossible and theme extension can get messy. That is the story for a future post.
+At some point I might consider creating my own SSG. Building a small one should be easy enough (and due to GitHub's Actions it could be used immediately).</p>
+<p>Why did I move? Jekyll was basically the go-to SSG back when GitHub only supported it. And it always supported an outdated version. And Jekyll is generally pretty slow.
+And after some small update I could not get it to run on my machine in a reasonable amount of time (minutes is reasonable here). Searching for a new led me to Hugo, and then in turn to its Rust "clone" Zola.
+I tend to prefer applications written in Rust nowadays, but only slightly - due to the fact that I could contribute code.</p>
+<p>Oh and, while migrating, I trashed the comment functionality - oops. Now its time to restore it back to its old (and pretty empty) glory.</p>
+<p><a href="https://www.bytekeeper.org/comments-self-hosted/@comments-on-jekyll/index.md#step-1-create-a-service-that-accepts-comments">Previously</a> I used CGI. It's a bit archaic and cumbersome.
+So here's what we'll do:</p>
+<ol>
+<li>First, we'll transform it to a web service</li>
+<li>We'll switch from our custom (and now obsolete) GitHub client to a working one I don't have to maintain</li>
+<li>Our Javascript client needs to be re-added to the new Zola generated site</li>
+</ol>
+<p>Here's a sequence diagram of how it is supposed to work:
+
+<img src="Sequence Diagram Comments.png" style="width: 100%" alt="Comment Sequence Diagram"/>
+
+</p>
+<h1 id="our-own-web-server"><a class="zola-anchor" href="#our-own-web-server" aria-label="Anchor link for: our-own-web-server">🔗</a>Our own Web Server</h1>
+<p>Now, first, we need to implement our own TCP stack... J/k we'll use <a href="https://hyper.rs/">hyper</a>. We could use <a href="https://github.com/tokio-rs/axum/">Axum</a> but we won't be needing any full blown web server anytime soon.</p>
+<p>Let's fire up a simple server at <code>127.0.0.0:3000</code>:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span style="color:#859900;">use </span><span>core::convert::Infallible;
+</span><span style="color:#859900;">use </span><span>hyper::service::</span><span style="color:#657b83;">{</span><span>make_service_fn, service_fn</span><span style="color:#657b83;">}</span><span>;
+</span><span style="color:#859900;">use </span><span>hyper::</span><span style="color:#657b83;">{</span><span>Body, Error, Request, Response, Server</span><span style="color:#657b83;">}</span><span>;
+</span><span style="color:#859900;">use </span><span>std::net::SocketAddr;
+</span><span>
+</span><span style="color:#586e75;">/// This is the actual endpoint:
+</span><span style="color:#586e75;">/// It should take a comment from a user by POST request and convert it to instructions on GitHub.
+</span><span style="color:#586e75;">/// The result should be a branch which includes the comment. And a PR for the branch for easy review and merge-ability.
+</span><span>async </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">post_comment_service</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">_req</span><span>: Request&lt;Body&gt;</span><span style="color:#657b83;">) 
+</span><span>        -&gt; </span><span style="color:#859900;">Result</span><span>&lt;Response&lt;Body&gt;, Infallible&gt; </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#859900;">Ok</span><span style="color:#657b83;">(</span><span>Response::new</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Hello World</span><span>&quot;.</span><span style="color:#859900;">into</span><span style="color:#657b83;">()))
+</span><span style="color:#657b83;">}
+</span><span>
+</span><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">tokio</span><span>::</span><span style="color:#268bd2;">main</span><span style="color:#657b83;">]
+</span><span style="color:#93a1a1;">pub</span><span> async </span><span style="color:#268bd2;">fn </span><span style="color:#b58900;">main</span><span style="color:#657b83;">() </span><span>-&gt; </span><span style="color:#859900;">Result</span><span>&lt;</span><span style="color:#657b83;">()</span><span>, Error&gt; </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">let</span><span> addr </span><span style="color:#657b83;">= </span><span>SocketAddr::from</span><span style="color:#657b83;">(([</span><span style="color:#6c71c4;">127</span><span>, </span><span style="color:#6c71c4;">0</span><span>, </span><span style="color:#6c71c4;">0</span><span>, </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">]</span><span>, </span><span style="color:#6c71c4;">3000</span><span style="color:#657b83;">))</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#268bd2;">let</span><span> post_comment_service </span><span style="color:#657b83;">=
+</span><span>        </span><span style="color:#859900;">make_service_fn</span><span style="color:#657b83;">(|</span><span style="color:#268bd2;">_conn</span><span style="color:#657b83;">| </span><span>async </span><span style="color:#657b83;">{ 
+</span><span>        </span><span style="color:#859900;">Ok</span><span>::&lt;</span><span style="color:#859900;">_</span><span>, Infallible&gt;</span><span style="color:#657b83;">(</span><span style="color:#859900;">service_fn</span><span style="color:#657b83;">(</span><span>post_comment_service</span><span style="color:#657b83;">))
+</span><span>    </span><span style="color:#657b83;">})</span><span>;
+</span><span>    </span><span style="color:#268bd2;">let</span><span> server </span><span style="color:#657b83;">= </span><span>Server::bind</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>addr</span><span style="color:#657b83;">)</span><span>.</span><span style="color:#859900;">serve</span><span style="color:#657b83;">(</span><span>post_comment_service</span><span style="color:#657b83;">)</span><span>;
+</span><span>    server.await
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>Simple enough.</p>
+<h1 id="choosing-a-github-client-for-rust"><a class="zola-anchor" href="#choosing-a-github-client-for-rust" aria-label="Anchor link for: choosing-a-github-client-for-rust">🔗</a>Choosing a GitHub Client for Rust</h1>
+<p>According to <a href="https://docs.github.com/en/rest/overview/libraries-for-the-rest-api?apiVersion=2022-11-28#rust">GitHub</a> - there's no official client for Rust. But there are two third party clients. <a href="https://github.com/octocat-rs/octocat-rs">Octocat</a> seems to be on the decline. I'm sorry if I misjudged here, I just compared the activity to the alternative <a href="https://github.com/XAMPPRocky/octocrab">Octocrab</a> which has a lot more "everything". A quick check reveals it seems to be able to create branches, commits and PRs - everything we need. So we're using that, just a quick <code>cargo add octocrab</code>.</p>
+<h1 id="representing-comment-requests-and-comment-data"><a class="zola-anchor" href="#representing-comment-requests-and-comment-data" aria-label="Anchor link for: representing-comment-requests-and-comment-data">🔗</a>Representing Comment Requests and Comment Data</h1>
+<p>Most of the post handling code is the same as before, for brevities sake I will only skim through here:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span style="color:#586e75;">/// This is the request from a client
+</span><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Deserialize, Debug</span><span style="color:#657b83;">)]
+</span><span style="color:#93a1a1;">pub </span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Post </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">path</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">message</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">name</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">url</span><span>: String,
+</span><span style="color:#657b83;">}
+</span><span>
+</span><span style="color:#586e75;">/// This will be serialized into a comment file on GitHub
+</span><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Serialize, Debug</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Comment</span><span>&lt;</span><span style="color:#93a1a1;">&#39;a</span><span>&gt; </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">id</span><span>: </span><span style="color:#859900;">&amp;</span><span style="color:#93a1a1;">&#39;a </span><span style="color:#268bd2;">str</span><span>,
+</span><span>    </span><span style="color:#268bd2;">message</span><span>: </span><span style="color:#859900;">&amp;</span><span style="color:#93a1a1;">&#39;a </span><span style="color:#268bd2;">str</span><span>,
+</span><span>    </span><span style="color:#268bd2;">name</span><span>: </span><span style="color:#859900;">&amp;</span><span style="color:#93a1a1;">&#39;a </span><span style="color:#268bd2;">str</span><span>,
+</span><span>    </span><span style="color:#268bd2;">url</span><span>: </span><span style="color:#859900;">&amp;</span><span style="color:#93a1a1;">&#39;a </span><span style="color:#268bd2;">str</span><span>,
+</span><span>    </span><span style="color:#268bd2;">date</span><span>: </span><span style="color:#268bd2;">u64</span><span>,
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>So, let's modify our <code>post_comment_service</code> to actually do something. First we need to grab ourselves the content and then deserialize it to a <code>Post</code>:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span>    </span><span style="color:#268bd2;">let </span><span style="color:#859900;">Ok</span><span style="color:#657b83;">(</span><span>post_request</span><span style="color:#657b83;">) = </span><span>hyper::body::to_bytes</span><span style="color:#657b83;">(</span><span>body</span><span style="color:#657b83;">)</span><span>.await </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span>        </span><span style="color:#657b83;">[</span><span style="color:#859900;">...</span><span style="color:#657b83;">]
+</span><span>    </span><span style="color:#657b83;">}</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#268bd2;">let </span><span style="color:#859900;">Ok</span><span style="color:#657b83;">(</span><span>post</span><span style="color:#657b83;">)</span><span>: </span><span style="color:#859900;">Result</span><span>&lt;Post, </span><span style="color:#859900;">_</span><span>&gt; </span><span style="color:#657b83;">= </span><span>serde_json::from_slice</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span style="color:#657b83;">*</span><span>post_request</span><span style="color:#657b83;">) </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span>        </span><span style="color:#859900;">return Ok</span><span style="color:#657b83;">(</span><span>Response::builder</span><span style="color:#657b83;">()
+</span><span>            .</span><span style="color:#859900;">status</span><span style="color:#657b83;">(</span><span>StatusCode::</span><span style="color:#cb4b16;">BAD_REQUEST</span><span style="color:#657b83;">)
+</span><span>            .</span><span style="color:#859900;">body</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Invalid JSON</span><span>&quot;.</span><span style="color:#859900;">into</span><span style="color:#657b83;">())
+</span><span>            .</span><span style="color:#859900;">unwrap</span><span style="color:#657b83;">())</span><span>;
+</span><span>    </span><span style="color:#657b83;">}</span><span>;
+</span></code></pre>
+<p>Quick note: Using Axum, this would have been a lot shorter.</p>
+<p>The next steps:</p>
+<ol>
+<li>Create a branch</li>
+<li>Add the comment to the correct <code>comments.yaml</code> file</li>
+<li>Create a pull request</li>
+</ol>
+<p>Creating a branch requires a commit SHA it is based on, so we grab that and create a branch of it:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span>    </span><span style="color:#268bd2;">let</span><span> master_sha </span><span style="color:#657b83;">= </span><span style="color:#859900;">match</span><span> repo
+</span><span>        .</span><span style="color:#859900;">get_ref</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>Reference::Branch</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">master</span><span>&quot;.</span><span style="color:#859900;">to_string</span><span style="color:#657b83;">()))
+</span><span>        .await
+</span><span>        .</span><span style="color:#859900;">expect</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Could not get master ref</span><span>&quot;</span><span style="color:#657b83;">)
+</span><span>        .object
+</span><span>    </span><span style="color:#657b83;">{
+</span><span>        Object::Commit </span><span style="color:#657b83;">{</span><span> sha, </span><span style="color:#859900;">.. </span><span style="color:#657b83;">} </span><span style="color:#859900;">| </span><span>Object::Tag </span><span style="color:#657b83;">{</span><span> sha, </span><span style="color:#859900;">.. </span><span style="color:#657b83;">} </span><span style="color:#859900;">=&gt;</span><span> sha,
+</span><span>        </span><span style="color:#859900;">_ =&gt; unreachable!</span><span style="color:#657b83;">()</span><span>,
+</span><span>    </span><span style="color:#657b83;">}</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#859900;">debug!</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Creating branch {} from {}</span><span>&quot;, branch_name, master_sha</span><span style="color:#657b83;">)</span><span>;
+</span><span>    repo.</span><span style="color:#859900;">create_ref</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>Reference::Branch</span><span style="color:#657b83;">(</span><span>branch_name.</span><span style="color:#859900;">clone</span><span style="color:#657b83;">())</span><span>, master_sha</span><span style="color:#657b83;">)
+</span><span>        .await
+</span><span>        .</span><span style="color:#859900;">expect</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Could not create branch</span><span>&quot;</span><span style="color:#657b83;">)</span><span>;
+</span></code></pre>
+<p>Now, due to technical limitations (Zola can read a yaml file, but not a set of files) we need to have all comments of a blog in one file. This will be called <code>comments.yaml</code> as stated above.</p>
+<p>A new comment should not just overwrite all other comments, so we first need to grab the file if it exists.</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span>    </span><span style="color:#268bd2;">let</span><span> content_items </span><span style="color:#657b83;">= </span><span style="color:#859900;">match</span><span> repo.</span><span style="color:#859900;">get_content</span><span style="color:#657b83;">()</span><span>.</span><span style="color:#859900;">path</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>path</span><span style="color:#657b83;">)</span><span>.</span><span style="color:#859900;">send</span><span style="color:#657b83;">()</span><span>.await </span><span style="color:#657b83;">{
+</span><span>        </span><span style="color:#859900;">Ok</span><span style="color:#657b83;">(</span><span>content_items</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt;</span><span> content_items,
+</span><span>        </span><span style="color:#859900;">Err</span><span style="color:#657b83;">(</span><span style="color:#859900;">_</span><span style="color:#657b83;">) </span><span style="color:#859900;">=&gt; </span><span style="color:#657b83;">{
+</span><span>            </span><span style="color:#859900;">info!</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Assuming no comments present yet at {}</span><span>&quot;, path</span><span style="color:#657b83;">)</span><span>;
+</span><span>            ContentItems </span><span style="color:#657b83;">{</span><span> items: </span><span style="color:#859900;">Vec</span><span>::new</span><span style="color:#657b83;">() }
+</span><span>        </span><span style="color:#657b83;">}
+</span><span>    </span><span style="color:#657b83;">}</span><span>;
+</span><span>    </span><span style="color:#586e75;">// There can&#39;t be more than one file with the same name:
+</span><span>    </span><span style="color:#859900;">assert!</span><span style="color:#657b83;">(</span><span>content_items.items.</span><span style="color:#859900;">len</span><span style="color:#657b83;">() &lt;= </span><span style="color:#6c71c4;">1</span><span style="color:#657b83;">)</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#268bd2;">let</span><span> content </span><span style="color:#657b83;">=</span><span> content_items.items.</span><span style="color:#859900;">iter</span><span style="color:#657b83;">()</span><span>.</span><span style="color:#859900;">next</span><span style="color:#657b83;">()</span><span>;
+</span></code></pre>
+<p>Now lets create or append to the existing comment file:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span>    </span><span style="color:#268bd2;">let</span><span> new_comment </span><span style="color:#657b83;">=
+</span><span>        serde_yaml::to_string</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span style="color:#657b83;">[</span><span style="color:#859900;">&amp;</span><span>comment</span><span style="color:#657b83;">])</span><span>.</span><span style="color:#859900;">expect</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Could not convert comment to yaml</span><span>&quot;</span><span style="color:#657b83;">)</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#586e75;">// Yes, this name is rubbish 
+</span><span>    </span><span style="color:#268bd2;">let</span><span> author </span><span style="color:#657b83;">=</span><span> CommitAuthor </span><span style="color:#657b83;">{
+</span><span>        name: &quot;</span><span style="color:#2aa198;">Comment0r</span><span>&quot;.</span><span style="color:#859900;">to_string</span><span style="color:#657b83;">()</span><span>,
+</span><span>        email: &quot;</span><span style="color:#2aa198;">none@example.com</span><span>&quot;.</span><span style="color:#859900;">to_string</span><span style="color:#657b83;">()</span><span>,
+</span><span>    </span><span style="color:#657b83;">}</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#859900;">if </span><span style="color:#268bd2;">let </span><span style="color:#859900;">Some</span><span style="color:#657b83;">(</span><span>content</span><span style="color:#657b83;">) =</span><span> content </span><span style="color:#657b83;">{
+</span><span>        </span><span style="color:#586e75;">// GitHub API requires the SHA of the old file to update it
+</span><span>        </span><span style="color:#268bd2;">let </span><span style="color:#657b83;">(</span><span style="color:#93a1a1;">mut</span><span> content, sha</span><span style="color:#657b83;">) = (</span><span>content.</span><span style="color:#859900;">decoded_content</span><span style="color:#657b83;">()</span><span>.</span><span style="color:#859900;">unwrap</span><span style="color:#657b83;">()</span><span>, content.sha.</span><span style="color:#859900;">clone</span><span style="color:#657b83;">())</span><span>;
+</span><span>        </span><span style="color:#859900;">writeln!</span><span style="color:#657b83;">(</span><span>&amp;mut content, &quot;</span><span style="color:#cb4b16;">{}</span><span>&quot;, new_comment</span><span style="color:#657b83;">)</span><span>.</span><span style="color:#859900;">expect</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Could not add comment to file</span><span>&quot;</span><span style="color:#657b83;">)</span><span>;
+</span><span>
+</span><span>        repo.</span><span style="color:#859900;">update_file</span><span style="color:#657b83;">(
+</span><span>            </span><span style="color:#859900;">&amp;</span><span>path,
+</span><span>            </span><span style="color:#859900;">format!</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Added comment from &#39;</span><span style="color:#cb4b16;">{}</span><span style="color:#2aa198;">&#39;</span><span>&quot;, comment.name</span><span style="color:#657b83;">)</span><span>,
+</span><span>            content,
+</span><span>            sha,
+</span><span>        </span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">branch</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>branch_name</span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">commiter</span><span style="color:#657b83;">(</span><span>author</span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">send</span><span style="color:#657b83;">()
+</span><span>        .await
+</span><span>        .</span><span style="color:#859900;">expect</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Could not update file</span><span>&quot;</span><span style="color:#657b83;">)</span><span>;
+</span><span>    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span>        </span><span style="color:#859900;">debug!</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Creating new file at {}</span><span>&quot;, path</span><span style="color:#657b83;">)</span><span>;
+</span><span>        repo.</span><span style="color:#859900;">create_file</span><span style="color:#657b83;">(
+</span><span>            </span><span style="color:#859900;">&amp;</span><span>path,
+</span><span>            </span><span style="color:#859900;">format!</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Added comment from &#39;</span><span style="color:#cb4b16;">{}</span><span style="color:#2aa198;">&#39;</span><span>&quot;, comment.name</span><span style="color:#657b83;">)</span><span>,
+</span><span>            new_comment,
+</span><span>        </span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">branch</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>branch_name</span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">commiter</span><span style="color:#657b83;">(</span><span>author</span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">send</span><span style="color:#657b83;">()
+</span><span>        .await
+</span><span>        .</span><span style="color:#859900;">expect</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Could not create file</span><span>&quot;</span><span style="color:#657b83;">)</span><span>;
+</span><span>    </span><span style="color:#657b83;">}
+</span><span>
+</span></code></pre>
+<p>I decided against parsing the existing file. It should be fine. If it's not, I can fix it manually, its a <a href="https://yaml.org">YAML</a> file after all.
+Instead, just a "grab the existing content" and "append new comment" in YAML format, if nothing is there "create a new file" and "write the comment as initial content".</p>
+<p>Last but not least, I don't want to manually merge or create pull requests, so let's do that as well:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span>    oc.</span><span style="color:#859900;">pulls</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>config.owner, </span><span style="color:#859900;">&amp;</span><span>config.repo</span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">create</span><span style="color:#657b83;">(
+</span><span>            </span><span style="color:#859900;">format!</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">New comment from </span><span style="color:#cb4b16;">{}</span><span>&quot;, comment.name</span><span style="color:#657b83;">)</span><span>,
+</span><span>            branch_name,
+</span><span>            &quot;</span><span style="color:#2aa198;">master</span><span>&quot;,
+</span><span>        </span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">send</span><span style="color:#657b83;">()
+</span><span>        .await
+</span><span>        .</span><span style="color:#859900;">expect</span><span style="color:#657b83;">(</span><span>&quot;</span><span style="color:#2aa198;">Could not create PR</span><span>&quot;</span><span style="color:#657b83;">)</span><span>;
+</span></code></pre>
+<p>This will create a PR with the title "New comment from <user>" trying to merge the new branch into master.</p>
+<p>Now, this service serves no purpose, if no-one ever calls it. That would be...</p>
+<h1 id="the-client-part"><a class="zola-anchor" href="#the-client-part" aria-label="Anchor link for: the-client-part">🔗</a>The Client Part</h1>
+<p>I'll omit the html part for now, it's mostly a boring form with a name, an URL and a message field - and a submit button.
+The "interesting" part is the JavaScript client, that will do the following:</p>
+<ol>
+<li>Take the comment</li>
+<li>Send it to an endpoint</li>
+<li>Show the user a success or error page</li>
+</ol>
+<p>Here is the first part:</p>
+<pre data-lang="JavaScript" style="background-color:#002b36;color:#839496;" class="language-JavaScript "><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#268bd2;">const </span><span>form </span><span style="color:#657b83;">= </span><span style="color:#859900;">document</span><span>.</span><span style="color:#b58900;">getElementById</span><span style="color:#657b83;">(</span><span>&#39;</span><span style="color:#2aa198;">commentForm</span><span>&#39;</span><span style="color:#657b83;">)</span><span>;
+</span><span>
+</span><span>form.</span><span style="color:#b58900;">addEventListener</span><span style="color:#657b83;">(</span><span>&#39;</span><span style="color:#2aa198;">submit</span><span>&#39;, </span><span style="color:#268bd2;">function </span><span style="color:#657b83;">(</span><span style="color:#268bd2;">event</span><span style="color:#657b83;">) {
+</span><span>    </span><span style="color:#586e75;">// Don&#39;t submit actually
+</span><span>    event.</span><span style="color:#b58900;">preventDefault</span><span style="color:#657b83;">()</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#268bd2;">const </span><span>formData </span><span style="color:#657b83;">= </span><span style="color:#859900;">new </span><span style="color:#268bd2;">FormData</span><span style="color:#657b83;">(</span><span>form</span><span style="color:#657b83;">)</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#268bd2;">const </span><span>commentData </span><span style="color:#657b83;">= {
+</span><span>        name: formData.</span><span style="color:#b58900;">get</span><span style="color:#657b83;">(</span><span>&#39;</span><span style="color:#2aa198;">name</span><span>&#39;</span><span style="color:#657b83;">)</span><span>,
+</span><span>        url: formData.</span><span style="color:#b58900;">get</span><span style="color:#657b83;">(</span><span>&#39;</span><span style="color:#2aa198;">url</span><span>&#39;</span><span style="color:#657b83;">)</span><span>,
+</span><span>        message: formData.</span><span style="color:#b58900;">get</span><span style="color:#657b83;">(</span><span>&#39;</span><span style="color:#2aa198;">message</span><span>&#39;</span><span style="color:#657b83;">)</span><span>,
+</span><span>        path: &#39;</span><span style="color:#2aa198;">{{ current_path | safe }}</span><span>&#39;,
+</span><span>    </span><span style="color:#657b83;">}</span><span>;
+</span></code></pre>
+<p>Don't get confused by the <code>{{ ... }}</code> stuff, that's part of the template engine Zola uses (<a href="https://keats.github.io/tera/">Tera</a>).</p>
+<p>With the data firm in our grasp, onwards to step 2:</p>
+<pre data-lang="JavaScript" style="background-color:#002b36;color:#839496;" class="language-JavaScript "><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#586e75;">// Now post the comment to the service
+</span><span style="color:#b58900;">fetch</span><span style="color:#657b83;">(</span><span>&#39;</span><span style="color:#2aa198;">{{ config.extra.api_url | safe }}/comment</span><span>&#39;, </span><span style="color:#657b83;">{
+</span><span>    method: &#39;</span><span style="color:#2aa198;">POST</span><span>&#39;,
+</span><span>    headers: </span><span style="color:#657b83;">{
+</span><span>        &#39;</span><span style="color:#2aa198;">Content-Type</span><span>&#39;: &#39;</span><span style="color:#2aa198;">application/json</span><span>&#39;
+</span><span>    </span><span style="color:#657b83;">}</span><span>,
+</span><span>    body: </span><span style="color:#859900;">JSON</span><span>.</span><span style="color:#859900;">stringify</span><span style="color:#657b83;">(</span><span>commentData</span><span style="color:#657b83;">)
+</span></code></pre>
+<p>And finally step 3:</p>
+<pre data-lang="JavaScript" style="background-color:#002b36;color:#839496;" class="language-JavaScript "><code class="language-JavaScript" data-lang="JavaScript"><span style="background-color:#6e2e32;color:#839496;">})</span><span>.</span><span style="color:#b58900;">then</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">response =&gt; </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#859900;">if </span><span style="color:#657b83;">(</span><span>response.ok</span><span style="color:#657b83;">) {
+</span><span>        form.</span><span style="color:#b58900;">reset</span><span style="color:#657b83;">()</span><span>;
+</span><span>        </span><span style="color:#859900;">window</span><span>.location </span><span style="color:#657b83;">= </span><span>&quot;</span><span style="color:#2aa198;">/pages/submitted</span><span>&quot;;
+</span><span>    </span><span style="color:#657b83;">} </span><span style="color:#859900;">else </span><span style="color:#657b83;">{
+</span><span>        </span><span style="color:#859900;">window</span><span>.location </span><span style="color:#657b83;">= </span><span>&quot;</span><span style="color:#2aa198;">/pages/submission-failed</span><span>&quot;;
+</span><span>    </span><span style="color:#657b83;">}
+</span><span style="color:#657b83;">})</span><span>.</span><span style="color:#b58900;">catch</span><span style="color:#657b83;">(</span><span style="color:#268bd2;">error =&gt; </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#859900;">window</span><span>.location </span><span style="color:#657b83;">= </span><span>&quot;</span><span style="color:#2aa198;">/pages/submission-failed</span><span>&quot;;
+</span><span style="color:#657b83;">})</span><span>;
+</span></code></pre>
+<p>I also clear the form when the submit succeeded. Otherwise, returning to the page would keep the form content. On error, I let the content stay, maybe it was just a hiccup after all?</p>
+<h1 id="security"><a class="zola-anchor" href="#security" aria-label="Anchor link for: security">🔗</a>Security</h1>
+<p>The service itself is pretty small. Due to Rust's nature, I consider buffer under/overflow attacks to be pretty unlikely. Not impossible mind you.
+Rust could have some memory safety bug. Hyper uses some <code>unsafe</code> and could have a bug there. Same with <a href="https://github.com/tower-rs/tower">tower</a> which I will use below.
+I pass much of the user entered data to Octocrab, which in turn relies on other libraries and interacts with GitHubs API. I expect their API to refuse any malformed requests, otherwise its their problem (unless..).</p>
+<h2 id="threat-model"><a class="zola-anchor" href="#threat-model" aria-label="Anchor link for: threat-model">🔗</a>Threat Model</h2>
+<p>The service will run on a trusted machine (due to access to a personal access token from GitHub). It is meant to run behind a reverse proxy, but should also work as a public service.
+It will not guarantee to work under a DOS attack, but it will guarantee not to let an remote attacker DOS the whole host system.</p>
+<p>The main DOS vectors against the host system are:</p>
+<ul>
+<li>Sending large chunks of data in a post request which would then be sent to GitHub (clogging up up- and downstream)</li>
+<li>Sending many small requests which would result in a multiple of API calls to GitHub</li>
+</ul>
+<h2 id="changes-required-by-the-threat-model"><a class="zola-anchor" href="#changes-required-by-the-threat-model" aria-label="Anchor link for: changes-required-by-the-threat-model">🔗</a>Changes Required by the Threat Model</h2>
+<p>First, lets limit the input our services receives to have some basic DOS protection:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span>    </span><span style="color:#268bd2;">let</span><span> body </span><span style="color:#657b83;">= </span><span>Limited::new</span><span style="color:#657b83;">(</span><span>req.</span><span style="color:#859900;">into_body</span><span style="color:#657b83;">()</span><span>, </span><span style="color:#6c71c4;">100 </span><span style="color:#657b83;">* </span><span style="color:#6c71c4;">1024</span><span style="color:#657b83;">)</span><span>;
+</span></code></pre>
+<p>Let's also do some basic rate limiting:</p>
+<pre data-lang="Rust" style="background-color:#002b36;color:#839496;" class="language-Rust "><code class="language-Rust" data-lang="Rust"><span>    </span><span style="color:#268bd2;">let</span><span> post_comment_service </span><span style="color:#657b83;">= </span><span style="color:#859900;">make_service_fn</span><span style="color:#657b83;">(|</span><span style="color:#268bd2;">_conn</span><span style="color:#657b83;">| </span><span>async </span><span style="color:#657b83;">{
+</span><span>        </span><span style="color:#859900;">Ok</span><span>::&lt;</span><span style="color:#859900;">_</span><span>, Infallible&gt;</span><span style="color:#657b83;">(</span><span>RateLimit::new</span><span style="color:#657b83;">(
+</span><span>            </span><span style="color:#859900;">service_fn</span><span style="color:#657b83;">(</span><span>post_comment_service</span><span style="color:#657b83;">)</span><span>,
+</span><span>            Rate::new</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">1</span><span>, Duration::from_secs</span><span style="color:#657b83;">(</span><span style="color:#6c71c4;">10</span><span style="color:#657b83;">))</span><span>,
+</span><span>        </span><span style="color:#657b83;">))
+</span><span>    </span><span style="color:#657b83;">})</span><span>;
+</span><span>
+</span></code></pre>
+<p>It would certainly be better to limit per IP. But the intention here was not to prevent DOS attacks to the service itself, just the host system.</p>
+<h1 id="what-s-next"><a class="zola-anchor" href="#what-s-next" aria-label="Anchor link for: what-s-next">🔗</a>What's Next?</h1>
+<p>Obviously, the code could be improved - it was basically almost completely rewritten in about 2 days. This will have to wait for another time...</p>
+<h1 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion">🔗</a>Conclusion</h1>
+<p>It was a fun and sometimes tedious exercise. Hyper's API is "strange" - services return a <code>Result&lt;.., Infallible&gt;</code>. Why not just the real result. I guess I could read up on the reason, but its certainly hidden very well.
+Octocrab is pretty decent. It's a bit cumbersome at times (i.e. <code>send()</code> for API that retrieves things). Authenication is really annoying and lacks documentation - but is easy enough once figured out.
+I ran into an issue where I configured the wrong URL to access GitHub - I swear I saw it somewhere in the Octocrab repository.
+This was made even worse by the API suddenly trying to deserialize incomplete JSON objects from GitHub (like cut off after 21 characters, without any reason why).</p>
+<p>It took a fair bit longer than expected.</p>
+<p>The parts I did not present:</p>
+<ul>
+<li>The cloudflare config to route the <code>api</code> sub-domain to my VPS</li>
+<li>My VPS' Apache2 config for a secure reverse proxy</li>
+<li>Getting a signed certificate</li>
+</ul>
+<p>I hope you enjoyed this post of mine, feel free to comment. It should work now. If not, I'll just assume you're happy and live in blissful ignorance.</p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/tech/">tech</a>
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/comments-self-hosted/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title> - gamedev</title>
+      <link>https://www.bytekeeper.org</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://www.bytekeeper.org/tags/gamedev/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Tue, 09 Jan 2024 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>GameDev Review: Star Renegades</title>
+          <pubDate>Tue, 09 Jan 2024 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/review-star-renegades/</link>
+          <guid>https://www.bytekeeper.org/review-star-renegades/</guid>
+          <description xml:base="https://www.bytekeeper.org/review-star-renegades/">&lt;p&gt;I promised a review &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;review-star-renegades&#x2F;@content&#x2F;unnamed-game&#x2F;index.md&quot;&gt;before&lt;&#x2F;a&gt;. I did not &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;review-star-renegades&#x2F;@content&#x2F;shogun-showdown&#x2F;index.md&quot;&gt;start&lt;&#x2F;a&gt; with it, oops. So let me catch up!&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;what-came-before&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-came-before&quot; aria-label=&quot;Anchor link for: what-came-before&quot;&gt;🔗&lt;&#x2F;a&gt;What Came Before&lt;&#x2F;h1&gt;
+&lt;p&gt;I was a bit surprised to find that the game was developed by &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;developer&#x2F;massivedamage?snr=1_5_9__2000&quot;&gt;Massive Damage, Inc.&lt;&#x2F;a&gt;. They are the makers of &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;651660&#x2F;Halcyon_6_Starbase_Commander_LIGHTSPEED_EDITION&#x2F;&quot;&gt;Halcyon 6&lt;&#x2F;a&gt; - which gained some small hype 2017&#x2F;2018. I bought the game and found it to be Okish. I played it a few hours and it seemed to lack focus. There were only a few updates, I&#x27;m not sure they &quot;fixed&quot; that. It could be a &quot;me&quot; problem. This however, is not a review of Halcyon.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;presentation&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#presentation&quot; aria-label=&quot;Anchor link for: presentation&quot;&gt;🔗&lt;&#x2F;a&gt;Presentation&lt;&#x2F;h1&gt;
+&lt;p&gt;The game looks great. At least if you like pixel art. That mixture of 3D and pixel art - its just working great for me. The anime sequences are good enough. They don&#x27;t seem to fit too well, but it must have been a ton of work, I can appreciate that.&lt;&#x2F;p&gt;
+&lt;p&gt;In combat, characters don&#x27;t just aim and shoot, they get a real cool animation - and most of the time its not too long to be annoying in the long run.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;core-game-mechanics&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#core-game-mechanics&quot; aria-label=&quot;Anchor link for: core-game-mechanics&quot;&gt;🔗&lt;&#x2F;a&gt;Core Game Mechanics&lt;&#x2F;h1&gt;
+&lt;p&gt;Clearly, combat is the main mechanic of the game. But there are other aspects.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;walking-around&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#walking-around&quot; aria-label=&quot;Anchor link for: walking-around&quot;&gt;🔗&lt;&#x2F;a&gt;Walking Around&lt;&#x2F;h2&gt;
+&lt;p&gt;Between battles you run around maps, unlocking regions and finding (some) items. This is a strange beast. While it could add to the overall game by being a freely roamable map, it is extremely linear. Its also not polished, sometimes you need to click around a lot to find a spot the characters will move to. It looks nice, and the concept of finding loot on it is also cool. But that also means little, since you just click on anything that could have loot in the area you&#x27;re in.&lt;&#x2F;p&gt;
+&lt;p&gt;For me, this part of the game could very well be left out, resp. replaced with some narrative. Or, improved to be of value - or even be fun.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;socializing&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#socializing&quot; aria-label=&quot;Anchor link for: socializing&quot;&gt;🔗&lt;&#x2F;a&gt;Socializing&lt;&#x2F;h2&gt;
+&lt;p&gt;Also between battles you get to socialize with your companions. This is done by &quot;cards&quot; that you can let a character play targeting some other character. This idea is often found in the big RPGs, like &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Dragon_Age%3A_Origins&quot;&gt;Dragon Age: Origins&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;But its more deeply integrated in those (yes, the sex aspect could be a major point - but it requires non-pixel art graphics I guess). Its carried through the narrative. After you gather you party you play the game with them, learning about theme and getting to like them.&lt;&#x2F;p&gt;
+&lt;p&gt;Star Renegades tries to be a roguelike-like, your party might differ for each play-through. The narrative is slim, you don&#x27;t really build a connection with them. The socializing (camp) aspect seem extremely &quot;added&quot; - and while you reap some benefits (if two characters like each other, they can do combos), it feels a bit awkward.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;combat&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#combat&quot; aria-label=&quot;Anchor link for: combat&quot;&gt;🔗&lt;&#x2F;a&gt;Combat&lt;&#x2F;h2&gt;
+&lt;p&gt;Now we&#x27;re getting down to the nitty-gritty core gameplay. The unique feature of combat seems to be the ability to &quot;push&quot; initiative of the enemies. You can even push them to the point they won&#x27;t be able to take their &quot;turn&quot;. As you have ample ability to push, you could win without taking damage. So the devs limited this. Enemies already pushed to the next turn (I know they use another term, but I&#x27;ll stick with turn here) cannot be pushed further.&lt;&#x2F;p&gt;
+&lt;p&gt;Maybe this mechanic can be made to work. They seemed to have tried and gave up. &quot;Why?&quot; you ask. Because they loaded up the game with buffs, stats and actions. But most of those things are not relevant at all - or at least appear to be irrelevant. The initiative manipulating mechanic seems to target more tactical players. But the added noise seems to try to cater to the RPG crowd. But since customization of characters is fairly limited, that seems a bit weak as well.&lt;&#x2F;p&gt;
+&lt;p&gt;Also, there are some quality of live bugs: Enemies are previewed to blow up, yet they don&#x27;t. Enemies are shown to be pushed into the next turn, only to find they sometimes still get to shoot at you.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;respecting-the-player-s-time&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#respecting-the-player-s-time&quot; aria-label=&quot;Anchor link for: respecting-the-player-s-time&quot;&gt;🔗&lt;&#x2F;a&gt;Respecting the Player&#x27;s Time&lt;&#x2F;h2&gt;
+&lt;p&gt;After a few hours of easy to a bit less easy combat, I encountered a very strong enemy. I lost. But why? I could not figure out a reason. Maybe I was stupid? But all the enemies before were so darn easy. So it felt like a punishment. Or a &quot;hey we&#x27;re a roguelike-like&quot; message - in case you did not get it.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;a-nemesis-system&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#a-nemesis-system&quot; aria-label=&quot;Anchor link for: a-nemesis-system&quot;&gt;🔗&lt;&#x2F;a&gt;A Nemesis System&lt;&#x2F;h2&gt;
+&lt;p&gt;It has one. I&#x27;m not sure it works. It works well for &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;241930&#x2F;Middleearth_Shadow_of_Mordor&#x2F;&quot;&gt;Shadow of Mordor&lt;&#x2F;a&gt; - but that is really kind of an open world game. You can choose to engage or to ignore your nemesis. And your enemies would climb ranks. However, in Star Renegades - it&#x27;s more of a level up system for them.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;summary&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#summary&quot; aria-label=&quot;Anchor link for: summary&quot;&gt;🔗&lt;&#x2F;a&gt;Summary&lt;&#x2F;h1&gt;
+&lt;p&gt;Don&#x27;t get me wrong, I actually enjoyed playing Star Renegades. I might play it a bit more, it just looks fantastic. Its weakness is the gameplay which swings from too easy to too hard with not much in-between. And they suffer from the &quot;one more feature&quot; syndrome. Less would have definitely be more here.&lt;&#x2F;p&gt;
+&lt;p&gt;What I learned for my game? That I need to reevaluate all &quot;features&quot; later on and drop those that don&#x27;t make the game better.&lt;&#x2F;p&gt;
+&lt;p&gt;Next time, we&#x27;ll be diving into some market analysis!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Remnants of the Vanquished</title>
+          <pubDate>Tue, 19 Dec 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/rotv/</link>
+          <guid>https://www.bytekeeper.org/rotv/</guid>
+          <description xml:base="https://www.bytekeeper.org/rotv/">&lt;p&gt;Now, let me reveal the name of the &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;unnamed-game-2&#x2F;&quot;&gt;Unnamed Game&lt;&#x2F;a&gt;. This time, we will focus on some more technical aspects of the game. As a disclaimer: I use Bevy, which more or less enforces the use of an Entity Component System (ECS). ECS is kind of a hype (micro-services anyone?), of course it can be used for everything - but does it fit everything? Still, I am not yet turning my back on Bevy just yet, so I&#x27;ll have to make do.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;short-recap&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#short-recap&quot; aria-label=&quot;Anchor link for: short-recap&quot;&gt;🔗&lt;&#x2F;a&gt;Short Recap&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;unnamed-game-2&#x2F;#ecs-systems&quot;&gt;Last time&lt;&#x2F;a&gt; I was babbling about model and visual components. I laid out some rules I &quot;found&quot; for turn based games using ECS:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Only core game logic systems may modify game logic components.&lt;&#x2F;li&gt;
+&lt;li&gt;Only core game logic systems may remove game logic entities. They should send events in that case.&lt;&#x2F;li&gt;
+&lt;li&gt;Non core game logic systems may add and modify their components to game logic entities. They must also ensure to clean up after themselves by removing components when systems go out of scope.&lt;&#x2F;li&gt;
+&lt;li&gt;Non core game logic systems must handle entities suddenly disappearing and appearing.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Alas, while I still think those are valid - a more restrictive approach might be necessary. Let&#x27;s take a step back and re-evaluate the current design approach.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;different-representation-of-what-the-player-sees-and-what-the-game-thinks&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#different-representation-of-what-the-player-sees-and-what-the-game-thinks&quot; aria-label=&quot;Anchor link for: different-representation-of-what-the-player-sees-and-what-the-game-thinks&quot;&gt;🔗&lt;&#x2F;a&gt;Different Representation of What the Player Sees and What the Game &quot;Thinks&quot;&lt;&#x2F;h1&gt;
+&lt;p&gt;I mentioned &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;unnamed-game-2&#x2F;#how-to-design-entities-and-systems-for-a-turn-based-game&quot;&gt;before&lt;&#x2F;a&gt;, that its harder for turn-based game to work with entities. ECS&#x27; are designed to run continuously, so for &quot;discrete&quot; components (discrete in time) - the result is stuttering.&lt;&#x2F;p&gt;
+&lt;p&gt;But what does that mean? Let&#x27;s dive into the problem, by looking at several approaches on how to model game entities. For the sake of understandability, we&#x27;ll limit ourselves to one discrete event: A ship getting destroyed.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;visual-components-and-model-components-share-entity&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#visual-components-and-model-components-share-entity&quot; aria-label=&quot;Anchor link for: visual-components-and-model-components-share-entity&quot;&gt;🔗&lt;&#x2F;a&gt;Visual Components and Model Components Share Entity&lt;&#x2F;h2&gt;
+&lt;p&gt;In this scenario, what the game &quot;thinks&quot; and what the player sees are the same. For the most part. Sounds simple enough. But, it has some repercussions.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;immediate-model-updates-a-no-go&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#immediate-model-updates-a-no-go&quot; aria-label=&quot;Anchor link for: immediate-model-updates-a-no-go&quot;&gt;🔗&lt;&#x2F;a&gt;Immediate Model Updates: A No-Go&lt;&#x2F;h3&gt;
+
+&lt;img src=&quot;shared_entities_immediate_model.png&quot; style=&quot;width: 100%&quot; &#x2F;&gt;
+
+&lt;p&gt;To the left is a representative entity. It contains hit points as a model component and a sprite as a visual component. The entity is in the process of being destroyed. To the right is the game state, separated by UI (visuals) and Model (what the game thinks). The UI is red, because the entity suddenly disappears which is inconsistent with what the player expects to happen (things going boooom). But the model is consistent (in a more computer sciency term - all invariants are held).&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;Conclusion&lt;&#x2F;strong&gt;: This is essentially a bad option, the game is for the player - not for the CPU or my peace of mind.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;delayed-model-updates-so-so&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#delayed-model-updates-so-so&quot; aria-label=&quot;Anchor link for: delayed-model-updates-so-so&quot;&gt;🔗&lt;&#x2F;a&gt;Delayed Model Updates: So-So&lt;&#x2F;h3&gt;
+
+&lt;img src=&quot;shared_entities_delayed_model.png&quot; style=&quot;width: 100%&quot; &#x2F;&gt;
+
+&lt;p&gt;A similar representation as before, but this time the entity is not destroyed immediately. Instead, the &quot;planned&quot; destruction is communicated by an event or a flag in some component.&lt;&#x2F;p&gt;
+&lt;p&gt;The UI has plenty of time to show explosions and whatnot. But, as indicated by the red model state, there&#x27;s a period where the model&#x27;s invariants don&#x27;t hold: a &quot;dead&quot; ship shouldn&#x27;t be present anymore. They will have to be removed later, by game model systems mind you, if the non-game-logic systems start meddling around things will get messy).&lt;&#x2F;p&gt;
+&lt;p&gt;This will obviously work, but is a bit &quot;ugly&quot; from a technical point of view. The game logic systems will have to &quot;mark&quot; things other game logic systems will &quot;later&quot; do. In-between the game model is in a meh state. If, for example, the player was to leave the game (saving it in the process), loading it later would start by playing some animation - or not. It depends on whether the UI systems recreate the UI components for the already &quot;marked as dead&quot; ship.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;Conclusion&lt;&#x2F;strong&gt;: This approach works but carry the stench of potential problems when restoring the game state.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;separate-entities-good-but-more-effort&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#separate-entities-good-but-more-effort&quot; aria-label=&quot;Anchor link for: separate-entities-good-but-more-effort&quot;&gt;🔗&lt;&#x2F;a&gt;Separate Entities: Good, but More Effort&lt;&#x2F;h2&gt;
+
+&lt;img src=&quot;separate_entities.png&quot; style=&quot;width: 100%&quot; &#x2F;&gt;
+
+&lt;p&gt;With this design, there are no &quot;reds&quot;. There is an entity for the model and an entity for the UI. The UI will try to keep entities in sync. If an entity in the model is destroyed, the UI can keep its entity around and start the destruction animation.&lt;&#x2F;p&gt;
+&lt;p&gt;The model&#x27;s invariants are held, and the player won&#x27;t be confused. But we pay a price, we need to sync the relevant data. However, it offers the choice to diverge more freely from ECS in the model. The core game model does not need to be based on ECS at all.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;Conclusion&lt;&#x2F;strong&gt;: This will work, but will also be more effort to implement.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;summary&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#summary&quot; aria-label=&quot;Anchor link for: summary&quot;&gt;🔗&lt;&#x2F;a&gt;Summary&lt;&#x2F;h2&gt;
+&lt;p&gt;As always, there is no single best solution - all have draw-backs. Coming from a business development perspective, it often pays to separate domain models:&lt;&#x2F;p&gt;
+
+&lt;img src=&quot;domain_models.png&quot; style=&quot;width: 100%&quot; &#x2F;&gt;
+
+&lt;p&gt;&quot;Sourcing&quot; is the term for where data is coming from. Basically, that is, what I will be doing. That means &quot;Separate Entities&quot; is the way to go from here.&lt;&#x2F;p&gt;
+&lt;p&gt;It also means I do not have to use ECS for the core game. Which means I can use a separate package (crate in Rust terms). That means Bevy will &quot;just&quot; be the frontend - which I could replace without touching the game rules at all.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;conclusion&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#conclusion&quot; aria-label=&quot;Anchor link for: conclusion&quot;&gt;🔗&lt;&#x2F;a&gt;Conclusion&lt;&#x2F;h1&gt;
+&lt;p&gt;Having designed and implemented multiple smaller games using ECS, there is a challenge in using it for turn-based games. Using a separate &lt;code&gt;World&lt;&#x2F;code&gt; and schedule is something that can be used to make it work. But the gains are small in my opinion. As shown above I faced basic problems with my approach. I want to avoid wasting time later on, trying to synchronize all the data for entities that are a mixed bag of real-time components and turn-based components.&lt;&#x2F;p&gt;
+&lt;p&gt;Thanks for sticking around, maybe you learned something - I sure did. See you next time...&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Shogun Showdown Core Mechanics</title>
+          <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/shogun-showdown/</link>
+          <guid>https://www.bytekeeper.org/shogun-showdown/</guid>
+          <description xml:base="https://www.bytekeeper.org/shogun-showdown/">&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;shogun-showdown&#x2F;@unnamed-game&#x2F;index.md&quot;&gt;As promised&lt;&#x2F;a&gt;, in this post, we will take a look at the game &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;2084000&#x2F;Shogun_Showdown&#x2F;&quot;&gt;Shogun Showdown&lt;&#x2F;a&gt;. It is still in early access, but has very good review scores and a sizeable amount too.
+Its Steam page tells it&#x27;s &quot;inspired by great games like Into the Breach, Darkest Dungeon, Crypt of the Necrodancer, Slay the Spire and so much more&quot;. That is similar to the inspirations behind my own game. As my in-development game shares some of these traits, this game certainly is one I need to take a closer look.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;a-quick-detour-my-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#a-quick-detour-my-game&quot; aria-label=&quot;Anchor link for: a-quick-detour-my-game&quot;&gt;🔗&lt;&#x2F;a&gt;A Quick Detour: My Game&lt;&#x2F;h1&gt;
+&lt;p&gt;I&#x27;m on a &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;shogun-showdown&#x2F;@unamed-game&#x2F;index.md&quot;&gt;journey&lt;&#x2F;a&gt; to create and publish a game. The plan is to create a rogue-like with turn based combat, as mentioned just above. To not fumble blindly in game design, I want to check out and review similar games. But, mostly from a mechanics perspective. So let&#x27;s get back to Shogun Showdown...&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;what-is-the-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-is-the-game&quot; aria-label=&quot;Anchor link for: what-is-the-game&quot;&gt;🔗&lt;&#x2F;a&gt;What is the Game?&lt;&#x2F;h1&gt;
+&lt;p&gt;It&#x27;s a turn-based, rogue-like battler set in a Japanese-inspired setting. It features nice pixel art and a good soundtrack. I have not yet beaten the game, but from my current knowledge it basically has a few scenes:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;a Shop scene&lt;&#x2F;li&gt;
+&lt;li&gt;a Combat scene&lt;&#x2F;li&gt;
+&lt;li&gt;an Upgrade-only scene&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;And while there are some random elements, the combat is pretty much deterministic. Since players will spent most of their time in that scene, let&#x27;s dive deeper:&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;the-combat-scene&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-combat-scene&quot; aria-label=&quot;Anchor link for: the-combat-scene&quot;&gt;🔗&lt;&#x2F;a&gt;The Combat Scene&lt;&#x2F;h1&gt;
+&lt;p&gt;Let&#x27;s start with a look on a typical combat scene:
+&lt;img src=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;shogun-showdown&#x2F;combat_screen.jpg&quot; alt=&quot;Combat&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;As mentioned, there&#x27;s not much randomness going on. The player has a set of actions, they can perform. Most will &quot;end the turn&quot; for the player and the enemies get to act. The game, like mine, tries to take elements from &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;590380&#x2F;Into_the_Breach&#x2F;&quot;&gt;Into the Breach&lt;&#x2F;a&gt;. Reduced to 1 dimension, they left out units to protect. Its feasible to add those, so they might show up in a future update. The game also uses different &quot;field&quot; sizes, depending on the scenario.&lt;&#x2F;p&gt;
+&lt;p&gt;Also, like in my imagined game, there are no decks. You get actions, and that&#x27;s all you get (mostly). Besides movement, the actions are similar to cards in other games. You can upgrade them, &quot;drawing&quot; is emulated by cool-downs. A very clever idea is the stacking of actions. It allows delaying attacks, unleashing multiple attacks in quick succession, damaging multiple enemies. It&#x27;s neatly embedded, and required to defeat certain game stages.&lt;&#x2F;p&gt;
+&lt;p&gt;Another nice mechanic is the movement of the player and enemies. That includes actions that the player and enemies can use to move multiple tiles. It requires careful planning to avoid taking damage when moving to close to an enemy.&lt;&#x2F;p&gt;
+&lt;p&gt;Enemies behave pretty deterministic and their chosen actions and action executions are at all times visible to the player. As with Into the Breach, this adds a nice puzzle-like feeling to the game: &quot;How can I solve this without taking any or much damage?&quot;&lt;&#x2F;p&gt;
+&lt;p&gt;Sometimes (at least for me) it backfires a bit. Some enemies can attack from afar. If you focussed on close combat your only option is to try to get another enemy in-between. It feels a bit like &quot;iterative deepening&quot;: You make a bit of progress in the game, suddenly an enemy shows up that thwarts your choices. Maybe it&#x27;s still possible to win, and it&#x27;s just my skill (or lack thereof). I did not get that feeling in Into the Breach, it always seemed fair. Alas, it was not in early access, so I&#x27;ll cut Shogun Showdown some slack.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;summarized&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#summarized&quot; aria-label=&quot;Anchor link for: summarized&quot;&gt;🔗&lt;&#x2F;a&gt;Summarized&lt;&#x2F;h2&gt;
+&lt;p&gt;Movement and attack ranges give of a nice &quot;chess&quot;-like feeling. Enemies with no line-of-sight generally will just idle. But the &quot;initiative&quot; (i.e. the order in which units are taking turns) of the enemy is hidden. So, when you manage to get enemies to attack each other (which is a really nice mechanic), you don&#x27;t know which one will attack first.&lt;&#x2F;p&gt;
+&lt;p&gt;The game is pretty forgiving, for a rogue-like. Health flasks and other consumables help, when a bad choice makes for a dire situation.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;compared-to-my-game-idea&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#compared-to-my-game-idea&quot; aria-label=&quot;Anchor link for: compared-to-my-game-idea&quot;&gt;🔗&lt;&#x2F;a&gt;Compared to My Game Idea&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;stacks-vs-board&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#stacks-vs-board&quot; aria-label=&quot;Anchor link for: stacks-vs-board&quot;&gt;🔗&lt;&#x2F;a&gt;Stacks vs Board&lt;&#x2F;h3&gt;
+&lt;p&gt;The stacks in my prototype are similar to the one dimensional &quot;board&quot; in this game. This choice naturally leads to a reduced set of actions. The player can not attack any random enemy, but will have to select one of a few viable targets. Same for the enemies, many just can&#x27;t target the player due to other units being in the way. Its more natural than the stacks in my prototype, which allow targeting the top ship only, most of the time.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;damage-management&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#damage-management&quot; aria-label=&quot;Anchor link for: damage-management&quot;&gt;🔗&lt;&#x2F;a&gt;Damage Management&lt;&#x2F;h3&gt;
+&lt;p&gt;
+&lt;img src=&quot;damage-management.png&quot; style=&quot;width: 100%&quot; alt=&quot;A real artist&quot;&#x2F;&gt;
+
+
+Another thing is the damage management. Its basically the core of Into the Breach, and also of Shogun Showdown. My prototype does things differently. You can almost never avoid taking damage. Instead, something that fits the lore of a science fiction game, I added shields. Shields get replenished fully at the start of each combat. Since damage cannot be avoided, the goal is to distribute the damage across all player ships to avoid actual hull damage.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;movement&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#movement&quot; aria-label=&quot;Anchor link for: movement&quot;&gt;🔗&lt;&#x2F;a&gt;Movement&lt;&#x2F;h3&gt;
+&lt;p&gt;
+&lt;img src=&quot;movement.png&quot; style=&quot;width: 100%&quot; alt=&quot;Shake it&quot;&#x2F;&gt;
+
+
+There is no actual movement per se in my game idea. Actions will usually put a ship to the bottom of the stack. Some can actions allow changing the player stack. Some modify the enemy stack. This differs a lot from Into the Breach and Shogun Showdown. In both games the player can actively move unit(s). For Shogun Showdown, this means an actual turn. For Into the Breach, the player still can perform an action. Not diving into this too much for now, it essentially means I might need to re-design movement in my game.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;the-other-scenes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-other-scenes&quot; aria-label=&quot;Anchor link for: the-other-scenes&quot;&gt;🔗&lt;&#x2F;a&gt;The Other Scenes&lt;&#x2F;h1&gt;
+&lt;p&gt;There are shopping, upgrade and path selection scenes. The least important seems to be the path selection one. It has not struck me as very important on what benefits selecting different paths might have. I guess one could just remove it and tell a linear tale, for now.&lt;&#x2F;p&gt;
+&lt;p&gt;Upgrading seems kinda important, but most of the time its &quot;you gain some you lose some&quot;. Even upgrades that cost &quot;money&quot; are sometimes not game-changers. I should play a bit more (almost certainly not because its a fun game) to check this further.&lt;&#x2F;p&gt;
+&lt;p&gt;Shopping... I mean, it allows adding more tiles and has actions and such. But it feels a bit superfluous. I&#x27;m also pretty sure the sense of &quot;puzzle combat&quot; will be gone once I have a lot of actions available. Into the Breach managed to get superb gameplay by having about 6-8 actions (besides moving around) in a whole session.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;verdict&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#verdict&quot; aria-label=&quot;Anchor link for: verdict&quot;&gt;🔗&lt;&#x2F;a&gt;Verdict&lt;&#x2F;h1&gt;
+&lt;p&gt;Its a fun game. Combat feels nice for the most part and when I am surprised, its mostly through my own lack of planning. There&#x27;s no observable narrative, the setting is very cool - the game really needs one. The world map serves no other purpose than to click a random next location. Upgrading and shopping seems a bit superfluous. BUT - this is an Early Access game. The actual combat is so much fun, I am pretty sure the devs can improve the other aspects. It could stand right there, next to Into the Breach - with some work.&lt;&#x2F;p&gt;
+&lt;p&gt;For my journey, it shows some the flaws in my game design I need to address. Its such a wonderful time in which I can validate ideas also by looking at what other people did. Not that this approach did not work many years ago, but the amount of good quality (and bad quality) games is huge. Thanks for reading - next time I will write about my prototype again. Stay tuned.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>The Yet to be Named Game - Continued</title>
+          <pubDate>Sat, 25 Nov 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/unnamed-game-2/</link>
+          <guid>https://www.bytekeeper.org/unnamed-game-2/</guid>
+          <description xml:base="https://www.bytekeeper.org/unnamed-game-2/">&lt;p&gt;In the &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;unnamed-game-2&#x2F;@unnamed-game&#x2F;index.md&quot;&gt;last&lt;&#x2F;a&gt; post, I showed some of the goals I want to achieve with my game. Including some early screen shots. I decided to replace the AI generated ships with some procedural generated ships - lets have a look:&lt;&#x2F;p&gt;
+
+&lt;img src=&quot;procedural-ships.png&quot; style=&quot;width: 100%&quot; &#x2F;&gt;
+
+&lt;p&gt;While not exactly beautiful, and not even in the style I want the game to be - it&#x27;s a better placeholder. It should not agitate people as much, as AI generated art would.&lt;&#x2F;p&gt;
+&lt;p&gt;Other than that, due to me being sick all week - not much changed. I made some small progress on the &quot;star travelling map&quot; (fancy), were a player can choose their path through the game.&lt;&#x2F;p&gt;
+&lt;p&gt;So instead of game design, this time we&#x27;ll take a look at a technical aspect.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;what-engine-am-i-using&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-engine-am-i-using&quot; aria-label=&quot;Anchor link for: what-engine-am-i-using&quot;&gt;🔗&lt;&#x2F;a&gt;What Engine am I using&lt;&#x2F;h1&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bevyengine.org&#x2F;&quot;&gt;Bevy&lt;&#x2F;a&gt;. Wait... I said wait!&lt;&#x2F;p&gt;
+&lt;p&gt;I know its in &lt;a href=&quot;https:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt; and I understand that is a hype topic. It is my current language of choice, and while Bevy might be far from complete, doing a prototype in it should be fine.&lt;&#x2F;p&gt;
+&lt;p&gt;That inevitably means one thing: I am using an Entity Component System (&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Entity_component_system&quot;&gt;ECS&lt;&#x2F;a&gt;). And this is a turn based game.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;how-to-design-entities-and-systems-for-a-turn-based-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#how-to-design-entities-and-systems-for-a-turn-based-game&quot; aria-label=&quot;Anchor link for: how-to-design-entities-and-systems-for-a-turn-based-game&quot;&gt;🔗&lt;&#x2F;a&gt;How to Design Entities and Systems for a Turn Based Game&lt;&#x2F;h1&gt;
+&lt;p&gt;It might not be obvious, but real-time games are far easier to do with ECS. System could be executed slightly out of order, or not at all for some frames. It&#x27;s not something that a player will notice, or at least care much. If an enemy dies one frame too late it can always be excused. Visible glitches like projectiles passing through enemies are a lot more noticeable, so you&#x27;re not free to ignore the effects.&lt;&#x2F;p&gt;
+&lt;p&gt;In turn based games however, things get dicier. Systems running out of order are immediately apparent.&lt;&#x2F;p&gt;
+&lt;p&gt;Attacking an enemy which stands around with 0 health until the next turn? No-go.&lt;&#x2F;p&gt;
+&lt;p&gt;Ordering an attack move and the game first attacks and then moves? Not good.&lt;&#x2F;p&gt;
+&lt;p&gt;Another problem: Usually all systems run every frame. You cannot design systems that run once per turn. At least, not as easy. While I do have some experience in turn based games &lt;em&gt;and&lt;&#x2F;em&gt; in ECS games, I did not do both at the same time yet. Turns out, the real question to ask is&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;what-is-a-turn&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-is-a-turn&quot; aria-label=&quot;Anchor link for: what-is-a-turn&quot;&gt;🔗&lt;&#x2F;a&gt;What is a Turn?&lt;&#x2F;h2&gt;
+&lt;p&gt;In chess its after you moved your piece. In a game like &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;646570&#x2F;Slay_the_Spire&#x2F;&quot;&gt;Slay the Spire&lt;&#x2F;a&gt; its when you hit that &lt;em&gt;end turn&lt;&#x2F;em&gt; button.&lt;&#x2F;p&gt;
+&lt;p&gt;But how should systems react to that? In real-time games its pretty easy: You assign the player input to some component and some system will use that and manipulate other components. You can do that in a turn-based game too. For example have a &lt;code&gt;Attack&lt;&#x2F;code&gt; component that has the &lt;code&gt;target&lt;&#x2F;code&gt; and the &lt;code&gt;weapon&lt;&#x2F;code&gt; in it. And once the system handling that is done, remove or clear that component. Oh, why do you get that strange feeling of &quot;wrongness&quot;?&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;how-to-handle-input&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#how-to-handle-input&quot; aria-label=&quot;Anchor link for: how-to-handle-input&quot;&gt;🔗&lt;&#x2F;a&gt;How to Handle Input&lt;&#x2F;h2&gt;
+&lt;p&gt;I cannot tell for you, but I can tell for me: Components are there to capture the state of the application&#x2F;game. But attacking in a turn based game is not a state change itself. The state of the game should reflect the action, but not necessarily contain the action as part of the state. (Of course there are exceptions to that rule, this is just the general advice of avoiding littering your entities with input components)&lt;&#x2F;p&gt;
+
+&lt;img src=&quot;trigger-vs-state.png&quot; style=&quot;width: 100%&quot; alt=&quot;That is why your mouse button has that depression&quot;&#x2F;&gt;
+
+&lt;p&gt;&lt;code&gt;Events&lt;&#x2F;code&gt; (or Signals) are part of most ECS&#x27;. And a good fit for the discrete nature of input in a turn based game. You would not want to use it for real-time games mostly. For example, pulling the trigger to fire non-stop in an action game does not lend itself well for events. The player holding the trigger is &lt;em&gt;part&lt;&#x2F;em&gt; of the state of the game. On the other hand, the player pressing &lt;code&gt;jump&lt;&#x2F;code&gt; should only be part of a component, if they can vary the height of the jump by pressing longer or shorter. If not, an event will most likely suffice.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ecs-systems&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#ecs-systems&quot; aria-label=&quot;Anchor link for: ecs-systems&quot;&gt;🔗&lt;&#x2F;a&gt;ECS Systems&lt;&#x2F;h2&gt;
+&lt;p&gt;Now for my game that means, every system can run continuously (and if I wasn&#x27;t a pedantic, even ignore the order partially - one frame more or less won&#x27;t hurt). Most will only do something if they receive an event. This helped also in determining the solution for another problem: When should the AI execute its turn?&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;the-ai-s-turn&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-ai-s-turn&quot; aria-label=&quot;Anchor link for: the-ai-s-turn&quot;&gt;🔗&lt;&#x2F;a&gt;The AI&#x27;s Turn&lt;&#x2F;h3&gt;
+&lt;p&gt;There&#x27;s not much of an AI in the game. Still, it has to perform its turn execution at some point. Previously it executed immediately after the player did. That is a problem. For the player, it looks as if the AI did nothing - because all units just &quot;jumped&quot; and were done.&lt;&#x2F;p&gt;
+&lt;p&gt;So I added a hacky &lt;code&gt;ai_can_move&lt;&#x2F;code&gt; field that was read and modified by multiple systems. That way I could animate the player action, wait a short moment and execute the AI actions. It works, but it was not nice having that flag and the toggling logic.&lt;&#x2F;p&gt;
+&lt;p&gt;What I really wanted ... and &quot;now its ok for the AI to execute its moves&quot; event. Far simpler than the flag.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;game-model-components-and-visual-components&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#game-model-components-and-visual-components&quot; aria-label=&quot;Anchor link for: game-model-components-and-visual-components&quot;&gt;🔗&lt;&#x2F;a&gt;Game &quot;Model Components&quot; and &quot;Visual Components&quot;&lt;&#x2F;h2&gt;
+&lt;p&gt;With that all &quot;solved&quot; for now, I still had to figure out how to represent all the entities. I wanted the game to work without any graphics. So I created a &quot;game model&quot;, based on entities. They would just contain the components required to run the turn based systems. Systems that rendered things should use their own entities and keep them in sync with the model entities.&lt;&#x2F;p&gt;
+&lt;p&gt;And I immediately ignored that and added Sprite components to model entities (in a system outside of the core game systems mind you). This made implementing the prototype faster, but I would have to refactor the code to have a separation later.&lt;&#x2F;p&gt;
+&lt;p&gt;But I noticed, even for my game - that was not true. At least not completely. As long as I would not touch model components in other parts of my game - I could add and remove any components I liked. Same for the other way around, model systems should not touch other components. With one exception, model systems are allowed to remove entities, and therefore delete components of other systems. Removing an entity should therefore be accompanied by an event, so other systems can react. This does not have to be explicit, Bevy for example sends a &lt;code&gt;RemovedComponent&lt;&#x2F;code&gt; event. But if you need more data, a custom event would be the choice.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;how-to-handle-mixing-visual-and-game-logic-components&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#how-to-handle-mixing-visual-and-game-logic-components&quot; aria-label=&quot;Anchor link for: how-to-handle-mixing-visual-and-game-logic-components&quot;&gt;🔗&lt;&#x2F;a&gt;How to Handle Mixing Visual and Game Logic Components&lt;&#x2F;h2&gt;
+&lt;p&gt;This is, of course, dangerous to some degree. If you are careless, this might leave core game components in a desolate state. But it saves time and performs (not really important here) better. So lets summarize the rules to make it work:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Only core game logic systems may modify game logic components.&lt;&#x2F;li&gt;
+&lt;li&gt;Only core game logic systems may remove game logic entities. They should send events in that case.&lt;&#x2F;li&gt;
+&lt;li&gt;Non core game logic systems may add and modify their components to game logic entities. They must also ensure to clean up after themselves by removing components when systems go out of scope.&lt;&#x2F;li&gt;
+&lt;li&gt;Non core game logic systems must handle entities suddenly disappearing and appearing.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+&lt;img src=&quot;data-model.png&quot; style=&quot;width: 100%&quot; &#x2F;&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#conclusion&quot; aria-label=&quot;Anchor link for: conclusion&quot;&gt;🔗&lt;&#x2F;a&gt;Conclusion&lt;&#x2F;h1&gt;
+&lt;p&gt;This time we have taken a look at how to design entities to work for the core game and one or more scenes. Events are a key element to keep things simpler and loosely coupled. ECS obviously is not the one-size-fits-all solution, but with some thinking the shoe fits quite good.&lt;&#x2F;p&gt;
+&lt;p&gt;I played some &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;2084000&#x2F;Shogun_Showdown&#x2F;&quot;&gt;Shogun Showdown&lt;&#x2F;a&gt; (purely for research purposes of course). I did promise to do a review of another game, but that will have to wait. So next time, really: A review of shogun showdown, from a core mechanics point of view.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>The Yet to be Named Game</title>
+          <pubDate>Thu, 16 Nov 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/unnamed-game/</link>
+          <guid>https://www.bytekeeper.org/unnamed-game/</guid>
+          <description xml:base="https://www.bytekeeper.org/unnamed-game/">&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;unnamed-game&#x2F;@game-dev-process&#x2F;index.md&quot;&gt;Previously&lt;&#x2F;a&gt; we took a birds eye view on the topic of the game development process.
+Or, to be more precise, the model in my mind. I plan on refining and correcting it as I go and learn.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;current-state-of-my-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#current-state-of-my-game&quot; aria-label=&quot;Anchor link for: current-state-of-my-game&quot;&gt;🔗&lt;&#x2F;a&gt;Current State of My Game&lt;&#x2F;h2&gt;
+&lt;p&gt;I can actually show a screenshot of my prototype:
+
+&lt;img src=&quot;prototype-screenshot.png&quot; style=&quot;width: 100%&quot; alt=&quot;Not much to see yet&quot;&#x2F;&gt;
+
+
+It contains a background I made and some ships an AI model created (for the prototype only, I will create or commission the real art). To the left are the player ships, to the right the enemy ships (I did not even bother to make the &quot;look&quot; toward the player ships).&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;game-of-stacks&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#game-of-stacks&quot; aria-label=&quot;Anchor link for: game-of-stacks&quot;&gt;🔗&lt;&#x2F;a&gt;Game of Stacks&lt;&#x2F;h3&gt;
+&lt;p&gt;What is shown above contains the basic idea of the game:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;You and the enemy have a stack of ships.&lt;&#x2F;li&gt;
+&lt;li&gt;Either &quot;player&quot; can only perform actions with the ship on top&lt;&#x2F;li&gt;
+&lt;li&gt;Actions generally evolve around stack manipulation&lt;&#x2F;li&gt;
+&lt;li&gt;Actions doing damage will do so only to the top enemy ship for the most part
+I intend to not change these, if possible.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Things that are not set in stone, but shown above:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The action the enemy ship &quot;would&quot; take if it was on top. The reason it shows up for all enemies is that a player action could move an enemy to the top.&lt;&#x2F;li&gt;
+&lt;li&gt;Health &lt;em&gt;and&lt;&#x2F;em&gt; shield. Not only does it work for a sci-fi setting, it adds a tactical layer - shields will be replenished at the start of combat.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Here are the current actions of the top ship (it is taking the role of a &quot;tank&quot; in classical RPG terms):&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;unnamed-game&#x2F;actions.png&quot; alt=&quot;Example Actions&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Lets take a look at the actions (keep in mind this is a very early prototype and things can and will change here):&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Skip&lt;&#x2F;strong&gt;: all ships can do this, reasons for using it: Ship is on cooldown, all relevant actions are on cooldown, or the player wants to avoid cooldown. It will just move the ship to the bottom of the stack, ending the players turn.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Relinquish&lt;&#x2F;strong&gt;: The ship will move down one spot in the stack, the new top ship will immediately be ready for action. This allows the player to perform an action of another ship. This will mostly move the original ship back up on the top, which will take the response (its the tank after all).&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Taunt&lt;&#x2F;strong&gt;: The enemy ship will take some small damage and the current ship will not be moved away. This allows the player to letting the current ship take a hit that would otherwise target the next player ship.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;Attack&lt;&#x2F;strong&gt;: A light attack, after which the ship will move to the bottom of the stack. This is one of the simpler damage dealing actions, with a predictable stack positioning.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;As you might have guessed, predicting the position of enemy and player ships is required to make effective use of the players fleet. In my last post I commented on the inspiration for the game. Funnily enough, its main source is &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;590380&#x2F;Into_the_Breach&#x2F;&quot;&gt;Into the Breach&lt;&#x2F;a&gt; and not &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;646570&#x2F;Slay_the_Spire&#x2F;&quot;&gt;Slay the Spire&lt;&#x2F;a&gt;. But it differs a lot:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The obvious difference is, its not played on a grid.&lt;&#x2F;li&gt;
+&lt;li&gt;And the player doesn&#x27;t get to freely move around ships in the stack.&lt;&#x2F;li&gt;
+&lt;li&gt;Its also hard to avoid taking damage.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Some of these limit the choice a player has each turn. One thing I try to compensate that is the addition of shields. The amount of health and shields is still very low, I want to make each turn as decisive as possible. It wouldn&#x27;t work if players and enemies would have at it for hours.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;challenges&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#challenges&quot; aria-label=&quot;Anchor link for: challenges&quot;&gt;🔗&lt;&#x2F;a&gt;Challenges&lt;&#x2F;h3&gt;
+&lt;p&gt;Besides using &lt;a href=&quot;https:&#x2F;&#x2F;bevyengine.org&#x2F;&quot;&gt;bevy&lt;&#x2F;a&gt;, which might be a questionable decision - creating a turn based game in real-time engine poses some challenges.
+Since systems run all the time, they need to &quot;not do anything&quot; as long as neither the player, nor the AI makes moves. There&#x27;s also the problem that AI actions should be delayed - or appear delayed to avoid confusing the player.&lt;&#x2F;p&gt;
+&lt;p&gt;But the harder challenge was and is making the core mechanics &quot;fun&quot;. I am a firm believer of &quot;less is more&quot; - so I am trying to add as little as possible at a time to test if I can improve the prototype. It kind of boils down towards the target audience, which in turn is also determined by the number of choices a player has at each &quot;turn&quot; when &quot;playing&quot; something:
+
+&lt;img src=&quot;player-choice.png&quot; style=&quot;width: 100%&quot; alt=&quot;Object might appear larger than they are&quot;&#x2F;&gt;
+
+&lt;&#x2F;p&gt;
+&lt;p&gt;Obviously this plot has no indication of &quot;fun&quot; in it. There&#x27;s always a &quot;player&quot; having fun at any point. Depending on the person, almost everything on that plot might &quot;fit&quot; at some point.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;em&gt;Why did I show it?&lt;&#x2F;em&gt;
+All human interaction can be placed somewhere on there. To the left your influence is miniscule (only few people can influence book authors). To the right your choice is abundant. Think hiking. For games it has additional consequences: To the left you will basically make an interactive movie. That means extremely high production value or an artistic product. To the right its also very high production value. Or so flexible it&#x27;s almost a content creation tool. &lt;a href=&quot;https:&#x2F;&#x2F;www.factorio.com&#x2F;&quot;&gt;Factorio&lt;&#x2F;a&gt;, &lt;a href=&quot;https:&#x2F;&#x2F;www.minecraft.net&#x2F;&quot;&gt;Minecraft&lt;&#x2F;a&gt;, ...&lt;&#x2F;p&gt;
+&lt;p&gt;I want my game to be in the middle. Enough choice to make every decision count. Not so extremely limited that the game is pretty much deterministic. Games tend to look simpler there, but the mechanics are polished to death. It will be tough and I expect the game to suck, but me a huge learning experience.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;short-term-goals&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#short-term-goals&quot; aria-label=&quot;Anchor link for: short-term-goals&quot;&gt;🔗&lt;&#x2F;a&gt;Short-Term Goals&lt;&#x2F;h3&gt;
+&lt;p&gt;Tweaking the core mechanics. Implementing the &quot;paths&quot; a player can take. Adding environmental effects, like a solar flares of a local star damaging shields of all ships. Adding energy that can be used to upgrade ships. And repair cores to heal ships after combat.&lt;&#x2F;p&gt;
+&lt;p&gt;And in-between that: Testing testing testing, finding people who will play-test such an early prototype.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;long-term-vision&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#long-term-vision&quot; aria-label=&quot;Anchor link for: long-term-vision&quot;&gt;🔗&lt;&#x2F;a&gt;Long-Term Vision&lt;&#x2F;h3&gt;
+&lt;p&gt;I do have a nice narrative, and hope to add it in the game without boring players. I also would like to add side-quests, that can force players to take certain paths but will give rewards. For example, taking a friendly ship along and bring it to some destination.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;outlook&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#outlook&quot; aria-label=&quot;Anchor link for: outlook&quot;&gt;🔗&lt;&#x2F;a&gt;Outlook&lt;&#x2F;h3&gt;
+&lt;p&gt;I hope to have the core mechanics basics done in time for the next update. I also want to do some reviews of similar games I played to get inspiration. The reviews will be focussed on the core mechanics mostly. I&#x27;ll start with &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;651670&#x2F;Star_Renegades&#x2F;&quot;&gt;Star Renegades&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Feel free to suggest topics you want me to dive into. I&#x27;ll do so even when I have no clue what I am talking about, I&#x27;ll just fake it. Seems to work well enough.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Game Development: A Personal Journey</title>
+          <pubDate>Thu, 09 Nov 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/game-dev-process/</link>
+          <guid>https://www.bytekeeper.org/game-dev-process/</guid>
+          <description xml:base="https://www.bytekeeper.org/game-dev-process/">&lt;p&gt;Today, let&#x27;s take a peek at game development in general. Similar to what I already did &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;game-dev-process&#x2F;@rotpr-clone&#x2F;index.md&quot;&gt;a while ago&lt;&#x2F;a&gt;. A few months ago I picked it up again and to flesh out the design more and do some prototyping. It was nice and all, but I made the classical mistake of having a scope that would take years to implement.&lt;&#x2F;p&gt;
+&lt;p&gt;Depending on what you want to achieve, that could be okay - or not. In my case, I want to learn the whole process:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Game Design&lt;&#x2F;li&gt;
+&lt;li&gt;Game Development&lt;&#x2F;li&gt;
+&lt;li&gt;Game Marketing&lt;&#x2F;li&gt;
+&lt;li&gt;Game Self Publishing&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;I&#x27;ve been reading books and listening to audiobooks on the topic for a few years now. Its not all wasted time, but as an experienced software developer I can say: Only practising the art will make you really learn it. I am very certain that is true for almost anything that exists.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;the-game-development-process&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-game-development-process&quot; aria-label=&quot;Anchor link for: the-game-development-process&quot;&gt;🔗&lt;&#x2F;a&gt;The Game Development Process&lt;&#x2F;h1&gt;
+&lt;p&gt;Disclaimer: I did not yet publish or finish any game. This is what I learned from various sources I read.&lt;&#x2F;p&gt;
+&lt;p&gt;This is a rough diagram on how I imagine the development process generally works:
+
+&lt;img src=&quot;game-development-process.png&quot; style=&quot;width: 100%&quot; alt=&quot;Game Development Process Diagram&quot;&#x2F;&gt;
+
+
+The arced arrows represent loops on the timeline of development. I also think the span of the loops are essentially &quot;true&quot; in relation to each other. The prototyping phase will be shorter than the release phase. It, in turn, will be shorter than the implementation phase. This is not a reflection of my experience, but of the things I learned, reading from other gamedev blogs and post mortems.&lt;&#x2F;p&gt;
+&lt;p&gt;As you can see, I believe marketing should start even before the design or the prototype is done. There&#x27;s no point were you should stop doing it.&lt;&#x2F;p&gt;
+&lt;p&gt;Change design as much as you like in the prototyping phase. Be more conservative in the implementation phase, unless play-testing shows your game sucks, then - uh - &quot;pivot&quot;. Don&#x27;t really change the design in the release phase, you probably will regret it - not having enough time to flesh it out &lt;em&gt;and&lt;&#x2F;em&gt; implement it.&lt;&#x2F;p&gt;
+&lt;p&gt;Content creation is pretty simple. Once you get your prototype running, keep the game playable as much as possible. If not for yourself, do it to have the opportunity to have people test it. Even better if you get a streamer to test an early version.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;my-game-development-experience-up-to-now&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#my-game-development-experience-up-to-now&quot; aria-label=&quot;Anchor link for: my-game-development-experience-up-to-now&quot;&gt;🔗&lt;&#x2F;a&gt;My Game Development Experience Up to Now&lt;&#x2F;h1&gt;
+&lt;p&gt;I guess I should have started with the drawing above, and then make a plan for my game. I might have noticed earlier that I cannot create a large game &lt;em&gt;and&lt;&#x2F;em&gt; learn the rest of the development process in a reasonable time.&lt;&#x2F;p&gt;
+&lt;p&gt;To be able to practise anything besides the development itself, I needed to shrink my scope severely. I decided on a game that would take a few months to develop. Going even further, like a one-month project, would be sufficient to help my learn self publishing. Maybe even game design. But marketing would be lacking.&lt;&#x2F;p&gt;
+&lt;p&gt;According to &lt;a href=&quot;https:&#x2F;&#x2F;howtomarketagame.com&#x2F;2021&#x2F;04&#x2F;19&#x2F;yes-you-need-to-create-a-steam-page-right-now&#x2F;&quot;&gt;some sources&lt;&#x2F;a&gt;, you need at least 6 months for things to get rolling. So my plan was to create a game in 3-4 months. I understand, that it will take longer. The plan was based on the untrue assumption, that I could work on the game for roughly 2 hours every day of the week. It doesn&#x27;t matter that it will take longer, what matters is that it prevents feature creep due to a tighter schedule.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;what-i-learned-so-far&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-i-learned-so-far&quot; aria-label=&quot;Anchor link for: what-i-learned-so-far&quot;&gt;🔗&lt;&#x2F;a&gt;What I learned so far&lt;&#x2F;h2&gt;
+&lt;p&gt;I had a basic idea, and decided to dive right into prototyping. This strategy usually serves me well, since most daily programming problems don&#x27;t require much thought or planning. To be fair, I think programming for over 30 years helps a bit.&lt;&#x2F;p&gt;
+&lt;p&gt;Turns out, with games you pay a high price doing that. I started my prototype and then tried to iterate with different mechanics which lead to a lot of refactoring. Don&#x27;t get me wrong, this is certainly a good idea once you have some basic mechanics settled. But at that time, I had barely a grasp. So my first lesson learned:&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;don-t-skip-the-design-part&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#don-t-skip-the-design-part&quot; aria-label=&quot;Anchor link for: don-t-skip-the-design-part&quot;&gt;🔗&lt;&#x2F;a&gt;Don&#x27;t skip the design part&lt;&#x2F;h2&gt;
+&lt;p&gt;I did not want to waste more time, so I did something strange. I took a notebook, left the computer and started scribbling ideas. I drew the &quot;scenes&quot; I had in mind already. Then started sketching gameplay mechanics, and wrote down what came to mind.&lt;&#x2F;p&gt;
+&lt;p&gt;I did not fully flesh out the design on paper, but I had some nice narrative going. And, more importantly, I found the base mechanics I want to adhere to.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;where-i-am-at&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#where-i-am-at&quot; aria-label=&quot;Anchor link for: where-i-am-at&quot;&gt;🔗&lt;&#x2F;a&gt;Where I am at&lt;&#x2F;h2&gt;
+&lt;p&gt;So, I am still in the early stages. I don&#x27;t want to reveal the current game design. Not for fear of someone stealing my ideas, ideas are available in &lt;a href=&quot;https:&#x2F;&#x2F;www.escapistmagazine.com&#x2F;Why-Your-Game-Idea-Sucks&#x2F;&quot;&gt;abundance&lt;&#x2F;a&gt;. Let&#x27;s just say I got my inspiration from games like &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;646570&#x2F;Slay_the_Spire&#x2F;&quot;&gt;Slay the Spire&lt;&#x2F;a&gt; and &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;590380&#x2F;Into_the_Breach&#x2F;&quot;&gt;Into the Breach&lt;&#x2F;a&gt;. And yet, it is neither a card battler, nor has a chess-board like map.&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;m currently iterating, trying to flesh out my idea. I don&#x27;t yet see my prototype or core gameplay loop being fun. But I am convinced that I can change it, to be fun:
+
+&lt;img src=&quot;current-position-in-process.png&quot; style=&quot;width: 100%&quot; alt=&quot;You are here&quot;&#x2F;&gt;
+
+&lt;&#x2F;p&gt;
+&lt;p&gt;The goal now, and my main focus of work, is to &quot;fix&quot; this problem. If I can make it &lt;em&gt;click&lt;&#x2F;em&gt; - the rest will follow.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>4X Game Loop</title>
+          <pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/game-loop/</link>
+          <guid>https://www.bytekeeper.org/game-loop/</guid>
+          <description xml:base="https://www.bytekeeper.org/game-loop/">&lt;p&gt;I think I don&#x27;t really need to explain what a 4X game is, maybe not even what the 4X stand for.
+But, I&#x27;ll do it anyway - the gameplay loop of a typical 4X game is:
+
+&lt;figure style=&quot;margin: 0; line-height: 1em; font-size: 0.9em&quot;&gt;
+
+&lt;img src=&quot;4x_game.dot.png&quot; style=&quot;width: 100%&quot; alt=&quot;The 4 Xs&quot;&#x2F;&gt;
+
+&lt;figcaption&gt;A loop of loops - that is 4X&lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+
+&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;eXplore&lt;&#x2F;li&gt;
+&lt;li&gt;eXpand&lt;&#x2F;li&gt;
+&lt;li&gt;eXploit&lt;&#x2F;li&gt;
+&lt;li&gt;eXterminate&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Much of the fun of this simple formula comes from the fact that none of those factors stands on its own.
+You usually cannot expand without exploring first. Sometimes to expand by exterminating an enemy at a location first.
+What is there to exploit, if you did not expand before?
+And how will you exterminate, if you lack the resources you ought to have exploited first.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s dive deeper into the &lt;del&gt;abyss&lt;&#x2F;del&gt; parts of such a game:&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;exploration&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#exploration&quot; aria-label=&quot;Anchor link for: exploration&quot;&gt;🔗&lt;&#x2F;a&gt;Exploration&lt;&#x2F;h2&gt;
+&lt;p&gt;The most basic approach is sending out scouts. An alternative would be spying.
+Maybe diplomacy uncovers some secrets as well.&lt;&#x2F;p&gt;
+&lt;p&gt;Keywords:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Scouts&lt;&#x2F;li&gt;
+&lt;li&gt;Diplomacy&lt;&#x2F;li&gt;
+&lt;li&gt;Special events&lt;&#x2F;li&gt;
+&lt;li&gt;Spies&lt;&#x2F;li&gt;
+&lt;li&gt;Racial abilities&lt;&#x2F;li&gt;
+&lt;li&gt;Tech abilities&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;expansion&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#expansion&quot; aria-label=&quot;Anchor link for: expansion&quot;&gt;🔗&lt;&#x2F;a&gt;Expansion&lt;&#x2F;h2&gt;
+&lt;p&gt;Again, there&#x27;s the direct way of sending a colony ship (settler). Alternatively you can take over an enemy colony.
+A random encounter could grant you a new colony.&lt;&#x2F;p&gt;
+&lt;p&gt;Keywords:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Colony ships&lt;&#x2F;li&gt;
+&lt;li&gt;Outposts&lt;&#x2F;li&gt;
+&lt;li&gt;Diplomacy&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;exploitation&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#exploitation&quot; aria-label=&quot;Anchor link for: exploitation&quot;&gt;🔗&lt;&#x2F;a&gt;Exploitation&lt;&#x2F;h2&gt;
+&lt;p&gt;Pumping up the population. Building factories. Gather food. There could be a lot of resources to be gathered.
+Also things like research are part of this.
+There are also hidden resources. A large army could incline neighbours for that large tribute.&lt;&#x2F;p&gt;
+&lt;p&gt;Keywords:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Research&lt;&#x2F;li&gt;
+&lt;li&gt;Mining&lt;&#x2F;li&gt;
+&lt;li&gt;Taxation&lt;&#x2F;li&gt;
+&lt;li&gt;Diplomacy&lt;&#x2F;li&gt;
+&lt;li&gt;Spies&lt;&#x2F;li&gt;
+&lt;li&gt;Production&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;extermination&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#extermination&quot; aria-label=&quot;Anchor link for: extermination&quot;&gt;🔗&lt;&#x2F;a&gt;Extermination&lt;&#x2F;h2&gt;
+&lt;p&gt;Send your force and crush your foes. Or let your spies sabotage the heck out of them. Or let some allies or vassals handle it.&lt;&#x2F;p&gt;
+&lt;p&gt;Keywords:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Battle ships&lt;&#x2F;li&gt;
+&lt;li&gt;Planetary defense&lt;&#x2F;li&gt;
+&lt;li&gt;Spies&lt;&#x2F;li&gt;
+&lt;li&gt;Diplomacy&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;design-for-my-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#design-for-my-game&quot; aria-label=&quot;Anchor link for: design-for-my-game&quot;&gt;🔗&lt;&#x2F;a&gt;Design for my Game&lt;&#x2F;h1&gt;
+&lt;p&gt;I planned on covering all topics above, but that is basically to large for a single post.
+In the last post I covered a few basics of research.
+I will try a breadth-first approach in design and switch to another topic.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s tackle...&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;exploration-1&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#exploration-1&quot; aria-label=&quot;Anchor link for: exploration-1&quot;&gt;🔗&lt;&#x2F;a&gt;Exploration&lt;&#x2F;h2&gt;
+&lt;p&gt;The basis for almost all games here is using some sort of scout.
+It would not make sense to change that, it is pretty much what players expect to find.&lt;&#x2F;p&gt;
+&lt;p&gt;But, what is a scout? A special ship (surveyor anyone)? A player designed ship?
+Pre-designed units have a large benefit: They can be balanced pretty well.
+The player chooses which ship to build, but not what it is composed of.&lt;&#x2F;p&gt;
+&lt;p&gt;Player designed ships are way more interesting in concept.
+In practice, it boils down to a few ships with a specific purpose (like scouting).
+Remnants of the Precursors for example allows only a few designs, which emphasizes that.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ship-design&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#ship-design&quot; aria-label=&quot;Anchor link for: ship-design&quot;&gt;🔗&lt;&#x2F;a&gt;Ship Design&lt;&#x2F;h3&gt;
+&lt;p&gt;I do think, limiting the number of designs is good idea.
+But for the actual design of a ship I have another idea. As usual, ships are composed of different modules.
+Each module modifies some attributes of a ship:&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Attribute&lt;&#x2F;th&gt;&lt;th&gt;Effect&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;Cost&lt;&#x2F;td&gt;&lt;td&gt;Makes your ship more expensive (but shiny and pretty as well)&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Space&lt;&#x2F;td&gt;&lt;td&gt;Most modules take up some precious space on a ship, but some can extend it&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Range Bonus&lt;&#x2F;td&gt;&lt;td&gt;Increases&#x2F;Decreases the range a ship can distance itself to the nearest colony&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Interstellar Speed Bonus&lt;&#x2F;td&gt;&lt;td&gt;Increases&#x2F;Decreases speed for long range travel&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Interstellar Stealth Bonus&lt;&#x2F;td&gt;&lt;td&gt;Makes ships more&#x2F;less detectable while in flight&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Hit point Bonus&lt;&#x2F;td&gt;&lt;td&gt;Increases&#x2F;Decreases the hull of a ship to take more of a punch&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Shield Bonus&lt;&#x2F;td&gt;&lt;td&gt;Similar to hit points, but weak against energy weapons - strong against physical weapons&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Combat Speed Bonus&lt;&#x2F;td&gt;&lt;td&gt;Increases&#x2F;Decreases speed for combat&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Combat Repair&lt;&#x2F;td&gt;&lt;td&gt;Repairs ships by a small amount each combat turn&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Particle Damage&lt;&#x2F;td&gt;&lt;td&gt;Adds particle beams with some strength as combat and point defense weapons&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Projectile Damage&lt;&#x2F;td&gt;&lt;td&gt;Adds projectile weapons with some strength as combat weapon&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Missile Damage&lt;&#x2F;td&gt;&lt;td&gt;Adds missiles with some strength as combat weapons&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Combat Stealth&lt;&#x2F;td&gt;&lt;td&gt;Makes ships harder to hit or easier to hit in combat&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Colonists&lt;&#x2F;td&gt;&lt;td&gt;This allows a ship to colonize an empty planet&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;A ship, by itself is just a hull. The collection of modules selected will determine its purpose.
+But, there&#x27;s no free lunch. All modules will be balanced, one way or another.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, a missile launcher weapon will most likely take up a lot of space and will not be cheap.
+A particle beam weapon on the other hand could be smaller and cheaper.
+But at the cost of reduced combat stealth, and a weakness in damaging the hull of enemy ships.&lt;&#x2F;p&gt;
+&lt;p&gt;Once again this reminds of RPG attributes on items:
+&lt;img src=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;game-loop&#x2F;Simple%20Weapon.png&quot; alt=&quot;Simple Weapon&quot; title=&quot;Impressive&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;That is intentional.&lt;&#x2F;p&gt;
+&lt;p&gt;I really want to enforce that ships are good at some things and bad at others.
+Otherwise you will end up with the typical &quot;high tech jack of all trades&quot; ships.
+Also, the number of designs should be limited, as with &lt;a href=&quot;https:&#x2F;&#x2F;rayfowler.itch.io&#x2F;remnants-of-the-precursors&quot;&gt;ROTP&lt;&#x2F;a&gt;.
+I would like the player to see each design as a &quot;character&quot;. Although with some serious multiple personality disorder.&lt;&#x2F;p&gt;
+&lt;p&gt;So modifying a design should be possible. What happens with the existing ships?
+They could keep their original design. But then, the game could just have unlimited designs.
+They could be scrapped. They could be retrofitted. Or something in-between.&lt;&#x2F;p&gt;
+&lt;p&gt;No code was &lt;del&gt;harmed&lt;&#x2F;del&gt; written for this post. As mentioned before, I already have a small code base.
+But exploring (no pun intended) the design space is more of an issue for now.
+So next time we take a look at &lt;em&gt;Expanding&lt;&#x2F;em&gt;.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>MOO resp. ROTPR inspired 4X game</title>
+          <pubDate>Sat, 30 Jul 2022 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/rotpr-clone/</link>
+          <guid>https://www.bytekeeper.org/rotpr-clone/</guid>
+          <description xml:base="https://www.bytekeeper.org/rotpr-clone/">&lt;p&gt;So &lt;a href=&quot;https:&#x2F;&#x2F;makingcomputerdothings.com&#x2F;a-new-project-untitled-space-mercenary-game&#x2F;&quot;&gt;Sonko&lt;&#x2F;a&gt; started a new project.
+Following suit, I jumped back in time to already have a game project on-going for quite some time now.
+A bad habit of mine is to reach some milestone and then &quot;pause&quot; (drop) the project.
+But now I&#x27;ll return to it, and as a small incentive to keep on it, I&#x27;ll start this blog.&lt;&#x2F;p&gt;
+&lt;p&gt;As with Sonko, this means my StarCraft AI related projects are on hold (don&#x27;t worry, the &lt;a href=&quot;https:&#x2F;&#x2F;www.basil-ladder.net&#x2F;&quot;&gt;basil ladder&lt;&#x2F;a&gt; will keep running).&lt;&#x2F;p&gt;
+&lt;p&gt;Also, on a rather technical note: I dropped Jekyll as a static site generator and moved to &lt;a href=&quot;https:&#x2F;&#x2F;www.getzola.org&#x2F;&quot;&gt;zola&lt;&#x2F;a&gt;. Every Jekyll upgrade wasted a lot of time to get it running again. Zola is just one binary, and it should run fine on github actions as well.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;introduction&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#introduction&quot; aria-label=&quot;Anchor link for: introduction&quot;&gt;🔗&lt;&#x2F;a&gt;Introduction&lt;&#x2F;h1&gt;
+&lt;p&gt;I played &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Master_of_Orion_II%3A_Battle_at_Antares&quot;&gt;Master of Orion 2&lt;&#x2F;a&gt; (MOO for now) a lot when I was younger.
+Even back then I tried to create my own clone of the game.
+But the scale of the game was a bit to much for me back then - maybe even today.&lt;&#x2F;p&gt;
+&lt;p&gt;But not all thing were good. It irked me a bit how much the game slowed down in the later phases due to the massive amount of micro-management.&lt;&#x2F;p&gt;
+&lt;p&gt;Fast forward some 30 years and some more MOO games. I always was a fan of easy to learn hard to master games.
+Almost none of the games inspired by it (or being successor to) seem to do that. They just upped the complexity.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Antoine de Saint-Exupéry, Airman&#x27;s Odyssey&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;
+&lt;img src=&quot;rotpr.png&quot; style=&quot;width: 100%&quot; alt=&quot;Remnants of the Precursors&quot;&#x2F;&gt;
+
+
+Remnants of the Precursors (ROTPR for now) has a simple interface. Maybe even a bit to bland. But it gets the job done. I did not really play the original &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Master_of_Orion&quot;&gt;Master of Orion&lt;&#x2F;a&gt;, I was still &lt;del&gt;wasting&lt;&#x2F;del&gt; enjoying my time with &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Civilization_(video_game)&quot;&gt;Civilization&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;I do like the simpler colony management, which avoids going through every colony in the mid-late game. Spying is a bit strange, it is not really obvious what multiple networks and&#x2F;or high spendings are doing.&lt;&#x2F;p&gt;
+&lt;p&gt;
+&lt;img src=&quot;moo2.jpg&quot; style=&quot;width: 100%&quot; alt=&quot;Master of Orion 2&quot;&#x2F;&gt;
+
+
+Master of Orion 2 (not 1) is a bit different, more complex in some aspects (colony management) and less so in others (less diplomacy&#x2F;spying).&lt;&#x2F;p&gt;
+&lt;p&gt;The UI is a bit dated, and looks only good when shrunk down. Still looks nice though.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;designing-my-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#designing-my-game&quot; aria-label=&quot;Anchor link for: designing-my-game&quot;&gt;🔗&lt;&#x2F;a&gt;Designing My Game&lt;&#x2F;h1&gt;
+&lt;p&gt;My game already has quite a lot of code, but barely anything to show.
+I decided to create the game abstraction in code as a first step. This was a mistake in my opinion.
+While its clear that the inner game model should be sound, only testing it via unit tests is rather dull.&lt;&#x2F;p&gt;
+&lt;p&gt;It currently covers the basics of building ships and colonizing other systems.
+Like any software architecture, it is best to delay the choices which &quot;cost&quot; the most - as long as possible.
+This might sound unintuitive, but help not wasting a huge amount of time due to some bad &quot;large&quot; initial decisions.&lt;&#x2F;p&gt;
+&lt;p&gt;Although I got some basics covered, I want to explore design space a bit further before continuing&#x2F;refactoring.&lt;&#x2F;p&gt;
+&lt;p&gt;I know a few things I &lt;em&gt;want&lt;&#x2F;em&gt; in the game design:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Colonization should be per star system (like ROTPR). Colonizing individual planets really takes its toll on usability. Multiple different factions owning each a planet in a system? A separate UI for planets in a system? It just makes things more tedious.&lt;&#x2F;li&gt;
+&lt;li&gt;Research based on a RPG like skill tree. Even ROTPR, which tries to make research meaningful succumbs to the &quot;unimportant research item&quot; problem.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+&lt;figure style=&quot;margin: 0; line-height: 1em; font-size: 0.9em&quot;&gt;
+
+&lt;img src=&quot;tech_tree.dot.png&quot; style=&quot;width: 100%&quot; alt=&quot;Tech tree like skill tree&quot;&#x2F;&gt;
+
+&lt;figcaption&gt;Imagine some more tier levels here...&lt;&#x2F;figcaption&gt;
+&lt;&#x2F;figure&gt;
+
+&lt;p&gt;Tech items above are just examples (for some I don&#x27;t have an idea on what they do), I do want to make it unconventional - yet useful. Every tech has 3 upgrades which will improve on the previous state in one way or the other.&lt;&#x2F;p&gt;
+&lt;p&gt;Ideas for unconventional techs:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fanatics - For every upgrade, establish a colony on any unoccupied star system&lt;&#x2F;li&gt;
+&lt;li&gt;Boost - Increase productivity of a single colony for a short while&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Ideas for more conventional techs:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;XYZ Armor - Unlocks a type of armor, further upgrades improve efficiency&lt;&#x2F;li&gt;
+&lt;li&gt;XYZ Weapons - Unlocks a type of weapon, further upgrades improve efficiency&lt;&#x2F;li&gt;
+&lt;li&gt;Productive - Increases productivity per upgrade level&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Now the real change comes with the way you unlock techs. Usually, you designate a research topic and after some turns you&#x27;ll get it. This is not the case here.&lt;&#x2F;p&gt;
+&lt;p&gt;Instead, you build up research points - and once you have enough you can immediately unlock or upgrade a tech.
+This allows for fast reaction to new circumstances. There are also only a very limited amount of techs to unlock. With either, MOO2 or ROTPR I always feel like the actual decision of what to research matters little. Yes, some do - but you can always replace them later with something else. I want the player to be able to focus on a certain play style, stick to it, but still be able to win.&lt;&#x2F;p&gt;
+&lt;p&gt;That&#x27;s all for today!&lt;&#x2F;p&gt;
+&lt;p&gt;Next Time: Gameplay Loop&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

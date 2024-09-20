@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title> - tech</title>
+      <link>https://www.bytekeeper.org</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://www.bytekeeper.org/tags/tech/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Sat, 04 Nov 2023 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Comments - Take 3 - On Zola</title>
+          <pubDate>Fri, 03 Nov 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/comments-self-hosted/</link>
+          <guid>https://www.bytekeeper.org/comments-self-hosted/</guid>
+          <description xml:base="https://www.bytekeeper.org/comments-self-hosted/">&lt;p&gt;A &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;comments-self-hosted&#x2F;@comments-on-jekyll&#x2F;index.md&quot;&gt;while ago&lt;&#x2F;a&gt; I added comments for my Jekyll base blog. Since then, I switched to &lt;a href=&quot;https:&#x2F;&#x2F;www.getzola.org&#x2F;&quot;&gt;zola&lt;&#x2F;a&gt;.
+Its basically a Rust based &quot;clone&quot; of the static site generator (SSG) &lt;a href=&quot;https:&#x2F;&#x2F;gohugo.io&#x2F;&quot;&gt;Hugo&lt;&#x2F;a&gt;. Compared to Jekyll, it is a lot faster, and I found it to be a lot simpler.
+However, Zola has its own set of challenges. For instance, changing themes is nearly impossible and theme extension can get messy. That is the story for a future post.
+At some point I might consider creating my own SSG. Building a small one should be easy enough (and due to GitHub&#x27;s Actions it could be used immediately).&lt;&#x2F;p&gt;
+&lt;p&gt;Why did I move? Jekyll was basically the go-to SSG back when GitHub only supported it. And it always supported an outdated version. And Jekyll is generally pretty slow.
+And after some small update I could not get it to run on my machine in a reasonable amount of time (minutes is reasonable here). Searching for a new led me to Hugo, and then in turn to its Rust &quot;clone&quot; Zola.
+I tend to prefer applications written in Rust nowadays, but only slightly - due to the fact that I could contribute code.&lt;&#x2F;p&gt;
+&lt;p&gt;Oh and, while migrating, I trashed the comment functionality - oops. Now its time to restore it back to its old (and pretty empty) glory.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;comments-self-hosted&#x2F;@comments-on-jekyll&#x2F;index.md#step-1-create-a-service-that-accepts-comments&quot;&gt;Previously&lt;&#x2F;a&gt; I used CGI. It&#x27;s a bit archaic and cumbersome.
+So here&#x27;s what we&#x27;ll do:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;First, we&#x27;ll transform it to a web service&lt;&#x2F;li&gt;
+&lt;li&gt;We&#x27;ll switch from our custom (and now obsolete) GitHub client to a working one I don&#x27;t have to maintain&lt;&#x2F;li&gt;
+&lt;li&gt;Our Javascript client needs to be re-added to the new Zola generated site&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Here&#x27;s a sequence diagram of how it is supposed to work:
+
+&lt;img src=&quot;Sequence Diagram Comments.png&quot; style=&quot;width: 100%&quot; alt=&quot;Comment Sequence Diagram&quot;&#x2F;&gt;
+
+&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;our-own-web-server&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#our-own-web-server&quot; aria-label=&quot;Anchor link for: our-own-web-server&quot;&gt;🔗&lt;&#x2F;a&gt;Our own Web Server&lt;&#x2F;h1&gt;
+&lt;p&gt;Now, first, we need to implement our own TCP stack... J&#x2F;k we&#x27;ll use &lt;a href=&quot;https:&#x2F;&#x2F;hyper.rs&#x2F;&quot;&gt;hyper&lt;&#x2F;a&gt;. We could use &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;tokio-rs&#x2F;axum&#x2F;&quot;&gt;Axum&lt;&#x2F;a&gt; but we won&#x27;t be needing any full blown web server anytime soon.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s fire up a simple server at &lt;code&gt;127.0.0.0:3000&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span style=&quot;color:#859900;&quot;&gt;use &lt;&#x2F;span&gt;&lt;span&gt;core::convert::Infallible;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;use &lt;&#x2F;span&gt;&lt;span&gt;hyper::service::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{&lt;&#x2F;span&gt;&lt;span&gt;make_service_fn, service_fn&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;use &lt;&#x2F;span&gt;&lt;span&gt;hyper::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{&lt;&#x2F;span&gt;&lt;span&gt;Body, Error, Request, Response, Server&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;use &lt;&#x2F;span&gt;&lt;span&gt;std::net::SocketAddr;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F;&#x2F; This is the actual endpoint:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F;&#x2F; It should take a comment from a user by POST request and convert it to instructions on GitHub.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F;&#x2F; The result should be a branch which includes the comment. And a PR for the branch for easy review and merge-ability.
+&lt;&#x2F;span&gt;&lt;span&gt;async &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;post_comment_service&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;_req&lt;&#x2F;span&gt;&lt;span&gt;: Request&amp;lt;Body&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) 
+&lt;&#x2F;span&gt;&lt;span&gt;        -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;Response&amp;lt;Body&amp;gt;, Infallible&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Response::new&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Hello World&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;into&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()))
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;tokio&lt;&#x2F;span&gt;&lt;span&gt;::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;pub&lt;&#x2F;span&gt;&lt;span&gt; async &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;() &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;, Error&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; addr &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;SocketAddr::from&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(([&lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;127&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;3000&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;))&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; post_comment_service &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;=
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;make_service_fn&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;_conn&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;async &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{ 
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span&gt;::&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;, Infallible&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;service_fn&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;post_comment_service&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;})&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; server &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;Server::bind&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;addr&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;serve&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;post_comment_service&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    server.await
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Simple enough.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;choosing-a-github-client-for-rust&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#choosing-a-github-client-for-rust&quot; aria-label=&quot;Anchor link for: choosing-a-github-client-for-rust&quot;&gt;🔗&lt;&#x2F;a&gt;Choosing a GitHub Client for Rust&lt;&#x2F;h1&gt;
+&lt;p&gt;According to &lt;a href=&quot;https:&#x2F;&#x2F;docs.github.com&#x2F;en&#x2F;rest&#x2F;overview&#x2F;libraries-for-the-rest-api?apiVersion=2022-11-28#rust&quot;&gt;GitHub&lt;&#x2F;a&gt; - there&#x27;s no official client for Rust. But there are two third party clients. &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;octocat-rs&#x2F;octocat-rs&quot;&gt;Octocat&lt;&#x2F;a&gt; seems to be on the decline. I&#x27;m sorry if I misjudged here, I just compared the activity to the alternative &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;XAMPPRocky&#x2F;octocrab&quot;&gt;Octocrab&lt;&#x2F;a&gt; which has a lot more &quot;everything&quot;. A quick check reveals it seems to be able to create branches, commits and PRs - everything we need. So we&#x27;re using that, just a quick &lt;code&gt;cargo add octocrab&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;representing-comment-requests-and-comment-data&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#representing-comment-requests-and-comment-data&quot; aria-label=&quot;Anchor link for: representing-comment-requests-and-comment-data&quot;&gt;🔗&lt;&#x2F;a&gt;Representing Comment Requests and Comment Data&lt;&#x2F;h1&gt;
+&lt;p&gt;Most of the post handling code is the same as before, for brevities sake I will only skim through here:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F;&#x2F; This is the request from a client
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Deserialize, Debug&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;Post &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;path&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F;&#x2F; This will be serialized into a comment file on GitHub
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize, Debug&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;Comment&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;&amp;#39;a&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;id&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;&amp;#39;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;&amp;#39;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;&amp;#39;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;&amp;#39;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;date&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;u64&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;So, let&#x27;s modify our &lt;code&gt;post_comment_service&lt;&#x2F;code&gt; to actually do something. First we need to grab ourselves the content and then deserialize it to a &lt;code&gt;Post&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;post_request&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) = &lt;&#x2F;span&gt;&lt;span&gt;hyper::body::to_bytes&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;body&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.await &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;post&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;Post, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;serde_json::from_slice&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;post_request&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;return Ok&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Response::builder&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;status&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;StatusCode::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;BAD_REQUEST&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;body&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Invalid JSON&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;into&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;())
+&lt;&#x2F;span&gt;&lt;span&gt;            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;())&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Quick note: Using Axum, this would have been a lot shorter.&lt;&#x2F;p&gt;
+&lt;p&gt;The next steps:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a branch&lt;&#x2F;li&gt;
+&lt;li&gt;Add the comment to the correct &lt;code&gt;comments.yaml&lt;&#x2F;code&gt; file&lt;&#x2F;li&gt;
+&lt;li&gt;Create a pull request&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Creating a branch requires a commit SHA it is based on, so we grab that and create a branch of it:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; master_sha &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span&gt; repo
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;get_ref&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;Reference::Branch&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;master&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()))
+&lt;&#x2F;span&gt;&lt;span&gt;        .await
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;expect&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Could not get master ref&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .object
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        Object::Commit &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{&lt;&#x2F;span&gt;&lt;span&gt; sha, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;.. &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;Object::Tag &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{&lt;&#x2F;span&gt;&lt;span&gt; sha, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;.. &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;=&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; sha,
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;_ =&amp;gt; unreachable!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;debug!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Creating branch {} from {}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, branch_name, master_sha&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    repo.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;create_ref&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;Reference::Branch&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;branch_name.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;clone&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;())&lt;&#x2F;span&gt;&lt;span&gt;, master_sha&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .await
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;expect&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Could not create branch&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now, due to technical limitations (Zola can read a yaml file, but not a set of files) we need to have all comments of a blog in one file. This will be called &lt;code&gt;comments.yaml&lt;&#x2F;code&gt; as stated above.&lt;&#x2F;p&gt;
+&lt;p&gt;A new comment should not just overwrite all other comments, so we first need to grab the file if it exists.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; content_items &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span&gt; repo.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;get_content&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;path&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;path&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;.await &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;content_items&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;=&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; content_items,
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Err&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;info!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Assuming no comments present yet at {}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, path&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;            ContentItems &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{&lt;&#x2F;span&gt;&lt;span&gt; items: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Vec&lt;&#x2F;span&gt;&lt;span&gt;::new&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;() }
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; There can&amp;#39;t be more than one file with the same name:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;assert!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;content_items.items.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;len&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;() &amp;lt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; content &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; content_items.items.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;next&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now lets create or append to the existing comment file:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; new_comment &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;=
+&lt;&#x2F;span&gt;&lt;span&gt;        serde_yaml::to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;comment&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;])&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;expect&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Could not convert comment to yaml&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; Yes, this name is rubbish 
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; author &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; CommitAuthor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        name: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Comment0r&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;        email: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;none@example.com&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Some&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;content&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) =&lt;&#x2F;span&gt;&lt;span&gt; content &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; GitHub API requires the SHA of the old file to update it
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#93a1a1;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span&gt; content, sha&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) = (&lt;&#x2F;span&gt;&lt;span&gt;content.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;decoded_content&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;, content.sha.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;clone&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;())&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;writeln!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;amp;mut content, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, new_comment&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;expect&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Could not add comment to file&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        repo.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;update_file&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;path,
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;format!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Added comment from &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, comment.name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;            content,
+&lt;&#x2F;span&gt;&lt;span&gt;            sha,
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;branch&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;branch_name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;commiter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;author&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;        .await
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;expect&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Could not update file&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;debug!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Creating new file at {}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, path&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;        repo.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;create_file&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;path,
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;format!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Added comment from &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, comment.name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;            new_comment,
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;branch&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;branch_name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;commiter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;author&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;        .await
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;expect&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Could not create file&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I decided against parsing the existing file. It should be fine. If it&#x27;s not, I can fix it manually, its a &lt;a href=&quot;https:&#x2F;&#x2F;yaml.org&quot;&gt;YAML&lt;&#x2F;a&gt; file after all.
+Instead, just a &quot;grab the existing content&quot; and &quot;append new comment&quot; in YAML format, if nothing is there &quot;create a new file&quot; and &quot;write the comment as initial content&quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;Last but not least, I don&#x27;t want to manually merge or create pull requests, so let&#x27;s do that as well:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span&gt;    oc.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;pulls&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;config.owner, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;config.repo&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;create&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;format!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;New comment from &lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, comment.name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;            branch_name,
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;master&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;        .await
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;expect&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Could not create PR&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This will create a PR with the title &quot;New comment from &lt;user&gt;&quot; trying to merge the new branch into master.&lt;&#x2F;p&gt;
+&lt;p&gt;Now, this service serves no purpose, if no-one ever calls it. That would be...&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;the-client-part&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-client-part&quot; aria-label=&quot;Anchor link for: the-client-part&quot;&gt;🔗&lt;&#x2F;a&gt;The Client Part&lt;&#x2F;h1&gt;
+&lt;p&gt;I&#x27;ll omit the html part for now, it&#x27;s mostly a boring form with a name, an URL and a message field - and a submit button.
+The &quot;interesting&quot; part is the JavaScript client, that will do the following:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Take the comment&lt;&#x2F;li&gt;
+&lt;li&gt;Send it to an endpoint&lt;&#x2F;li&gt;
+&lt;li&gt;Show the user a success or error page&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;Here is the first part:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;JavaScript&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-JavaScript &quot;&gt;&lt;code class=&quot;language-JavaScript&quot; data-lang=&quot;JavaScript&quot;&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;const &lt;&#x2F;span&gt;&lt;span&gt;form &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;document&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;getElementById&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;commentForm&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;form.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;addEventListener&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;submit&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;function &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;event&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; Don&amp;#39;t submit actually
+&lt;&#x2F;span&gt;&lt;span&gt;    event.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;preventDefault&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;const &lt;&#x2F;span&gt;&lt;span&gt;formData &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;FormData&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;form&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;const &lt;&#x2F;span&gt;&lt;span&gt;commentData &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= {
+&lt;&#x2F;span&gt;&lt;span&gt;        name: formData.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;        url: formData.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;        message: formData.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;        path: &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;{{ current_path | safe }}&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Don&#x27;t get confused by the &lt;code&gt;{{ ... }}&lt;&#x2F;code&gt; stuff, that&#x27;s part of the template engine Zola uses (&lt;a href=&quot;https:&#x2F;&#x2F;keats.github.io&#x2F;tera&#x2F;&quot;&gt;Tera&lt;&#x2F;a&gt;).&lt;&#x2F;p&gt;
+&lt;p&gt;With the data firm in our grasp, onwards to step 2:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;JavaScript&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-JavaScript &quot;&gt;&lt;code class=&quot;language-JavaScript&quot; data-lang=&quot;JavaScript&quot;&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; Now post the comment to the service
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;fetch&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;{{ config.extra.api_url | safe }}&#x2F;comment&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    method: &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;POST&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;,
+&lt;&#x2F;span&gt;&lt;span&gt;    headers: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Content-Type&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;: &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;application&#x2F;json&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    body: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;JSON&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;stringify&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;commentData&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And finally step 3:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;JavaScript&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-JavaScript &quot;&gt;&lt;code class=&quot;language-JavaScript&quot; data-lang=&quot;JavaScript&quot;&gt;&lt;span style=&quot;background-color:#6e2e32;color:#839496;&quot;&gt;})&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;then&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;response =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;response.ok&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        form.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;reset&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;window&lt;&#x2F;span&gt;&lt;span&gt;.location &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&#x2F;pages&#x2F;submitted&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;window&lt;&#x2F;span&gt;&lt;span&gt;.location &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&#x2F;pages&#x2F;submission-failed&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;})&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;catch&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;error =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;window&lt;&#x2F;span&gt;&lt;span&gt;.location &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&#x2F;pages&#x2F;submission-failed&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;})&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;I also clear the form when the submit succeeded. Otherwise, returning to the page would keep the form content. On error, I let the content stay, maybe it was just a hiccup after all?&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;security&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#security&quot; aria-label=&quot;Anchor link for: security&quot;&gt;🔗&lt;&#x2F;a&gt;Security&lt;&#x2F;h1&gt;
+&lt;p&gt;The service itself is pretty small. Due to Rust&#x27;s nature, I consider buffer under&#x2F;overflow attacks to be pretty unlikely. Not impossible mind you.
+Rust could have some memory safety bug. Hyper uses some &lt;code&gt;unsafe&lt;&#x2F;code&gt; and could have a bug there. Same with &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;tower-rs&#x2F;tower&quot;&gt;tower&lt;&#x2F;a&gt; which I will use below.
+I pass much of the user entered data to Octocrab, which in turn relies on other libraries and interacts with GitHubs API. I expect their API to refuse any malformed requests, otherwise its their problem (unless..).&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;threat-model&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#threat-model&quot; aria-label=&quot;Anchor link for: threat-model&quot;&gt;🔗&lt;&#x2F;a&gt;Threat Model&lt;&#x2F;h2&gt;
+&lt;p&gt;The service will run on a trusted machine (due to access to a personal access token from GitHub). It is meant to run behind a reverse proxy, but should also work as a public service.
+It will not guarantee to work under a DOS attack, but it will guarantee not to let an remote attacker DOS the whole host system.&lt;&#x2F;p&gt;
+&lt;p&gt;The main DOS vectors against the host system are:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sending large chunks of data in a post request which would then be sent to GitHub (clogging up up- and downstream)&lt;&#x2F;li&gt;
+&lt;li&gt;Sending many small requests which would result in a multiple of API calls to GitHub&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;changes-required-by-the-threat-model&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#changes-required-by-the-threat-model&quot; aria-label=&quot;Anchor link for: changes-required-by-the-threat-model&quot;&gt;🔗&lt;&#x2F;a&gt;Changes Required by the Threat Model&lt;&#x2F;h2&gt;
+&lt;p&gt;First, lets limit the input our services receives to have some basic DOS protection:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; body &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;Limited::new&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;req.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;into_body&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;100 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;1024&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Let&#x27;s also do some basic rate limiting:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;Rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-Rust &quot;&gt;&lt;code class=&quot;language-Rust&quot; data-lang=&quot;Rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; post_comment_service &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;make_service_fn&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;_conn&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span&gt;async &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Ok&lt;&#x2F;span&gt;&lt;span&gt;::&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;, Infallible&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;RateLimit::new&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;service_fn&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;post_comment_service&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;            Rate::new&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, Duration::from_secs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;))&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;})&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It would certainly be better to limit per IP. But the intention here was not to prevent DOS attacks to the service itself, just the host system.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;what-s-next&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-s-next&quot; aria-label=&quot;Anchor link for: what-s-next&quot;&gt;🔗&lt;&#x2F;a&gt;What&#x27;s Next?&lt;&#x2F;h1&gt;
+&lt;p&gt;Obviously, the code could be improved - it was basically almost completely rewritten in about 2 days. This will have to wait for another time...&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;conclusion&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#conclusion&quot; aria-label=&quot;Anchor link for: conclusion&quot;&gt;🔗&lt;&#x2F;a&gt;Conclusion&lt;&#x2F;h1&gt;
+&lt;p&gt;It was a fun and sometimes tedious exercise. Hyper&#x27;s API is &quot;strange&quot; - services return a &lt;code&gt;Result&amp;lt;.., Infallible&amp;gt;&lt;&#x2F;code&gt;. Why not just the real result. I guess I could read up on the reason, but its certainly hidden very well.
+Octocrab is pretty decent. It&#x27;s a bit cumbersome at times (i.e. &lt;code&gt;send()&lt;&#x2F;code&gt; for API that retrieves things). Authenication is really annoying and lacks documentation - but is easy enough once figured out.
+I ran into an issue where I configured the wrong URL to access GitHub - I swear I saw it somewhere in the Octocrab repository.
+This was made even worse by the API suddenly trying to deserialize incomplete JSON objects from GitHub (like cut off after 21 characters, without any reason why).&lt;&#x2F;p&gt;
+&lt;p&gt;It took a fair bit longer than expected.&lt;&#x2F;p&gt;
+&lt;p&gt;The parts I did not present:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The cloudflare config to route the &lt;code&gt;api&lt;&#x2F;code&gt; sub-domain to my VPS&lt;&#x2F;li&gt;
+&lt;li&gt;My VPS&#x27; Apache2 config for a secure reverse proxy&lt;&#x2F;li&gt;
+&lt;li&gt;Getting a signed certificate&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;I hope you enjoyed this post of mine, feel free to comment. It should work now. If not, I&#x27;ll just assume you&#x27;re happy and live in blissful ignorance.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Comments for static pages? - Part 2</title>
+          <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/comments-part-2/</link>
+          <guid>https://www.bytekeeper.org/comments-part-2/</guid>
+          <description xml:base="https://www.bytekeeper.org/comments-part-2/">&lt;p&gt;Looking &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;comments-part-2&#x2F;@comments-on-jekyll&#x2F;index.md&quot;&gt;back&lt;&#x2F;a&gt;... I need a bit of DIY GitHub API for Rust.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;still-step-2-create-a-branch-and-pr-automatically&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#still-step-2-create-a-branch-and-pr-automatically&quot; aria-label=&quot;Anchor link for: still-step-2-create-a-branch-and-pr-automatically&quot;&gt;🔗&lt;&#x2F;a&gt;Still step 2: Create a branch and PR automatically&lt;&#x2F;h2&gt;
+&lt;p&gt;Thankfully, the &lt;a href=&quot;https:&#x2F;&#x2F;developer.github.com&#x2F;v3&#x2F;&quot;&gt;V3 API&lt;&#x2F;a&gt; is really simple.&lt;&#x2F;p&gt;
+&lt;p&gt;Using our tRusty language, we can define some structs to be serialized to JSON for requests:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;CreateRef &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    r#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;ref&lt;&#x2F;span&gt;&lt;span&gt;: String, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The name to be used
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;sha&lt;&#x2F;span&gt;&lt;span&gt;: String,   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The commit SHA to point to
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;CreateFile &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;content&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;branch&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;committer&lt;&#x2F;span&gt;&lt;span&gt;: UserRef,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;UserRef &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;email&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;CreatePR &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;head&lt;&#x2F;span&gt;&lt;span&gt;: String,   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The branch to be merged
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;base&lt;&#x2F;span&gt;&lt;span&gt;: String,   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The target branch for the merge (ie. master)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The basic steps we want to do are described by these:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a branch, using &lt;code&gt;CreateRef&lt;&#x2F;code&gt;. Git uses refs for things that &quot;have&quot; commits. A branch is just that!&lt;&#x2F;li&gt;
+&lt;li&gt;Create a file on the branch with &lt;code&gt;CreateFile&lt;&#x2F;code&gt;. &lt;code&gt;UserRef&lt;&#x2F;code&gt; will be used as committer (me in this case).&lt;&#x2F;li&gt;
+&lt;li&gt;The last step is to create a PR with &lt;code&gt;CreatePR&lt;&#x2F;code&gt;  (quelle surprise), to merge the branch back.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The file we want to create has to be converted to base64 to be used by &lt;code&gt;CreateFile&lt;&#x2F;code&gt;. The content itself should be YAML and contain this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;Comment &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;id&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    r#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;ref&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;date&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;u64&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Luckily &lt;a href=&quot;https:&#x2F;&#x2F;serde.rs&#x2F;&quot;&gt;serde&lt;&#x2F;a&gt; comes to our rescue once again and happily creates a serializer to yaml here.
+Another helpful small library provides base64 encoding. The result is this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; file &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; CreateFile &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    message: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Comment&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    content: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;encode&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;serde_yaml::to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;comment&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;())&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    branch: branch_name.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    committer: UserRef &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        name: owner.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;        email: owner_email.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The requests itself look quite similar. As an example, here&#x27;s the &lt;code&gt;CreateFile&lt;&#x2F;code&gt; one:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;create_file&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;client&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;reqwest::blocking::Client,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;owner&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;repo&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;path&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;create_file&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;CreateFile,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; reqwest::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;reqwest::blocking::Response&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; url &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;url::Url::parse&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;format!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;https:&#x2F;&#x2F;api.github.com&#x2F;repos&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&#x2F;contents&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            owner, repo, path
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;as_str&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    client.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;put&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;url&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;json&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;create_file&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;No, &lt;code&gt;reqwest&lt;&#x2F;code&gt; is not a typo! It&#x27;s actually a &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;seanmonstar&#x2F;reqwest&quot;&gt;popular library&lt;&#x2F;a&gt; (I don&#x27;t mean the javascript one).
+I don&#x27;t really need non-blocking I&#x2F;O here, so the &lt;code&gt;blocking&lt;&#x2F;code&gt; client is put to good use.&lt;&#x2F;p&gt;
+&lt;p&gt;The whole Rust project can be found &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Bytekeeper&#x2F;github_comment_rs&quot;&gt;in my GitHub repo&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;I tried to solve this &quot;problem&quot; with some constraints:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;It should be inexpensive&lt;&#x2F;li&gt;
+&lt;li&gt;It should respect the privacy of my readers&lt;&#x2F;li&gt;
+&lt;li&gt;It should be simple enough to fix or port&lt;&#x2F;li&gt;
+&lt;li&gt;It should not depend too much on third parties&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Using GitHub for the blog and for comments is very inexpensive. I use no third party commentary service, as such the privacy is protected as much as is possible here.
+The HTML part is very simple and only depends on &lt;a href=&quot;https:&#x2F;&#x2F;jekyllrb.com&#x2F;&quot;&gt;Jekyll&lt;&#x2F;a&gt;. The Rust part is also simple and fits in less than 300 lines of code of Rust.&lt;&#x2F;p&gt;
+&lt;p&gt;Success ✓&lt;&#x2F;p&gt;
+&lt;p&gt;If you have any comments, please leave them down below - since you are actually able to do so now!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Comments for static pages? - Part 1</title>
+          <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/comments-on-jekyll/</link>
+          <guid>https://www.bytekeeper.org/comments-on-jekyll/</guid>
+          <description xml:base="https://www.bytekeeper.org/comments-on-jekyll/">&lt;p&gt;&lt;a href=&quot;&#x2F;&quot;&gt;This&lt;&#x2F;a&gt; is actually a static page hosted by &lt;a href=&quot;https:&#x2F;&#x2F;www.github.com&#x2F;&quot;&gt;GitHub&lt;&#x2F;a&gt;, powered by &lt;a href=&quot;https:&#x2F;&#x2F;jekyllrb.com&#x2F;&quot;&gt;Jekyll&lt;&#x2F;a&gt;.
+But how to get a comment section?&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;give-me-comments&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#give-me-comments&quot; aria-label=&quot;Anchor link for: give-me-comments&quot;&gt;🔗&lt;&#x2F;a&gt;Give Me Comments&lt;&#x2F;h1&gt;
+&lt;p&gt;Weeeelll....
+You could use a service like Disqus.&lt;&#x2F;p&gt;
+&lt;p&gt;Or, you use the idea from &lt;a href=&quot;https:&#x2F;&#x2F;damieng.com&#x2F;blog&#x2F;2018&#x2F;05&#x2F;28&#x2F;wordpress-to-jekyll-comments&quot;&gt;damieng&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Jekyll has a neat feature: you can place data files under &lt;code&gt;_data&lt;&#x2F;code&gt; and access in Liquid templates.&lt;&#x2F;p&gt;
+&lt;p&gt;And that&#x27;s more or less the starting point. Add comments as data and render them via Jekyll (utilizing Liquid).&lt;&#x2F;p&gt;
+&lt;p&gt;Using the folder &lt;code&gt;_data&#x2F;comments&#x2F;{slug}&#x2F;&lt;&#x2F;code&gt; to place comment files in. (&lt;code&gt;slug&lt;&#x2F;code&gt; being the &quot;slugified&quot; post name.)
+The actual files can be in a few formats, but I used yaml.
+Here is an example comment:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;yaml&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-yaml &quot;&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;---
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;id&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;1579711318_617889634
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;ref&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;basil-timeouts
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Testing comments
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Bytekeeper
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;: &amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;date&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#6c71c4;&quot;&gt;1579711318
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;id&lt;&#x2F;code&gt; is the id of the comment &lt;em&gt;and&lt;&#x2F;em&gt; the base name of the file: &lt;code&gt;1579711318_617889634.yml&lt;&#x2F;code&gt;.
+&lt;code&gt;ref&lt;&#x2F;code&gt; is a reference for what the comment was for. Ie. a slug or the id of another comment (not yet working here).
+&lt;code&gt;message&lt;&#x2F;code&gt; is too complicated to explain... really. So is &lt;code&gt;name&lt;&#x2F;code&gt;. &lt;code&gt;url&lt;&#x2F;code&gt; is the website a user gave and will be used to render the commenter&#x27;s name as a link to the site.
+&lt;code&gt;date&lt;&#x2F;code&gt; a simple timestamp and, as you might have noticed, part of the &lt;code&gt;id&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;But having the comments stored as data will not be enough, unless I can convince people to check out the GitHub repo for comments.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;render-me-comments&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#render-me-comments&quot; aria-label=&quot;Anchor link for: render-me-comments&quot;&gt;🔗&lt;&#x2F;a&gt;Render Me Comments&lt;&#x2F;h1&gt;
+&lt;p&gt;This one will be quick.
+I use a modified version of &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;damieng&#x2F;jekyll-blog-comments&#x2F;tree&#x2F;master&#x2F;jekyll&#x2F;_includes&quot;&gt;damieng&#x27;s _includes&lt;&#x2F;a&gt;.
+Since I modified the structure a bit I had to adapt it. I also changed the layout bit, the final version can be seen down here (unless it does not work in which case: bummer).&lt;&#x2F;p&gt;
+&lt;p&gt;For now they look ok but will certainly need more fine-tuning, especially once it&#x27;s possible to reply to individual comments as well.&lt;&#x2F;p&gt;
+&lt;p&gt;Storage place for comments ✓&lt;&#x2F;p&gt;
+&lt;p&gt;Rendering comments ✓&lt;&#x2F;p&gt;
+&lt;p&gt;Adding comments: ❌&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;add-me-commentse&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#add-me-commentse&quot; aria-label=&quot;Anchor link for: add-me-commentse&quot;&gt;🔗&lt;&#x2F;a&gt;Add Me Commentse&lt;&#x2F;h1&gt;
+&lt;p&gt;This could be as simple as people wanting to comment grabbing a fork of my repository and adding a comment file in data and creating a PR for it.
+I&#x27;m pretty sure this avoids all comment spamming bots and requires almost no moderation.&lt;&#x2F;p&gt;
+&lt;p&gt;You don&#x27;t want to fork? Ok, I&#x27;ll give you commit r... waaait.&lt;&#x2F;p&gt;
+&lt;p&gt;So basically, using damieng&#x27;s idea:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;I want a PR for each comment&lt;&#x2F;li&gt;
+&lt;li&gt;I want branch and PR to be automatically created&lt;&#x2F;li&gt;
+&lt;li&gt;Once I merge it, GitHub will automatically update and voilà&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;step-1-create-a-service-that-accepts-comments&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#step-1-create-a-service-that-accepts-comments&quot; aria-label=&quot;Anchor link for: step-1-create-a-service-that-accepts-comments&quot;&gt;🔗&lt;&#x2F;a&gt;Step 1: Create a service that accepts comments&lt;&#x2F;h2&gt;
+&lt;p&gt;This could be any form of (micro) web service. Damieng used Azure Functions. But Amazon Lambda or Google Functions would be fine too.
+But I&#x27;m oldschool... I already have a VPS, so I use &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Common_Gateway_Interface&quot;&gt;CGI&lt;&#x2F;a&gt;!&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;m also a experienced Java developer, so I used &lt;a href=&quot;https:&#x2F;&#x2F;kotlinlang.org&#x2F;&quot;&gt;Kotlin&lt;&#x2F;a&gt;. J&#x2F;K of course I used &lt;a href=&quot;https:&#x2F;&#x2F;www.rust-lang.org&#x2F;&quot;&gt;Rust&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;I learn Rust as I go (I already tried that once but the burrow checker tried to murder me in my sleep), so take everything here with a grain of salt.&lt;&#x2F;p&gt;
+&lt;p&gt;So, let&#x27;s start with some Rust code. There is this really nice library called &lt;a href=&quot;https:&#x2F;&#x2F;serde.rs&#x2F;&quot;&gt;serde&lt;&#x2F;a&gt; which has a ton of serializers and deserializers for various formats.
+Like &lt;code&gt;urlencoded&lt;&#x2F;code&gt; which is what a simple form post will send.&lt;&#x2F;p&gt;
+&lt;p&gt;Now let&#x27;s write the code to process a &lt;code&gt;POST&lt;&#x2F;code&gt;ed comment:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Deserialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;Post &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    r#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;ref&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;redirect&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;For those who have never seen C, a &lt;code&gt;struct&lt;&#x2F;code&gt; is like a &lt;code&gt;class&lt;&#x2F;code&gt;: A container for fields.&lt;&#x2F;p&gt;
+&lt;p&gt;That&#x27;s it! The &lt;code&gt;derive&lt;&#x2F;code&gt; attribute with the &lt;code&gt;Deserialize&lt;&#x2F;code&gt; argument will create the code to dump in a &lt;code&gt;urlendcoded&lt;&#x2F;code&gt; string and get out an instance of &lt;code&gt;Post&lt;&#x2F;code&gt;:
+{% highlight Rust %}
+let post: Post = serde_urlencoded::from_bytes(body.as_slice()).unwrap();
+{% endhighlight %}&lt;&#x2F;p&gt;
+&lt;p&gt;I omitted the boilerplate code to read the data from &lt;code&gt;stdin&lt;&#x2F;code&gt; - which is how you get data with &lt;code&gt;CGI&lt;&#x2F;code&gt;. The full code can be seen in my &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Bytekeeper&#x2F;github_comment_rs&#x2F;blob&#x2F;master&#x2F;src&#x2F;main.rs&quot;&gt;GitHub repo&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;step-2-create-a-branch-and-pr-automatically&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#step-2-create-a-branch-and-pr-automatically&quot; aria-label=&quot;Anchor link for: step-2-create-a-branch-and-pr-automatically&quot;&gt;🔗&lt;&#x2F;a&gt;Step 2: Create a branch and PR automatically&lt;&#x2F;h2&gt;
+&lt;p&gt;Creating a branch and pushing it should be fairly simply with &lt;code&gt;GIT&lt;&#x2F;code&gt;&#x27;s CLI. But for the PR, the GitHub API will have to be used.&lt;&#x2F;p&gt;
+&lt;p&gt;It can also be used to create a branch and (!) even create a file in there. So I just have to use a GitHub API Rust implementation to solve this.
+Actually, there are a few - but they are mostly unmaintained.
+They also don&#x27;t allow the shenanigans I need.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;em&gt;To be continued&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title> - review</title>
+      <link>https://www.bytekeeper.org</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://www.bytekeeper.org/tags/review/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Tue, 09 Jan 2024 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>GameDev Review: Star Renegades</title>
+          <pubDate>Tue, 09 Jan 2024 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/review-star-renegades/</link>
+          <guid>https://www.bytekeeper.org/review-star-renegades/</guid>
+          <description xml:base="https://www.bytekeeper.org/review-star-renegades/">&lt;p&gt;I promised a review &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;review-star-renegades&#x2F;@content&#x2F;unnamed-game&#x2F;index.md&quot;&gt;before&lt;&#x2F;a&gt;. I did not &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;review-star-renegades&#x2F;@content&#x2F;shogun-showdown&#x2F;index.md&quot;&gt;start&lt;&#x2F;a&gt; with it, oops. So let me catch up!&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;what-came-before&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-came-before&quot; aria-label=&quot;Anchor link for: what-came-before&quot;&gt;🔗&lt;&#x2F;a&gt;What Came Before&lt;&#x2F;h1&gt;
+&lt;p&gt;I was a bit surprised to find that the game was developed by &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;developer&#x2F;massivedamage?snr=1_5_9__2000&quot;&gt;Massive Damage, Inc.&lt;&#x2F;a&gt;. They are the makers of &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;651660&#x2F;Halcyon_6_Starbase_Commander_LIGHTSPEED_EDITION&#x2F;&quot;&gt;Halcyon 6&lt;&#x2F;a&gt; - which gained some small hype 2017&#x2F;2018. I bought the game and found it to be Okish. I played it a few hours and it seemed to lack focus. There were only a few updates, I&#x27;m not sure they &quot;fixed&quot; that. It could be a &quot;me&quot; problem. This however, is not a review of Halcyon.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;presentation&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#presentation&quot; aria-label=&quot;Anchor link for: presentation&quot;&gt;🔗&lt;&#x2F;a&gt;Presentation&lt;&#x2F;h1&gt;
+&lt;p&gt;The game looks great. At least if you like pixel art. That mixture of 3D and pixel art - its just working great for me. The anime sequences are good enough. They don&#x27;t seem to fit too well, but it must have been a ton of work, I can appreciate that.&lt;&#x2F;p&gt;
+&lt;p&gt;In combat, characters don&#x27;t just aim and shoot, they get a real cool animation - and most of the time its not too long to be annoying in the long run.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;core-game-mechanics&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#core-game-mechanics&quot; aria-label=&quot;Anchor link for: core-game-mechanics&quot;&gt;🔗&lt;&#x2F;a&gt;Core Game Mechanics&lt;&#x2F;h1&gt;
+&lt;p&gt;Clearly, combat is the main mechanic of the game. But there are other aspects.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;walking-around&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#walking-around&quot; aria-label=&quot;Anchor link for: walking-around&quot;&gt;🔗&lt;&#x2F;a&gt;Walking Around&lt;&#x2F;h2&gt;
+&lt;p&gt;Between battles you run around maps, unlocking regions and finding (some) items. This is a strange beast. While it could add to the overall game by being a freely roamable map, it is extremely linear. Its also not polished, sometimes you need to click around a lot to find a spot the characters will move to. It looks nice, and the concept of finding loot on it is also cool. But that also means little, since you just click on anything that could have loot in the area you&#x27;re in.&lt;&#x2F;p&gt;
+&lt;p&gt;For me, this part of the game could very well be left out, resp. replaced with some narrative. Or, improved to be of value - or even be fun.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;socializing&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#socializing&quot; aria-label=&quot;Anchor link for: socializing&quot;&gt;🔗&lt;&#x2F;a&gt;Socializing&lt;&#x2F;h2&gt;
+&lt;p&gt;Also between battles you get to socialize with your companions. This is done by &quot;cards&quot; that you can let a character play targeting some other character. This idea is often found in the big RPGs, like &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Dragon_Age%3A_Origins&quot;&gt;Dragon Age: Origins&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;But its more deeply integrated in those (yes, the sex aspect could be a major point - but it requires non-pixel art graphics I guess). Its carried through the narrative. After you gather you party you play the game with them, learning about theme and getting to like them.&lt;&#x2F;p&gt;
+&lt;p&gt;Star Renegades tries to be a roguelike-like, your party might differ for each play-through. The narrative is slim, you don&#x27;t really build a connection with them. The socializing (camp) aspect seem extremely &quot;added&quot; - and while you reap some benefits (if two characters like each other, they can do combos), it feels a bit awkward.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;combat&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#combat&quot; aria-label=&quot;Anchor link for: combat&quot;&gt;🔗&lt;&#x2F;a&gt;Combat&lt;&#x2F;h2&gt;
+&lt;p&gt;Now we&#x27;re getting down to the nitty-gritty core gameplay. The unique feature of combat seems to be the ability to &quot;push&quot; initiative of the enemies. You can even push them to the point they won&#x27;t be able to take their &quot;turn&quot;. As you have ample ability to push, you could win without taking damage. So the devs limited this. Enemies already pushed to the next turn (I know they use another term, but I&#x27;ll stick with turn here) cannot be pushed further.&lt;&#x2F;p&gt;
+&lt;p&gt;Maybe this mechanic can be made to work. They seemed to have tried and gave up. &quot;Why?&quot; you ask. Because they loaded up the game with buffs, stats and actions. But most of those things are not relevant at all - or at least appear to be irrelevant. The initiative manipulating mechanic seems to target more tactical players. But the added noise seems to try to cater to the RPG crowd. But since customization of characters is fairly limited, that seems a bit weak as well.&lt;&#x2F;p&gt;
+&lt;p&gt;Also, there are some quality of live bugs: Enemies are previewed to blow up, yet they don&#x27;t. Enemies are shown to be pushed into the next turn, only to find they sometimes still get to shoot at you.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;respecting-the-player-s-time&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#respecting-the-player-s-time&quot; aria-label=&quot;Anchor link for: respecting-the-player-s-time&quot;&gt;🔗&lt;&#x2F;a&gt;Respecting the Player&#x27;s Time&lt;&#x2F;h2&gt;
+&lt;p&gt;After a few hours of easy to a bit less easy combat, I encountered a very strong enemy. I lost. But why? I could not figure out a reason. Maybe I was stupid? But all the enemies before were so darn easy. So it felt like a punishment. Or a &quot;hey we&#x27;re a roguelike-like&quot; message - in case you did not get it.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;a-nemesis-system&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#a-nemesis-system&quot; aria-label=&quot;Anchor link for: a-nemesis-system&quot;&gt;🔗&lt;&#x2F;a&gt;A Nemesis System&lt;&#x2F;h2&gt;
+&lt;p&gt;It has one. I&#x27;m not sure it works. It works well for &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;241930&#x2F;Middleearth_Shadow_of_Mordor&#x2F;&quot;&gt;Shadow of Mordor&lt;&#x2F;a&gt; - but that is really kind of an open world game. You can choose to engage or to ignore your nemesis. And your enemies would climb ranks. However, in Star Renegades - it&#x27;s more of a level up system for them.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;summary&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#summary&quot; aria-label=&quot;Anchor link for: summary&quot;&gt;🔗&lt;&#x2F;a&gt;Summary&lt;&#x2F;h1&gt;
+&lt;p&gt;Don&#x27;t get me wrong, I actually enjoyed playing Star Renegades. I might play it a bit more, it just looks fantastic. Its weakness is the gameplay which swings from too easy to too hard with not much in-between. And they suffer from the &quot;one more feature&quot; syndrome. Less would have definitely be more here.&lt;&#x2F;p&gt;
+&lt;p&gt;What I learned for my game? That I need to reevaluate all &quot;features&quot; later on and drop those that don&#x27;t make the game better.&lt;&#x2F;p&gt;
+&lt;p&gt;Next time, we&#x27;ll be diving into some market analysis!&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>Shogun Showdown Core Mechanics</title>
+          <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/shogun-showdown/</link>
+          <guid>https://www.bytekeeper.org/shogun-showdown/</guid>
+          <description xml:base="https://www.bytekeeper.org/shogun-showdown/">&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;shogun-showdown&#x2F;@unnamed-game&#x2F;index.md&quot;&gt;As promised&lt;&#x2F;a&gt;, in this post, we will take a look at the game &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;2084000&#x2F;Shogun_Showdown&#x2F;&quot;&gt;Shogun Showdown&lt;&#x2F;a&gt;. It is still in early access, but has very good review scores and a sizeable amount too.
+Its Steam page tells it&#x27;s &quot;inspired by great games like Into the Breach, Darkest Dungeon, Crypt of the Necrodancer, Slay the Spire and so much more&quot;. That is similar to the inspirations behind my own game. As my in-development game shares some of these traits, this game certainly is one I need to take a closer look.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;a-quick-detour-my-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#a-quick-detour-my-game&quot; aria-label=&quot;Anchor link for: a-quick-detour-my-game&quot;&gt;🔗&lt;&#x2F;a&gt;A Quick Detour: My Game&lt;&#x2F;h1&gt;
+&lt;p&gt;I&#x27;m on a &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;shogun-showdown&#x2F;@unamed-game&#x2F;index.md&quot;&gt;journey&lt;&#x2F;a&gt; to create and publish a game. The plan is to create a rogue-like with turn based combat, as mentioned just above. To not fumble blindly in game design, I want to check out and review similar games. But, mostly from a mechanics perspective. So let&#x27;s get back to Shogun Showdown...&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;what-is-the-game&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#what-is-the-game&quot; aria-label=&quot;Anchor link for: what-is-the-game&quot;&gt;🔗&lt;&#x2F;a&gt;What is the Game?&lt;&#x2F;h1&gt;
+&lt;p&gt;It&#x27;s a turn-based, rogue-like battler set in a Japanese-inspired setting. It features nice pixel art and a good soundtrack. I have not yet beaten the game, but from my current knowledge it basically has a few scenes:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;a Shop scene&lt;&#x2F;li&gt;
+&lt;li&gt;a Combat scene&lt;&#x2F;li&gt;
+&lt;li&gt;an Upgrade-only scene&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;And while there are some random elements, the combat is pretty much deterministic. Since players will spent most of their time in that scene, let&#x27;s dive deeper:&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;the-combat-scene&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-combat-scene&quot; aria-label=&quot;Anchor link for: the-combat-scene&quot;&gt;🔗&lt;&#x2F;a&gt;The Combat Scene&lt;&#x2F;h1&gt;
+&lt;p&gt;Let&#x27;s start with a look on a typical combat scene:
+&lt;img src=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;shogun-showdown&#x2F;combat_screen.jpg&quot; alt=&quot;Combat&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;As mentioned, there&#x27;s not much randomness going on. The player has a set of actions, they can perform. Most will &quot;end the turn&quot; for the player and the enemies get to act. The game, like mine, tries to take elements from &lt;a href=&quot;https:&#x2F;&#x2F;store.steampowered.com&#x2F;app&#x2F;590380&#x2F;Into_the_Breach&#x2F;&quot;&gt;Into the Breach&lt;&#x2F;a&gt;. Reduced to 1 dimension, they left out units to protect. Its feasible to add those, so they might show up in a future update. The game also uses different &quot;field&quot; sizes, depending on the scenario.&lt;&#x2F;p&gt;
+&lt;p&gt;Also, like in my imagined game, there are no decks. You get actions, and that&#x27;s all you get (mostly). Besides movement, the actions are similar to cards in other games. You can upgrade them, &quot;drawing&quot; is emulated by cool-downs. A very clever idea is the stacking of actions. It allows delaying attacks, unleashing multiple attacks in quick succession, damaging multiple enemies. It&#x27;s neatly embedded, and required to defeat certain game stages.&lt;&#x2F;p&gt;
+&lt;p&gt;Another nice mechanic is the movement of the player and enemies. That includes actions that the player and enemies can use to move multiple tiles. It requires careful planning to avoid taking damage when moving to close to an enemy.&lt;&#x2F;p&gt;
+&lt;p&gt;Enemies behave pretty deterministic and their chosen actions and action executions are at all times visible to the player. As with Into the Breach, this adds a nice puzzle-like feeling to the game: &quot;How can I solve this without taking any or much damage?&quot;&lt;&#x2F;p&gt;
+&lt;p&gt;Sometimes (at least for me) it backfires a bit. Some enemies can attack from afar. If you focussed on close combat your only option is to try to get another enemy in-between. It feels a bit like &quot;iterative deepening&quot;: You make a bit of progress in the game, suddenly an enemy shows up that thwarts your choices. Maybe it&#x27;s still possible to win, and it&#x27;s just my skill (or lack thereof). I did not get that feeling in Into the Breach, it always seemed fair. Alas, it was not in early access, so I&#x27;ll cut Shogun Showdown some slack.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;summarized&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#summarized&quot; aria-label=&quot;Anchor link for: summarized&quot;&gt;🔗&lt;&#x2F;a&gt;Summarized&lt;&#x2F;h2&gt;
+&lt;p&gt;Movement and attack ranges give of a nice &quot;chess&quot;-like feeling. Enemies with no line-of-sight generally will just idle. But the &quot;initiative&quot; (i.e. the order in which units are taking turns) of the enemy is hidden. So, when you manage to get enemies to attack each other (which is a really nice mechanic), you don&#x27;t know which one will attack first.&lt;&#x2F;p&gt;
+&lt;p&gt;The game is pretty forgiving, for a rogue-like. Health flasks and other consumables help, when a bad choice makes for a dire situation.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;compared-to-my-game-idea&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#compared-to-my-game-idea&quot; aria-label=&quot;Anchor link for: compared-to-my-game-idea&quot;&gt;🔗&lt;&#x2F;a&gt;Compared to My Game Idea&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;stacks-vs-board&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#stacks-vs-board&quot; aria-label=&quot;Anchor link for: stacks-vs-board&quot;&gt;🔗&lt;&#x2F;a&gt;Stacks vs Board&lt;&#x2F;h3&gt;
+&lt;p&gt;The stacks in my prototype are similar to the one dimensional &quot;board&quot; in this game. This choice naturally leads to a reduced set of actions. The player can not attack any random enemy, but will have to select one of a few viable targets. Same for the enemies, many just can&#x27;t target the player due to other units being in the way. Its more natural than the stacks in my prototype, which allow targeting the top ship only, most of the time.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;damage-management&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#damage-management&quot; aria-label=&quot;Anchor link for: damage-management&quot;&gt;🔗&lt;&#x2F;a&gt;Damage Management&lt;&#x2F;h3&gt;
+&lt;p&gt;
+&lt;img src=&quot;damage-management.png&quot; style=&quot;width: 100%&quot; alt=&quot;A real artist&quot;&#x2F;&gt;
+
+
+Another thing is the damage management. Its basically the core of Into the Breach, and also of Shogun Showdown. My prototype does things differently. You can almost never avoid taking damage. Instead, something that fits the lore of a science fiction game, I added shields. Shields get replenished fully at the start of each combat. Since damage cannot be avoided, the goal is to distribute the damage across all player ships to avoid actual hull damage.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;movement&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#movement&quot; aria-label=&quot;Anchor link for: movement&quot;&gt;🔗&lt;&#x2F;a&gt;Movement&lt;&#x2F;h3&gt;
+&lt;p&gt;
+&lt;img src=&quot;movement.png&quot; style=&quot;width: 100%&quot; alt=&quot;Shake it&quot;&#x2F;&gt;
+
+
+There is no actual movement per se in my game idea. Actions will usually put a ship to the bottom of the stack. Some can actions allow changing the player stack. Some modify the enemy stack. This differs a lot from Into the Breach and Shogun Showdown. In both games the player can actively move unit(s). For Shogun Showdown, this means an actual turn. For Into the Breach, the player still can perform an action. Not diving into this too much for now, it essentially means I might need to re-design movement in my game.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;the-other-scenes&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#the-other-scenes&quot; aria-label=&quot;Anchor link for: the-other-scenes&quot;&gt;🔗&lt;&#x2F;a&gt;The Other Scenes&lt;&#x2F;h1&gt;
+&lt;p&gt;There are shopping, upgrade and path selection scenes. The least important seems to be the path selection one. It has not struck me as very important on what benefits selecting different paths might have. I guess one could just remove it and tell a linear tale, for now.&lt;&#x2F;p&gt;
+&lt;p&gt;Upgrading seems kinda important, but most of the time its &quot;you gain some you lose some&quot;. Even upgrades that cost &quot;money&quot; are sometimes not game-changers. I should play a bit more (almost certainly not because its a fun game) to check this further.&lt;&#x2F;p&gt;
+&lt;p&gt;Shopping... I mean, it allows adding more tiles and has actions and such. But it feels a bit superfluous. I&#x27;m also pretty sure the sense of &quot;puzzle combat&quot; will be gone once I have a lot of actions available. Into the Breach managed to get superb gameplay by having about 6-8 actions (besides moving around) in a whole session.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;verdict&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#verdict&quot; aria-label=&quot;Anchor link for: verdict&quot;&gt;🔗&lt;&#x2F;a&gt;Verdict&lt;&#x2F;h1&gt;
+&lt;p&gt;Its a fun game. Combat feels nice for the most part and when I am surprised, its mostly through my own lack of planning. There&#x27;s no observable narrative, the setting is very cool - the game really needs one. The world map serves no other purpose than to click a random next location. Upgrading and shopping seems a bit superfluous. BUT - this is an Early Access game. The actual combat is so much fun, I am pretty sure the devs can improve the other aspects. It could stand right there, next to Into the Breach - with some work.&lt;&#x2F;p&gt;
+&lt;p&gt;For my journey, it shows some the flaws in my game design I need to address. Its such a wonderful time in which I can validate ideas also by looking at what other people did. Not that this approach did not work many years ago, but the amount of good quality (and bad quality) games is huge. Thanks for reading - next time I will write about my prototype again. Stay tuned.&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

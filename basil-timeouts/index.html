@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>Slow bots on Basil - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">Slow bots on Basil</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>2 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2020-01-13
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/basil/">basil</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p>If you haven't yet, check out <a href="https://basil.bytekeeper.org/">BASIL</a>. It's a 24/7 Starcraft league, but for bots!
+It usually runs fine nowadays. But sometimes an external hiccup occurs. One of those is the problem of detecting who to blame if a game times out.
+It works fine if the game ends with the in-game timeout of 60min, since the <a href="https://github.com/basil-ladder/sc-tm">Tournament Module</a> BASIL uses
+will make both bots leave and select the winner based on the score (That might be unfair, but that's a topic for another post).</p>
+<p>But if a game gets killed because it took to long (wall-clock time), what then? There are no scores, no replays - nothing essentially.
+Besides a bot just hanging, most bots just take their time. So I wanted to penalize the slower bot in that case. This looked like a good idea back
+in the beginning. For <code>dll</code> bots this works fine, but for <code>client</code> bots, it didn't work up until <a href="https://github.com/bwapi/bwapi/commit/4a984290cf6aa6f05ebcbdcd4a094ffceb57f6e9">BWAPI 4.4</a>.</p>
+<p>As of today that means that games timing out in that fashion will not be counted. One could abuse this by timing out intentionally for imminent losses.
+I don't expect this to happen, the bot community is generally competitive, but also friendly and fair. (Totally unrelated: I can actually disable bots permanently)</p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/basil/">basil</a>
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/basil-timeouts/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>The Yet to be Named Game - Continued - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">The Yet to be Named Game - Continued</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>7 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2023-11-25
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p>In the <a href="https://www.bytekeeper.org/unnamed-game-2/@unnamed-game/index.md">last</a> post, I showed some of the goals I want to achieve with my game. Including some early screen shots. I decided to replace the AI generated ships with some procedural generated ships - lets have a look:</p>
+
+<img src="procedural-ships.png" style="width: 100%" />
+
+<p>While not exactly beautiful, and not even in the style I want the game to be - it's a better placeholder. It should not agitate people as much, as AI generated art would.</p>
+<p>Other than that, due to me being sick all week - not much changed. I made some small progress on the "star travelling map" (fancy), were a player can choose their path through the game.</p>
+<p>So instead of game design, this time we'll take a look at a technical aspect.</p>
+<h1 id="what-engine-am-i-using"><a class="zola-anchor" href="#what-engine-am-i-using" aria-label="Anchor link for: what-engine-am-i-using">🔗</a>What Engine am I using</h1>
+<p><a href="https://bevyengine.org/">Bevy</a>. Wait... I said wait!</p>
+<p>I know its in <a href="https://www.rust-lang.org/">Rust</a> and I understand that is a hype topic. It is my current language of choice, and while Bevy might be far from complete, doing a prototype in it should be fine.</p>
+<p>That inevitably means one thing: I am using an Entity Component System (<a href="https://en.wikipedia.org/wiki/Entity_component_system">ECS</a>). And this is a turn based game.</p>
+<h1 id="how-to-design-entities-and-systems-for-a-turn-based-game"><a class="zola-anchor" href="#how-to-design-entities-and-systems-for-a-turn-based-game" aria-label="Anchor link for: how-to-design-entities-and-systems-for-a-turn-based-game">🔗</a>How to Design Entities and Systems for a Turn Based Game</h1>
+<p>It might not be obvious, but real-time games are far easier to do with ECS. System could be executed slightly out of order, or not at all for some frames. It's not something that a player will notice, or at least care much. If an enemy dies one frame too late it can always be excused. Visible glitches like projectiles passing through enemies are a lot more noticeable, so you're not free to ignore the effects.</p>
+<p>In turn based games however, things get dicier. Systems running out of order are immediately apparent.</p>
+<p>Attacking an enemy which stands around with 0 health until the next turn? No-go.</p>
+<p>Ordering an attack move and the game first attacks and then moves? Not good.</p>
+<p>Another problem: Usually all systems run every frame. You cannot design systems that run once per turn. At least, not as easy. While I do have some experience in turn based games <em>and</em> in ECS games, I did not do both at the same time yet. Turns out, the real question to ask is</p>
+<h2 id="what-is-a-turn"><a class="zola-anchor" href="#what-is-a-turn" aria-label="Anchor link for: what-is-a-turn">🔗</a>What is a Turn?</h2>
+<p>In chess its after you moved your piece. In a game like <a href="https://store.steampowered.com/app/646570/Slay_the_Spire/">Slay the Spire</a> its when you hit that <em>end turn</em> button.</p>
+<p>But how should systems react to that? In real-time games its pretty easy: You assign the player input to some component and some system will use that and manipulate other components. You can do that in a turn-based game too. For example have a <code>Attack</code> component that has the <code>target</code> and the <code>weapon</code> in it. And once the system handling that is done, remove or clear that component. Oh, why do you get that strange feeling of "wrongness"?</p>
+<h2 id="how-to-handle-input"><a class="zola-anchor" href="#how-to-handle-input" aria-label="Anchor link for: how-to-handle-input">🔗</a>How to Handle Input</h2>
+<p>I cannot tell for you, but I can tell for me: Components are there to capture the state of the application/game. But attacking in a turn based game is not a state change itself. The state of the game should reflect the action, but not necessarily contain the action as part of the state. (Of course there are exceptions to that rule, this is just the general advice of avoiding littering your entities with input components)</p>
+
+<img src="trigger-vs-state.png" style="width: 100%" alt="That is why your mouse button has that depression"/>
+
+<p><code>Events</code> (or Signals) are part of most ECS'. And a good fit for the discrete nature of input in a turn based game. You would not want to use it for real-time games mostly. For example, pulling the trigger to fire non-stop in an action game does not lend itself well for events. The player holding the trigger is <em>part</em> of the state of the game. On the other hand, the player pressing <code>jump</code> should only be part of a component, if they can vary the height of the jump by pressing longer or shorter. If not, an event will most likely suffice.</p>
+<h2 id="ecs-systems"><a class="zola-anchor" href="#ecs-systems" aria-label="Anchor link for: ecs-systems">🔗</a>ECS Systems</h2>
+<p>Now for my game that means, every system can run continuously (and if I wasn't a pedantic, even ignore the order partially - one frame more or less won't hurt). Most will only do something if they receive an event. This helped also in determining the solution for another problem: When should the AI execute its turn?</p>
+<h3 id="the-ai-s-turn"><a class="zola-anchor" href="#the-ai-s-turn" aria-label="Anchor link for: the-ai-s-turn">🔗</a>The AI's Turn</h3>
+<p>There's not much of an AI in the game. Still, it has to perform its turn execution at some point. Previously it executed immediately after the player did. That is a problem. For the player, it looks as if the AI did nothing - because all units just "jumped" and were done.</p>
+<p>So I added a hacky <code>ai_can_move</code> field that was read and modified by multiple systems. That way I could animate the player action, wait a short moment and execute the AI actions. It works, but it was not nice having that flag and the toggling logic.</p>
+<p>What I really wanted ... and "now its ok for the AI to execute its moves" event. Far simpler than the flag.</p>
+<h2 id="game-model-components-and-visual-components"><a class="zola-anchor" href="#game-model-components-and-visual-components" aria-label="Anchor link for: game-model-components-and-visual-components">🔗</a>Game "Model Components" and "Visual Components"</h2>
+<p>With that all "solved" for now, I still had to figure out how to represent all the entities. I wanted the game to work without any graphics. So I created a "game model", based on entities. They would just contain the components required to run the turn based systems. Systems that rendered things should use their own entities and keep them in sync with the model entities.</p>
+<p>And I immediately ignored that and added Sprite components to model entities (in a system outside of the core game systems mind you). This made implementing the prototype faster, but I would have to refactor the code to have a separation later.</p>
+<p>But I noticed, even for my game - that was not true. At least not completely. As long as I would not touch model components in other parts of my game - I could add and remove any components I liked. Same for the other way around, model systems should not touch other components. With one exception, model systems are allowed to remove entities, and therefore delete components of other systems. Removing an entity should therefore be accompanied by an event, so other systems can react. This does not have to be explicit, Bevy for example sends a <code>RemovedComponent</code> event. But if you need more data, a custom event would be the choice.</p>
+<h2 id="how-to-handle-mixing-visual-and-game-logic-components"><a class="zola-anchor" href="#how-to-handle-mixing-visual-and-game-logic-components" aria-label="Anchor link for: how-to-handle-mixing-visual-and-game-logic-components">🔗</a>How to Handle Mixing Visual and Game Logic Components</h2>
+<p>This is, of course, dangerous to some degree. If you are careless, this might leave core game components in a desolate state. But it saves time and performs (not really important here) better. So lets summarize the rules to make it work:</p>
+<ul>
+<li>Only core game logic systems may modify game logic components.</li>
+<li>Only core game logic systems may remove game logic entities. They should send events in that case.</li>
+<li>Non core game logic systems may add and modify their components to game logic entities. They must also ensure to clean up after themselves by removing components when systems go out of scope.</li>
+<li>Non core game logic systems must handle entities suddenly disappearing and appearing.</li>
+</ul>
+
+<img src="data-model.png" style="width: 100%" />
+
+<h1 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion">🔗</a>Conclusion</h1>
+<p>This time we have taken a look at how to design entities to work for the core game and one or more scenes. Events are a key element to keep things simpler and loosely coupled. ECS obviously is not the one-size-fits-all solution, but with some thinking the shoe fits quite good.</p>
+<p>I played some <a href="https://store.steampowered.com/app/2084000/Shogun_Showdown/">Shogun Showdown</a> (purely for research purposes of course). I did promise to do a review of another game, but that will have to wait. So next time, really: A review of shogun showdown, from a core mechanics point of view.</p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a>
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/unnamed-game-2/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>

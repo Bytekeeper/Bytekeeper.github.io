@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>The Yet to be Named Game - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">The Yet to be Named Game</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>6 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2023-11-16
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p><a href="https://www.bytekeeper.org/unnamed-game/@game-dev-process/index.md">Previously</a> we took a birds eye view on the topic of the game development process.
+Or, to be more precise, the model in my mind. I plan on refining and correcting it as I go and learn.</p>
+<h2 id="current-state-of-my-game"><a class="zola-anchor" href="#current-state-of-my-game" aria-label="Anchor link for: current-state-of-my-game">🔗</a>Current State of My Game</h2>
+<p>I can actually show a screenshot of my prototype:
+
+<img src="prototype-screenshot.png" style="width: 100%" alt="Not much to see yet"/>
+
+
+It contains a background I made and some ships an AI model created (for the prototype only, I will create or commission the real art). To the left are the player ships, to the right the enemy ships (I did not even bother to make the "look" toward the player ships).</p>
+<h3 id="game-of-stacks"><a class="zola-anchor" href="#game-of-stacks" aria-label="Anchor link for: game-of-stacks">🔗</a>Game of Stacks</h3>
+<p>What is shown above contains the basic idea of the game:</p>
+<ul>
+<li>You and the enemy have a stack of ships.</li>
+<li>Either "player" can only perform actions with the ship on top</li>
+<li>Actions generally evolve around stack manipulation</li>
+<li>Actions doing damage will do so only to the top enemy ship for the most part
+I intend to not change these, if possible.</li>
+</ul>
+<p>Things that are not set in stone, but shown above:</p>
+<ul>
+<li>The action the enemy ship "would" take if it was on top. The reason it shows up for all enemies is that a player action could move an enemy to the top.</li>
+<li>Health <em>and</em> shield. Not only does it work for a sci-fi setting, it adds a tactical layer - shields will be replenished at the start of combat.</li>
+</ul>
+<p>Here are the current actions of the top ship (it is taking the role of a "tank" in classical RPG terms):</p>
+<p><img src="https://www.bytekeeper.org/unnamed-game/actions.png" alt="Example Actions" /></p>
+<p>Lets take a look at the actions (keep in mind this is a very early prototype and things can and will change here):</p>
+<ul>
+<li><strong>Skip</strong>: all ships can do this, reasons for using it: Ship is on cooldown, all relevant actions are on cooldown, or the player wants to avoid cooldown. It will just move the ship to the bottom of the stack, ending the players turn.</li>
+<li><strong>Relinquish</strong>: The ship will move down one spot in the stack, the new top ship will immediately be ready for action. This allows the player to perform an action of another ship. This will mostly move the original ship back up on the top, which will take the response (its the tank after all).</li>
+<li><strong>Taunt</strong>: The enemy ship will take some small damage and the current ship will not be moved away. This allows the player to letting the current ship take a hit that would otherwise target the next player ship.</li>
+<li><strong>Attack</strong>: A light attack, after which the ship will move to the bottom of the stack. This is one of the simpler damage dealing actions, with a predictable stack positioning.</li>
+</ul>
+<p>As you might have guessed, predicting the position of enemy and player ships is required to make effective use of the players fleet. In my last post I commented on the inspiration for the game. Funnily enough, its main source is <a href="https://store.steampowered.com/app/590380/Into_the_Breach/">Into the Breach</a> and not <a href="https://store.steampowered.com/app/646570/Slay_the_Spire/">Slay the Spire</a>. But it differs a lot:</p>
+<ul>
+<li>The obvious difference is, its not played on a grid.</li>
+<li>And the player doesn't get to freely move around ships in the stack.</li>
+<li>Its also hard to avoid taking damage.</li>
+</ul>
+<p>Some of these limit the choice a player has each turn. One thing I try to compensate that is the addition of shields. The amount of health and shields is still very low, I want to make each turn as decisive as possible. It wouldn't work if players and enemies would have at it for hours.</p>
+<h3 id="challenges"><a class="zola-anchor" href="#challenges" aria-label="Anchor link for: challenges">🔗</a>Challenges</h3>
+<p>Besides using <a href="https://bevyengine.org/">bevy</a>, which might be a questionable decision - creating a turn based game in real-time engine poses some challenges.
+Since systems run all the time, they need to "not do anything" as long as neither the player, nor the AI makes moves. There's also the problem that AI actions should be delayed - or appear delayed to avoid confusing the player.</p>
+<p>But the harder challenge was and is making the core mechanics "fun". I am a firm believer of "less is more" - so I am trying to add as little as possible at a time to test if I can improve the prototype. It kind of boils down towards the target audience, which in turn is also determined by the number of choices a player has at each "turn" when "playing" something:
+
+<img src="player-choice.png" style="width: 100%" alt="Object might appear larger than they are"/>
+
+</p>
+<p>Obviously this plot has no indication of "fun" in it. There's always a "player" having fun at any point. Depending on the person, almost everything on that plot might "fit" at some point.</p>
+<p><em>Why did I show it?</em>
+All human interaction can be placed somewhere on there. To the left your influence is miniscule (only few people can influence book authors). To the right your choice is abundant. Think hiking. For games it has additional consequences: To the left you will basically make an interactive movie. That means extremely high production value or an artistic product. To the right its also very high production value. Or so flexible it's almost a content creation tool. <a href="https://www.factorio.com/">Factorio</a>, <a href="https://www.minecraft.net/">Minecraft</a>, ...</p>
+<p>I want my game to be in the middle. Enough choice to make every decision count. Not so extremely limited that the game is pretty much deterministic. Games tend to look simpler there, but the mechanics are polished to death. It will be tough and I expect the game to suck, but me a huge learning experience.</p>
+<h3 id="short-term-goals"><a class="zola-anchor" href="#short-term-goals" aria-label="Anchor link for: short-term-goals">🔗</a>Short-Term Goals</h3>
+<p>Tweaking the core mechanics. Implementing the "paths" a player can take. Adding environmental effects, like a solar flares of a local star damaging shields of all ships. Adding energy that can be used to upgrade ships. And repair cores to heal ships after combat.</p>
+<p>And in-between that: Testing testing testing, finding people who will play-test such an early prototype.</p>
+<h3 id="long-term-vision"><a class="zola-anchor" href="#long-term-vision" aria-label="Anchor link for: long-term-vision">🔗</a>Long-Term Vision</h3>
+<p>I do have a nice narrative, and hope to add it in the game without boring players. I also would like to add side-quests, that can force players to take certain paths but will give rewards. For example, taking a friendly ship along and bring it to some destination.</p>
+<h3 id="outlook"><a class="zola-anchor" href="#outlook" aria-label="Anchor link for: outlook">🔗</a>Outlook</h3>
+<p>I hope to have the core mechanics basics done in time for the next update. I also want to do some reviews of similar games I played to get inspiration. The reviews will be focussed on the core mechanics mostly. I'll start with <a href="https://store.steampowered.com/app/651670/Star_Renegades/">Star Renegades</a>.</p>
+<p>Feel free to suggest topics you want me to dive into. I'll do so even when I have no clue what I am talking about, I'll just fake it. Seems to work well enough.</p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a>
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/unnamed-game/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>

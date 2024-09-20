@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>4X Game Loop - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">4X Game Loop</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>5 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2022-08-05
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p>I think I don't really need to explain what a 4X game is, maybe not even what the 4X stand for.
+But, I'll do it anyway - the gameplay loop of a typical 4X game is:
+
+<figure style="margin: 0; line-height: 1em; font-size: 0.9em">
+
+<img src="4x_game.dot.png" style="width: 100%" alt="The 4 Xs"/>
+
+<figcaption>A loop of loops - that is 4X</figcaption>
+</figure>
+
+</p>
+<ul>
+<li>eXplore</li>
+<li>eXpand</li>
+<li>eXploit</li>
+<li>eXterminate</li>
+</ul>
+<p>Much of the fun of this simple formula comes from the fact that none of those factors stands on its own.
+You usually cannot expand without exploring first. Sometimes to expand by exterminating an enemy at a location first.
+What is there to exploit, if you did not expand before?
+And how will you exterminate, if you lack the resources you ought to have exploited first.</p>
+<p>Let's dive deeper into the <del>abyss</del> parts of such a game:</p>
+<h2 id="exploration"><a class="zola-anchor" href="#exploration" aria-label="Anchor link for: exploration">🔗</a>Exploration</h2>
+<p>The most basic approach is sending out scouts. An alternative would be spying.
+Maybe diplomacy uncovers some secrets as well.</p>
+<p>Keywords:</p>
+<ul>
+<li>Scouts</li>
+<li>Diplomacy</li>
+<li>Special events</li>
+<li>Spies</li>
+<li>Racial abilities</li>
+<li>Tech abilities</li>
+</ul>
+<h2 id="expansion"><a class="zola-anchor" href="#expansion" aria-label="Anchor link for: expansion">🔗</a>Expansion</h2>
+<p>Again, there's the direct way of sending a colony ship (settler). Alternatively you can take over an enemy colony.
+A random encounter could grant you a new colony.</p>
+<p>Keywords:</p>
+<ul>
+<li>Colony ships</li>
+<li>Outposts</li>
+<li>Diplomacy</li>
+</ul>
+<h2 id="exploitation"><a class="zola-anchor" href="#exploitation" aria-label="Anchor link for: exploitation">🔗</a>Exploitation</h2>
+<p>Pumping up the population. Building factories. Gather food. There could be a lot of resources to be gathered.
+Also things like research are part of this.
+There are also hidden resources. A large army could incline neighbours for that large tribute.</p>
+<p>Keywords:</p>
+<ul>
+<li>Research</li>
+<li>Mining</li>
+<li>Taxation</li>
+<li>Diplomacy</li>
+<li>Spies</li>
+<li>Production</li>
+</ul>
+<h2 id="extermination"><a class="zola-anchor" href="#extermination" aria-label="Anchor link for: extermination">🔗</a>Extermination</h2>
+<p>Send your force and crush your foes. Or let your spies sabotage the heck out of them. Or let some allies or vassals handle it.</p>
+<p>Keywords:</p>
+<ul>
+<li>Battle ships</li>
+<li>Planetary defense</li>
+<li>Spies</li>
+<li>Diplomacy</li>
+</ul>
+<h1 id="design-for-my-game"><a class="zola-anchor" href="#design-for-my-game" aria-label="Anchor link for: design-for-my-game">🔗</a>Design for my Game</h1>
+<p>I planned on covering all topics above, but that is basically to large for a single post.
+In the last post I covered a few basics of research.
+I will try a breadth-first approach in design and switch to another topic.</p>
+<p>Let's tackle...</p>
+<h2 id="exploration-1"><a class="zola-anchor" href="#exploration-1" aria-label="Anchor link for: exploration-1">🔗</a>Exploration</h2>
+<p>The basis for almost all games here is using some sort of scout.
+It would not make sense to change that, it is pretty much what players expect to find.</p>
+<p>But, what is a scout? A special ship (surveyor anyone)? A player designed ship?
+Pre-designed units have a large benefit: They can be balanced pretty well.
+The player chooses which ship to build, but not what it is composed of.</p>
+<p>Player designed ships are way more interesting in concept.
+In practice, it boils down to a few ships with a specific purpose (like scouting).
+Remnants of the Precursors for example allows only a few designs, which emphasizes that.</p>
+<h3 id="ship-design"><a class="zola-anchor" href="#ship-design" aria-label="Anchor link for: ship-design">🔗</a>Ship Design</h3>
+<p>I do think, limiting the number of designs is good idea.
+But for the actual design of a ship I have another idea. As usual, ships are composed of different modules.
+Each module modifies some attributes of a ship:</p>
+<table><thead><tr><th>Attribute</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Cost</td><td>Makes your ship more expensive (but shiny and pretty as well)</td></tr>
+<tr><td>Space</td><td>Most modules take up some precious space on a ship, but some can extend it</td></tr>
+<tr><td>Range Bonus</td><td>Increases/Decreases the range a ship can distance itself to the nearest colony</td></tr>
+<tr><td>Interstellar Speed Bonus</td><td>Increases/Decreases speed for long range travel</td></tr>
+<tr><td>Interstellar Stealth Bonus</td><td>Makes ships more/less detectable while in flight</td></tr>
+<tr><td>Hit point Bonus</td><td>Increases/Decreases the hull of a ship to take more of a punch</td></tr>
+<tr><td>Shield Bonus</td><td>Similar to hit points, but weak against energy weapons - strong against physical weapons</td></tr>
+<tr><td>Combat Speed Bonus</td><td>Increases/Decreases speed for combat</td></tr>
+<tr><td>Combat Repair</td><td>Repairs ships by a small amount each combat turn</td></tr>
+<tr><td>Particle Damage</td><td>Adds particle beams with some strength as combat and point defense weapons</td></tr>
+<tr><td>Projectile Damage</td><td>Adds projectile weapons with some strength as combat weapon</td></tr>
+<tr><td>Missile Damage</td><td>Adds missiles with some strength as combat weapons</td></tr>
+<tr><td>Combat Stealth</td><td>Makes ships harder to hit or easier to hit in combat</td></tr>
+<tr><td>Colonists</td><td>This allows a ship to colonize an empty planet</td></tr>
+</tbody></table>
+<p>A ship, by itself is just a hull. The collection of modules selected will determine its purpose.
+But, there's no free lunch. All modules will be balanced, one way or another.</p>
+<p>For example, a missile launcher weapon will most likely take up a lot of space and will not be cheap.
+A particle beam weapon on the other hand could be smaller and cheaper.
+But at the cost of reduced combat stealth, and a weakness in damaging the hull of enemy ships.</p>
+<p>Once again this reminds of RPG attributes on items:
+<img src="https://www.bytekeeper.org/game-loop/Simple%20Weapon.png" alt="Simple Weapon" title="Impressive" /></p>
+<p>That is intentional.</p>
+<p>I really want to enforce that ships are good at some things and bad at others.
+Otherwise you will end up with the typical "high tech jack of all trades" ships.
+Also, the number of designs should be limited, as with <a href="https://rayfowler.itch.io/remnants-of-the-precursors">ROTP</a>.
+I would like the player to see each design as a "character". Although with some serious multiple personality disorder.</p>
+<p>So modifying a design should be possible. What happens with the existing ships?
+They could keep their original design. But then, the game could just have unlimited designs.
+They could be scrapped. They could be retrofitted. Or something in-between.</p>
+<p>No code was <del>harmed</del> written for this post. As mentioned before, I already have a small code base.
+But exploring (no pun intended) the design space is more of an issue for now.
+So next time we take a look at <em>Expanding</em>.</p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a>
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/game-loop/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>

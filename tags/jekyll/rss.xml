@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title> - jekyll</title>
+      <link>https://www.bytekeeper.org</link>
+      <description></description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://www.bytekeeper.org/tags/jekyll/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Sat, 25 Jan 2020 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Comments for static pages? - Part 2</title>
+          <pubDate>Sat, 25 Jan 2020 00:00:00 +0000</pubDate>
+          <author>Unknown</author>
+          <link>https://www.bytekeeper.org/comments-part-2/</link>
+          <guid>https://www.bytekeeper.org/comments-part-2/</guid>
+          <description xml:base="https://www.bytekeeper.org/comments-part-2/">&lt;p&gt;Looking &lt;a href=&quot;https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;comments-part-2&#x2F;@comments-on-jekyll&#x2F;index.md&quot;&gt;back&lt;&#x2F;a&gt;... I need a bit of DIY GitHub API for Rust.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;still-step-2-create-a-branch-and-pr-automatically&quot;&gt;&lt;a class=&quot;zola-anchor&quot; href=&quot;#still-step-2-create-a-branch-and-pr-automatically&quot; aria-label=&quot;Anchor link for: still-step-2-create-a-branch-and-pr-automatically&quot;&gt;🔗&lt;&#x2F;a&gt;Still step 2: Create a branch and PR automatically&lt;&#x2F;h2&gt;
+&lt;p&gt;Thankfully, the &lt;a href=&quot;https:&#x2F;&#x2F;developer.github.com&#x2F;v3&#x2F;&quot;&gt;V3 API&lt;&#x2F;a&gt; is really simple.&lt;&#x2F;p&gt;
+&lt;p&gt;Using our tRusty language, we can define some structs to be serialized to JSON for requests:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;CreateRef &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    r#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;ref&lt;&#x2F;span&gt;&lt;span&gt;: String, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The name to be used
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;sha&lt;&#x2F;span&gt;&lt;span&gt;: String,   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The commit SHA to point to
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;CreateFile &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;content&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;branch&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;committer&lt;&#x2F;span&gt;&lt;span&gt;: UserRef,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;UserRef &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;email&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;CreatePR &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;title&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;head&lt;&#x2F;span&gt;&lt;span&gt;: String,   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The branch to be merged
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;base&lt;&#x2F;span&gt;&lt;span&gt;: String,   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#586e75;&quot;&gt;&#x2F;&#x2F; The target branch for the merge (ie. master)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The basic steps we want to do are described by these:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a branch, using &lt;code&gt;CreateRef&lt;&#x2F;code&gt;. Git uses refs for things that &quot;have&quot; commits. A branch is just that!&lt;&#x2F;li&gt;
+&lt;li&gt;Create a file on the branch with &lt;code&gt;CreateFile&lt;&#x2F;code&gt;. &lt;code&gt;UserRef&lt;&#x2F;code&gt; will be used as committer (me in this case).&lt;&#x2F;li&gt;
+&lt;li&gt;The last step is to create a PR with &lt;code&gt;CreatePR&lt;&#x2F;code&gt;  (quelle surprise), to merge the branch back.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The file we want to create has to be converted to base64 to be used by &lt;code&gt;CreateFile&lt;&#x2F;code&gt;. The content itself should be YAML and contain this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;derive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;Serialize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;Comment &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;id&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    r#&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;ref&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;message&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;url&lt;&#x2F;span&gt;&lt;span&gt;: String,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;date&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;u64&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Luckily &lt;a href=&quot;https:&#x2F;&#x2F;serde.rs&#x2F;&quot;&gt;serde&lt;&#x2F;a&gt; comes to our rescue once again and happily creates a serializer to yaml here.
+Another helpful small library provides base64 encoding. The result is this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; file &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt; CreateFile &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    message: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;Comment&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    content: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;encode&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;serde_yaml::to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;comment&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;())&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    branch: branch_name.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    committer: UserRef &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        name: owner.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;        email: owner_email.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The requests itself look quite similar. As an example, here&#x27;s the &lt;code&gt;CreateFile&lt;&#x2F;code&gt; one:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#002b36;color:#839496;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b58900;&quot;&gt;create_file&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;client&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;reqwest::blocking::Client,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;owner&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;repo&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;path&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;create_file&lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;&amp;amp;&lt;&#x2F;span&gt;&lt;span&gt;CreateFile,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;) &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; reqwest::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;Result&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;reqwest::blocking::Response&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#268bd2;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; url &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;= &lt;&#x2F;span&gt;&lt;span&gt;url::Url::parse&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;format!&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;https:&#x2F;&#x2F;api.github.com&#x2F;repos&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#2aa198;&quot;&gt;&#x2F;contents&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#cb4b16;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;            owner, repo, path
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;as_str&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    client.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;put&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;url&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;json&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;create_file&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#859900;&quot;&gt;send&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#657b83;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;No, &lt;code&gt;reqwest&lt;&#x2F;code&gt; is not a typo! It&#x27;s actually a &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;seanmonstar&#x2F;reqwest&quot;&gt;popular library&lt;&#x2F;a&gt; (I don&#x27;t mean the javascript one).
+I don&#x27;t really need non-blocking I&#x2F;O here, so the &lt;code&gt;blocking&lt;&#x2F;code&gt; client is put to good use.&lt;&#x2F;p&gt;
+&lt;p&gt;The whole Rust project can be found &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Bytekeeper&#x2F;github_comment_rs&quot;&gt;in my GitHub repo&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;I tried to solve this &quot;problem&quot; with some constraints:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;It should be inexpensive&lt;&#x2F;li&gt;
+&lt;li&gt;It should respect the privacy of my readers&lt;&#x2F;li&gt;
+&lt;li&gt;It should be simple enough to fix or port&lt;&#x2F;li&gt;
+&lt;li&gt;It should not depend too much on third parties&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Using GitHub for the blog and for comments is very inexpensive. I use no third party commentary service, as such the privacy is protected as much as is possible here.
+The HTML part is very simple and only depends on &lt;a href=&quot;https:&#x2F;&#x2F;jekyllrb.com&#x2F;&quot;&gt;Jekyll&lt;&#x2F;a&gt;. The Rust part is also simple and fits in less than 300 lines of code of Rust.&lt;&#x2F;p&gt;
+&lt;p&gt;Success ✓&lt;&#x2F;p&gt;
+&lt;p&gt;If you have any comments, please leave them down below - since you are actually able to do so now!&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

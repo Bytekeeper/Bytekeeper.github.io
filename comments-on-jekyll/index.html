@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>Comments for static pages? - Part 1 - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">Comments for static pages? - Part 1</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>4 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2020-01-21
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/tech/">tech</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p><a href="/">This</a> is actually a static page hosted by <a href="https://www.github.com/">GitHub</a>, powered by <a href="https://jekyllrb.com/">Jekyll</a>.
+But how to get a comment section?</p>
+<h1 id="give-me-comments"><a class="zola-anchor" href="#give-me-comments" aria-label="Anchor link for: give-me-comments">🔗</a>Give Me Comments</h1>
+<p>Weeeelll....
+You could use a service like Disqus.</p>
+<p>Or, you use the idea from <a href="https://damieng.com/blog/2018/05/28/wordpress-to-jekyll-comments">damieng</a>.</p>
+<p>Jekyll has a neat feature: you can place data files under <code>_data</code> and access in Liquid templates.</p>
+<p>And that's more or less the starting point. Add comments as data and render them via Jekyll (utilizing Liquid).</p>
+<p>Using the folder <code>_data/comments/{slug}/</code> to place comment files in. (<code>slug</code> being the "slugified" post name.)
+The actual files can be in a few formats, but I used yaml.
+Here is an example comment:</p>
+<pre data-lang="yaml" style="background-color:#002b36;color:#839496;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span>---
+</span><span style="color:#268bd2;">id</span><span>: </span><span style="color:#6c71c4;">1579711318_617889634
+</span><span style="color:#268bd2;">ref</span><span>: </span><span style="color:#2aa198;">basil-timeouts
+</span><span style="color:#268bd2;">message</span><span>: </span><span style="color:#2aa198;">Testing comments
+</span><span style="color:#268bd2;">name</span><span>: </span><span style="color:#2aa198;">Bytekeeper
+</span><span style="color:#268bd2;">url</span><span>: &quot;&quot;
+</span><span style="color:#268bd2;">date</span><span>: </span><span style="color:#6c71c4;">1579711318
+</span></code></pre>
+<p><code>id</code> is the id of the comment <em>and</em> the base name of the file: <code>1579711318_617889634.yml</code>.
+<code>ref</code> is a reference for what the comment was for. Ie. a slug or the id of another comment (not yet working here).
+<code>message</code> is too complicated to explain... really. So is <code>name</code>. <code>url</code> is the website a user gave and will be used to render the commenter's name as a link to the site.
+<code>date</code> a simple timestamp and, as you might have noticed, part of the <code>id</code>.</p>
+<p>But having the comments stored as data will not be enough, unless I can convince people to check out the GitHub repo for comments.</p>
+<h1 id="render-me-comments"><a class="zola-anchor" href="#render-me-comments" aria-label="Anchor link for: render-me-comments">🔗</a>Render Me Comments</h1>
+<p>This one will be quick.
+I use a modified version of <a href="https://github.com/damieng/jekyll-blog-comments/tree/master/jekyll/_includes">damieng's _includes</a>.
+Since I modified the structure a bit I had to adapt it. I also changed the layout bit, the final version can be seen down here (unless it does not work in which case: bummer).</p>
+<p>For now they look ok but will certainly need more fine-tuning, especially once it's possible to reply to individual comments as well.</p>
+<p>Storage place for comments ✓</p>
+<p>Rendering comments ✓</p>
+<p>Adding comments: ❌</p>
+<h1 id="add-me-commentse"><a class="zola-anchor" href="#add-me-commentse" aria-label="Anchor link for: add-me-commentse">🔗</a>Add Me Commentse</h1>
+<p>This could be as simple as people wanting to comment grabbing a fork of my repository and adding a comment file in data and creating a PR for it.
+I'm pretty sure this avoids all comment spamming bots and requires almost no moderation.</p>
+<p>You don't want to fork? Ok, I'll give you commit r... waaait.</p>
+<p>So basically, using damieng's idea:</p>
+<ul>
+<li>I want a PR for each comment</li>
+<li>I want branch and PR to be automatically created</li>
+<li>Once I merge it, GitHub will automatically update and voilà</li>
+</ul>
+<h2 id="step-1-create-a-service-that-accepts-comments"><a class="zola-anchor" href="#step-1-create-a-service-that-accepts-comments" aria-label="Anchor link for: step-1-create-a-service-that-accepts-comments">🔗</a>Step 1: Create a service that accepts comments</h2>
+<p>This could be any form of (micro) web service. Damieng used Azure Functions. But Amazon Lambda or Google Functions would be fine too.
+But I'm oldschool... I already have a VPS, so I use <a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface">CGI</a>!</p>
+<p>I'm also a experienced Java developer, so I used <a href="https://kotlinlang.org/">Kotlin</a>. J/K of course I used <a href="https://www.rust-lang.org/">Rust</a>.</p>
+<p>I learn Rust as I go (I already tried that once but the burrow checker tried to murder me in my sleep), so take everything here with a grain of salt.</p>
+<p>So, let's start with some Rust code. There is this really nice library called <a href="https://serde.rs/">serde</a> which has a ton of serializers and deserializers for various formats.
+Like <code>urlencoded</code> which is what a simple form post will send.</p>
+<p>Now let's write the code to process a <code>POST</code>ed comment:</p>
+<pre data-lang="rust" style="background-color:#002b36;color:#839496;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Deserialize</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Post </span><span style="color:#657b83;">{
+</span><span>    r#</span><span style="color:#268bd2;">ref</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">message</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">name</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">url</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">redirect</span><span>: String,
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>For those who have never seen C, a <code>struct</code> is like a <code>class</code>: A container for fields.</p>
+<p>That's it! The <code>derive</code> attribute with the <code>Deserialize</code> argument will create the code to dump in a <code>urlendcoded</code> string and get out an instance of <code>Post</code>:
+{% highlight Rust %}
+let post: Post = serde_urlencoded::from_bytes(body.as_slice()).unwrap();
+{% endhighlight %}</p>
+<p>I omitted the boilerplate code to read the data from <code>stdin</code> - which is how you get data with <code>CGI</code>. The full code can be seen in my <a href="https://github.com/Bytekeeper/github_comment_rs/blob/master/src/main.rs">GitHub repo</a>.</p>
+<h2 id="step-2-create-a-branch-and-pr-automatically"><a class="zola-anchor" href="#step-2-create-a-branch-and-pr-automatically" aria-label="Anchor link for: step-2-create-a-branch-and-pr-automatically">🔗</a>Step 2: Create a branch and PR automatically</h2>
+<p>Creating a branch and pushing it should be fairly simply with <code>GIT</code>'s CLI. But for the PR, the GitHub API will have to be used.</p>
+<p>It can also be used to create a branch and (!) even create a file in there. So I just have to use a GitHub API Rust implementation to solve this.
+Actually, there are a few - but they are mostly unmaintained.
+They also don't allow the shenanigans I need.</p>
+<p><em>To be continued</em></p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/tech/">tech</a>
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>One response</h3>
+  <ul>
+    <!--  -->
+    <li>
+	    
+
+	    <div id="1581846181_253267933" class="comment-body">Neat!</div>
+	    <cite>
+		    
+		    Yegers
+		    
+		    &ndash;
+		    <span class="muted">
+			    February-16-2020
+		    </span>
+                    <hr/>
+	    </cite>
+    </li>
+    <!--  -->
+  </ul>
+  
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/comments-on-jekyll/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>

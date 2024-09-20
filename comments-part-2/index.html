@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>Comments for static pages? - Part 2 - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">Comments for static pages? - Part 2</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>2 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2020-01-25
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/tech/">tech</a> 
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/jekyll/">jekyll</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p>Looking <a href="https://www.bytekeeper.org/comments-part-2/@comments-on-jekyll/index.md">back</a>... I need a bit of DIY GitHub API for Rust.</p>
+<h2 id="still-step-2-create-a-branch-and-pr-automatically"><a class="zola-anchor" href="#still-step-2-create-a-branch-and-pr-automatically" aria-label="Anchor link for: still-step-2-create-a-branch-and-pr-automatically">🔗</a>Still step 2: Create a branch and PR automatically</h2>
+<p>Thankfully, the <a href="https://developer.github.com/v3/">V3 API</a> is really simple.</p>
+<p>Using our tRusty language, we can define some structs to be serialized to JSON for requests:</p>
+<pre data-lang="rust" style="background-color:#002b36;color:#839496;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Serialize</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">CreateRef </span><span style="color:#657b83;">{
+</span><span>    r#</span><span style="color:#268bd2;">ref</span><span>: String, </span><span style="color:#586e75;">// The name to be used
+</span><span>    </span><span style="color:#268bd2;">sha</span><span>: String,   </span><span style="color:#586e75;">// The commit SHA to point to
+</span><span style="color:#657b83;">}
+</span><span>
+</span><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Serialize</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">CreateFile </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">message</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">content</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">branch</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">committer</span><span>: UserRef,
+</span><span style="color:#657b83;">}
+</span><span>
+</span><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Serialize</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">UserRef </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">name</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">email</span><span>: String,
+</span><span style="color:#657b83;">}
+</span><span>
+</span><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Serialize</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">CreatePR </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">title</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">head</span><span>: String,   </span><span style="color:#586e75;">// The branch to be merged
+</span><span>    </span><span style="color:#268bd2;">base</span><span>: String,   </span><span style="color:#586e75;">// The target branch for the merge (ie. master)
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>The basic steps we want to do are described by these:</p>
+<ul>
+<li>Create a branch, using <code>CreateRef</code>. Git uses refs for things that "have" commits. A branch is just that!</li>
+<li>Create a file on the branch with <code>CreateFile</code>. <code>UserRef</code> will be used as committer (me in this case).</li>
+<li>The last step is to create a PR with <code>CreatePR</code>  (quelle surprise), to merge the branch back.</li>
+</ul>
+<p>The file we want to create has to be converted to base64 to be used by <code>CreateFile</code>. The content itself should be YAML and contain this:</p>
+<pre data-lang="rust" style="background-color:#002b36;color:#839496;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#</span><span style="color:#657b83;">[</span><span style="color:#268bd2;">derive</span><span style="color:#657b83;">(</span><span>Serialize</span><span style="color:#657b83;">)]
+</span><span style="color:#268bd2;">struct </span><span style="color:#b58900;">Comment </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">id</span><span>: String,
+</span><span>    r#</span><span style="color:#268bd2;">ref</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">message</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">name</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">url</span><span>: String,
+</span><span>    </span><span style="color:#268bd2;">date</span><span>: </span><span style="color:#268bd2;">u64</span><span>,
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>Luckily <a href="https://serde.rs/">serde</a> comes to our rescue once again and happily creates a serializer to yaml here.
+Another helpful small library provides base64 encoding. The result is this:</p>
+<pre data-lang="rust" style="background-color:#002b36;color:#839496;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#268bd2;">let</span><span> file </span><span style="color:#657b83;">=</span><span> CreateFile </span><span style="color:#657b83;">{
+</span><span>    message: &quot;</span><span style="color:#2aa198;">Comment</span><span>&quot;.</span><span style="color:#859900;">to_string</span><span style="color:#657b83;">()</span><span>,
+</span><span>    content: </span><span style="color:#859900;">encode</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>serde_yaml::to_string</span><span style="color:#657b83;">(</span><span style="color:#859900;">&amp;</span><span>comment</span><span style="color:#657b83;">)</span><span>.</span><span style="color:#859900;">unwrap</span><span style="color:#657b83;">())</span><span>,
+</span><span>    branch: branch_name.</span><span style="color:#859900;">to_string</span><span style="color:#657b83;">()</span><span>,
+</span><span>    committer: UserRef </span><span style="color:#657b83;">{
+</span><span>        name: owner.</span><span style="color:#859900;">to_string</span><span style="color:#657b83;">()</span><span>,
+</span><span>        email: owner_email.</span><span style="color:#859900;">to_string</span><span style="color:#657b83;">()</span><span>,
+</span><span>    </span><span style="color:#657b83;">}</span><span>,
+</span><span style="color:#657b83;">}</span><span>;
+</span></code></pre>
+<p>The requests itself look quite similar. As an example, here's the <code>CreateFile</code> one:</p>
+<pre data-lang="rust" style="background-color:#002b36;color:#839496;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#268bd2;">fn </span><span style="color:#b58900;">create_file</span><span style="color:#657b83;">(
+</span><span>    </span><span style="color:#268bd2;">client</span><span>: </span><span style="color:#859900;">&amp;</span><span>reqwest::blocking::Client,
+</span><span>    </span><span style="color:#268bd2;">owner</span><span>: </span><span style="color:#859900;">&amp;</span><span style="color:#268bd2;">str</span><span>,
+</span><span>    </span><span style="color:#268bd2;">repo</span><span>: </span><span style="color:#859900;">&amp;</span><span style="color:#268bd2;">str</span><span>,
+</span><span>    </span><span style="color:#268bd2;">path</span><span>: </span><span style="color:#859900;">&amp;</span><span style="color:#268bd2;">str</span><span>,
+</span><span>    </span><span style="color:#268bd2;">create_file</span><span>: </span><span style="color:#859900;">&amp;</span><span>CreateFile,
+</span><span style="color:#657b83;">) </span><span>-&gt; reqwest::</span><span style="color:#859900;">Result</span><span>&lt;reqwest::blocking::Response&gt; </span><span style="color:#657b83;">{
+</span><span>    </span><span style="color:#268bd2;">let</span><span> url </span><span style="color:#657b83;">= </span><span>url::Url::parse</span><span style="color:#657b83;">(
+</span><span>        </span><span style="color:#859900;">format!</span><span style="color:#657b83;">(
+</span><span>            &quot;</span><span style="color:#2aa198;">https://api.github.com/repos/</span><span style="color:#cb4b16;">{}</span><span style="color:#2aa198;">/</span><span style="color:#cb4b16;">{}</span><span style="color:#2aa198;">/contents/</span><span style="color:#cb4b16;">{}</span><span>&quot;,
+</span><span>            owner, repo, path
+</span><span>        </span><span style="color:#657b83;">)
+</span><span>        .</span><span style="color:#859900;">as_str</span><span style="color:#657b83;">()</span><span>,
+</span><span>    </span><span style="color:#657b83;">)
+</span><span>    .</span><span style="color:#859900;">unwrap</span><span style="color:#657b83;">()</span><span>;
+</span><span>    client.</span><span style="color:#859900;">put</span><span style="color:#657b83;">(</span><span>url</span><span style="color:#657b83;">)</span><span>.</span><span style="color:#859900;">json</span><span style="color:#657b83;">(</span><span>create_file</span><span style="color:#657b83;">)</span><span>.</span><span style="color:#859900;">send</span><span style="color:#657b83;">()
+</span><span style="color:#657b83;">}
+</span></code></pre>
+<p>No, <code>reqwest</code> is not a typo! It's actually a <a href="https://github.com/seanmonstar/reqwest">popular library</a> (I don't mean the javascript one).
+I don't really need non-blocking I/O here, so the <code>blocking</code> client is put to good use.</p>
+<p>The whole Rust project can be found <a href="https://github.com/Bytekeeper/github_comment_rs">in my GitHub repo</a>.</p>
+<p>I tried to solve this "problem" with some constraints:</p>
+<ul>
+<li>It should be inexpensive</li>
+<li>It should respect the privacy of my readers</li>
+<li>It should be simple enough to fix or port</li>
+<li>It should not depend too much on third parties</li>
+</ul>
+<p>Using GitHub for the blog and for comments is very inexpensive. I use no third party commentary service, as such the privacy is protected as much as is possible here.
+The HTML part is very simple and only depends on <a href="https://jekyllrb.com/">Jekyll</a>. The Rust part is also simple and fits in less than 300 lines of code of Rust.</p>
+<p>Success ✓</p>
+<p>If you have any comments, please leave them down below - since you are actually able to do so now!</p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/tech/">tech</a>
+                        
+                            
+                                
+                                    and
+                                
+                            
+                        
+                    
+                        <a href="https://www.bytekeeper.org/tags/jekyll/">jekyll</a>
+                        
+                            
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/comments-part-2/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>MOO resp. ROTPR inspired 4X game - </title>
+
+      
+        
+          <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.bytekeeper.org/rss.xml">
+        
+      
+
+
+      
+          <link rel="stylesheet" href="https://www.bytekeeper.org/site.css">
+          
+      
+
+      
+<link rel="stylesheet" href="https://www.bytekeeper.org/custom.css">
+<script defer data-domain="bytekeeper.org" src="https://plausible.bytekeeper.org/js/pls.js"></script>
+<meta name="referrer" content="same-origin">
+
+    </head>
+
+    <body class="hack dark main container">
+        
+    
+        
+                
+                    <header>
+                        <nav itemscope itemtype="http://schema.org/SiteNavigationElement">
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;tags">
+                                <span itemprop="name">Tags
+                                </span></a>
+                        
+                            <a itemprop="url"
+                               class=""
+                               href="https:&#x2F;&#x2F;www.bytekeeper.org&#x2F;rss.xml">
+                                <span itemprop="name">RSS Feed
+                                </span></a>
+                        
+                        </nav>
+                    </header>
+                
+            
+    
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline">MOO resp. ROTPR inspired 4X game</h1>
+        <span class="muted">
+    <div>
+    <svg class="icon i-clock" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <circle cx="16" cy="16" r="14"/>
+        <path d="M16 8 L16 16 20 20"/>
+    </svg>
+    <span>5 minute read</span>
+    <svg class="icon i-edit" viewBox="0 0 32 32"
+         width="16" height="16" fill="none" stroke="currentcolor"
+         stroke-linecap="round" stroke-linejoin="round" stroke-width="6.25%">
+        <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z"/>
+    </svg>
+
+    Published: 2022-07-30
+    </div>
+
+    
+        
+            <a class="tagmeta" href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a> 
+        
+    
+</span>
+    </header>
+    <div itemprop="articleBody">
+      <p>So <a href="https://makingcomputerdothings.com/a-new-project-untitled-space-mercenary-game/">Sonko</a> started a new project.
+Following suit, I jumped back in time to already have a game project on-going for quite some time now.
+A bad habit of mine is to reach some milestone and then "pause" (drop) the project.
+But now I'll return to it, and as a small incentive to keep on it, I'll start this blog.</p>
+<p>As with Sonko, this means my StarCraft AI related projects are on hold (don't worry, the <a href="https://www.basil-ladder.net/">basil ladder</a> will keep running).</p>
+<p>Also, on a rather technical note: I dropped Jekyll as a static site generator and moved to <a href="https://www.getzola.org/">zola</a>. Every Jekyll upgrade wasted a lot of time to get it running again. Zola is just one binary, and it should run fine on github actions as well.</p>
+<h1 id="introduction"><a class="zola-anchor" href="#introduction" aria-label="Anchor link for: introduction">🔗</a>Introduction</h1>
+<p>I played <a href="https://en.wikipedia.org/wiki/Master_of_Orion_II%3A_Battle_at_Antares">Master of Orion 2</a> (MOO for now) a lot when I was younger.
+Even back then I tried to create my own clone of the game.
+But the scale of the game was a bit to much for me back then - maybe even today.</p>
+<p>But not all thing were good. It irked me a bit how much the game slowed down in the later phases due to the massive amount of micro-management.</p>
+<p>Fast forward some 30 years and some more MOO games. I always was a fan of easy to learn hard to master games.
+Almost none of the games inspired by it (or being successor to) seem to do that. They just upped the complexity.</p>
+<blockquote>
+<p>Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.</p>
+</blockquote>
+<ul>
+<li>Antoine de Saint-Exupéry, Airman's Odyssey</li>
+</ul>
+<p>
+<img src="rotpr.png" style="width: 100%" alt="Remnants of the Precursors"/>
+
+
+Remnants of the Precursors (ROTPR for now) has a simple interface. Maybe even a bit to bland. But it gets the job done. I did not really play the original <a href="https://en.wikipedia.org/wiki/Master_of_Orion">Master of Orion</a>, I was still <del>wasting</del> enjoying my time with <a href="https://en.wikipedia.org/wiki/Civilization_(video_game)">Civilization</a>.</p>
+<p>I do like the simpler colony management, which avoids going through every colony in the mid-late game. Spying is a bit strange, it is not really obvious what multiple networks and/or high spendings are doing.</p>
+<p>
+<img src="moo2.jpg" style="width: 100%" alt="Master of Orion 2"/>
+
+
+Master of Orion 2 (not 1) is a bit different, more complex in some aspects (colony management) and less so in others (less diplomacy/spying).</p>
+<p>The UI is a bit dated, and looks only good when shrunk down. Still looks nice though.</p>
+<h1 id="designing-my-game"><a class="zola-anchor" href="#designing-my-game" aria-label="Anchor link for: designing-my-game">🔗</a>Designing My Game</h1>
+<p>My game already has quite a lot of code, but barely anything to show.
+I decided to create the game abstraction in code as a first step. This was a mistake in my opinion.
+While its clear that the inner game model should be sound, only testing it via unit tests is rather dull.</p>
+<p>It currently covers the basics of building ships and colonizing other systems.
+Like any software architecture, it is best to delay the choices which "cost" the most - as long as possible.
+This might sound unintuitive, but help not wasting a huge amount of time due to some bad "large" initial decisions.</p>
+<p>Although I got some basics covered, I want to explore design space a bit further before continuing/refactoring.</p>
+<p>I know a few things I <em>want</em> in the game design:</p>
+<ul>
+<li>Colonization should be per star system (like ROTPR). Colonizing individual planets really takes its toll on usability. Multiple different factions owning each a planet in a system? A separate UI for planets in a system? It just makes things more tedious.</li>
+<li>Research based on a RPG like skill tree. Even ROTPR, which tries to make research meaningful succumbs to the "unimportant research item" problem.</li>
+</ul>
+
+<figure style="margin: 0; line-height: 1em; font-size: 0.9em">
+
+<img src="tech_tree.dot.png" style="width: 100%" alt="Tech tree like skill tree"/>
+
+<figcaption>Imagine some more tier levels here...</figcaption>
+</figure>
+
+<p>Tech items above are just examples (for some I don't have an idea on what they do), I do want to make it unconventional - yet useful. Every tech has 3 upgrades which will improve on the previous state in one way or the other.</p>
+<p>Ideas for unconventional techs:</p>
+<ul>
+<li>Fanatics - For every upgrade, establish a colony on any unoccupied star system</li>
+<li>Boost - Increase productivity of a single colony for a short while</li>
+</ul>
+<p>Ideas for more conventional techs:</p>
+<ul>
+<li>XYZ Armor - Unlocks a type of armor, further upgrades improve efficiency</li>
+<li>XYZ Weapons - Unlocks a type of weapon, further upgrades improve efficiency</li>
+<li>Productive - Increases productivity per upgrade level</li>
+</ul>
+<p>Now the real change comes with the way you unlock techs. Usually, you designate a research topic and after some turns you'll get it. This is not the case here.</p>
+<p>Instead, you build up research points - and once you have enough you can immediately unlock or upgrade a tech.
+This allows for fast reaction to new circumstances. There are also only a very limited amount of techs to unlock. With either, MOO2 or ROTPR I always feel like the actual decision of what to research matters little. Yes, some do - but you can always replace them later with something else. I want the player to be able to focus on a certain play style, stick to it, but still be able to win.</p>
+<p>That's all for today!</p>
+<p>Next Time: Gameplay Loop</p>
+
+    </div>
+
+    
+        <footer>
+            <hr>
+            <p>
+                
+                
+                
+                    and tagged
+                    
+                        <a href="https://www.bytekeeper.org/tags/gamedev/">gamedev</a>
+                        
+                    
+                
+            </p>
+            
+
+
+<div id="comments">
+
+
+  <h3>Add Comment</h3>
+  <form id="commentForm">
+       <div>
+        <label for="name">Name</label>
+       </div>
+       <div>
+        <input type="text" id="name" name="name" required><br><br>
+       </div>
+
+       <div>
+        <label for="url">URL</label>
+       </div>
+       <div>
+        <input type="text" id="url" name="url"><br><br>
+       </div>
+
+       <div>
+        <label for="message">Message</label>
+       </div>
+       <div>
+        <textarea id="message" name="message" required></textarea><br><br>
+       </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit Comment">
+    </form>
+    <script>
+        const form = document.getElementById('commentForm');
+
+        form.addEventListener('submit', function (event) {
+            // Don't submit actually
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const commentData = {
+                name: formData.get('name'),
+                url: formData.get('url'),
+                message: formData.get('message'),
+                path: '/rotpr-clone/',
+            };
+
+            // Now post the comment to the service
+            fetch('https://api.bytekeeper.org/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    window.location = "/pages/submitted";
+                } else {
+                    window.location = "/pages/submission-failed";
+                }
+            }).catch(error => {
+                window.location = "/pages/submission-failed";
+            });
+        });
+    </script>
+</div>
+
+
+
+
+        </footer>
+    
+</article>
+
+
+    </body>
+
+</html>
