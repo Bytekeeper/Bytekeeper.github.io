@@ -6,7 +6,7 @@ updated = 2023-11-04
 tags = ["tech"]
 +++
 
-A [while ago](@comments-on-jekyll/index.md) I added comments for my Jekyll base blog. Since then, I switched to [zola](https://www.getzola.org/). 
+A [while ago]({{< relref "comments-on-jekyll" >}}) I added comments for my Jekyll base blog. Since then, I switched to [zola](https://www.getzola.org/). 
 Its basically a Rust based "clone" of the static site generator (SSG) [Hugo](https://gohugo.io/). Compared to Jekyll, it is a lot faster, and I found it to be a lot simpler.
 However, Zola has its own set of challenges. For instance, changing themes is nearly impossible and theme extension can get messy. That is the story for a future post.
 At some point I might consider creating my own SSG. Building a small one should be easy enough (and due to GitHub's Actions it could be used immediately).
@@ -17,7 +17,7 @@ I tend to prefer applications written in Rust nowadays, but only slightly - due 
 
 Oh and, while migrating, I trashed the comment functionality - oops. Now its time to restore it back to its old (and pretty empty) glory.
 
-[Previously](@comments-on-jekyll/index.md#step-1-create-a-service-that-accepts-comments) I used CGI. It's a bit archaic and cumbersome.
+[Previously]({{< relref "comments-on-jekyll#step-1-create-a-service-that-accepts-comments" >}}) I used CGI. It's a bit archaic and cumbersome.
 So here's what we'll do:
 1. First, we'll transform it to a web service
 2. We'll switch from our custom (and now obsolete) GitHub client to a working one I don't have to maintain

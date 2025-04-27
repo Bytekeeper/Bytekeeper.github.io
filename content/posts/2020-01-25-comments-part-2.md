@@ -4,7 +4,7 @@ title =  "Comments for static pages? - Part 2"
 tags = ["tech", "jekyll"]
 +++
 
-Looking [back](@comments-on-jekyll/index.md)... I need a bit of DIY GitHub API for Rust.
+Looking [back]({{< relref "comments-on-jekyll" >}})... I need a bit of DIY GitHub API for Rust.
 
 ## Still step 2: Create a branch and PR automatically
 

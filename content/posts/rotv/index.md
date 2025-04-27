@@ -5,10 +5,10 @@ date = 2023-12-19
 tags = ["gamedev"]
 +++
 
-Now, let me reveal the name of the [Unnamed Game](@/unnamed-game-2/index.md). This time, we will focus on some more technical aspects of the game. As a disclaimer: I use Bevy, which more or less enforces the use of an Entity Component System (ECS). ECS is kind of a hype (micro-services anyone?), of course it can be used for everything - but does it fit everything? Still, I am not yet turning my back on Bevy just yet, so I'll have to make do.
+Now, let me reveal the name of the [Unnamed Game]({{< relref "unnamed-game-2" >}}). This time, we will focus on some more technical aspects of the game. As a disclaimer: I use Bevy, which more or less enforces the use of an Entity Component System (ECS). ECS is kind of a hype (micro-services anyone?), of course it can be used for everything - but does it fit everything? Still, I am not yet turning my back on Bevy just yet, so I'll have to make do.
 
 ## Short Recap
-[Last time](@/unnamed-game-2/index.md#ecs-systems) I was babbling about model and visual components. I laid out some rules I "found" for turn based games using ECS:
+[Last time]({{< relref "unnamed-game-2#ecs-systems" >}}) I was babbling about model and visual components. I laid out some rules I "found" for turn based games using ECS:
 * Only core game logic systems may modify game logic components.
 * Only core game logic systems may remove game logic entities. They should send events in that case.
 * Non core game logic systems may add and modify their components to game logic entities. They must also ensure to clean up after themselves by removing components when systems go out of scope.
@@ -17,7 +17,7 @@ Now, let me reveal the name of the [Unnamed Game](@/unnamed-game-2/index.md). Th
 Alas, while I still think those are valid - a more restrictive approach might be necessary. Let's take a step back and re-evaluate the current design approach.
 
 # Different Representation of What the Player Sees and What the Game "Thinks"
-I mentioned [before](@/unnamed-game-2/index.md#how-to-design-entities-and-systems-for-a-turn-based-game), that its harder for turn-based game to work with entities. ECS' are designed to run continuously, so for "discrete" components (discrete in time) - the result is stuttering.
+I mentioned [before]({{< relref "unnamed-game-2#how-to-design-entities-and-systems-for-a-turn-based-game" >}}), that its harder for turn-based game to work with entities. ECS' are designed to run continuously, so for "discrete" components (discrete in time) - the result is stuttering.
 
 But what does that mean? Let's dive into the problem, by looking at several approaches on how to model game entities. For the sake of understandability, we'll limit ourselves to one discrete event: A ship getting destroyed. 
 

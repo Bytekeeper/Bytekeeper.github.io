@@ -5,7 +5,7 @@ date = 2023-11-09
 tags = ["gamedev"]
 +++
 
-Today, let's take a peek at game development in general. Similar to what I already did [a while ago](@rotpr-clone/index.md). A few months ago I picked it up again and to flesh out the design more and do some prototyping. It was nice and all, but I made the classical mistake of having a scope that would take years to implement. 
+Today, let's take a peek at game development in general. Similar to what I already did [a while ago]({{< relref "rotpr-clone" >}}). A few months ago I picked it up again and to flesh out the design more and do some prototyping. It was nice and all, but I made the classical mistake of having a scope that would take years to implement. 
 
 Depending on what you want to achieve, that could be okay - or not. In my case, I want to learn the whole process:
 * Game Design

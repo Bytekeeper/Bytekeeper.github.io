@@ -5,7 +5,7 @@ date = 2023-11-16
 tags = ["gamedev"]
 +++
 
-[Previously](@game-dev-process/index.md) we took a birds eye view on the topic of the game development process.
+[Previously]({{< relref "game-dev-process" >}}) we took a birds eye view on the topic of the game development process.
 Or, to be more precise, the model in my mind. I plan on refining and correcting it as I go and learn.
 
 ## Current State of My Game

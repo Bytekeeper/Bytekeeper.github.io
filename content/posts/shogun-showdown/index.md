@@ -5,11 +5,11 @@ date = 2023-12-06
 tags = ["gamedev", "review"]
 +++
 
-[As promised](@unnamed-game/index.md), in this post, we will take a look at the game [Shogun Showdown](https://store.steampowered.com/app/2084000/Shogun_Showdown/). It is still in early access, but has very good review scores and a sizeable amount too.
+[As promised]({{< relref "unnamed-game" >}}), in this post, we will take a look at the game [Shogun Showdown](https://store.steampowered.com/app/2084000/Shogun_Showdown/). It is still in early access, but has very good review scores and a sizeable amount too.
 Its Steam page tells it's "inspired by great games like Into the Breach, Darkest Dungeon, Crypt of the Necrodancer, Slay the Spire and so much more". That is similar to the inspirations behind my own game. As my in-development game shares some of these traits, this game certainly is one I need to take a closer look.
 
 # A Quick Detour: My Game
-I'm on a [journey](@unamed-game/index.md) to create and publish a game. The plan is to create a rogue-like with turn based combat, as mentioned just above. To not fumble blindly in game design, I want to check out and review similar games. But, mostly from a mechanics perspective. So let's get back to Shogun Showdown...
+I'm on a [journey]({{< relref "unnamed-game" >}}) to create and publish a game. The plan is to create a rogue-like with turn based combat, as mentioned just above. To not fumble blindly in game design, I want to check out and review similar games. But, mostly from a mechanics perspective. So let's get back to Shogun Showdown...
 
 # What is the Game?
 It's a turn-based, rogue-like battler set in a Japanese-inspired setting. It features nice pixel art and a good soundtrack. I have not yet beaten the game, but from my current knowledge it basically has a few scenes:

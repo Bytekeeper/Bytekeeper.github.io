@@ -5,7 +5,7 @@ date = 2023-11-25
 tags = ["gamedev"]
 +++
 
-In the [last](@unnamed-game/index.md) post, I showed some of the goals I want to achieve with my game. Including some early screen shots. I decided to replace the AI generated ships with some procedural generated ships - lets have a look:
+In the [last]({{< relref "unnamed-game" >}}) post, I showed some of the goals I want to achieve with my game. Including some early screen shots. I decided to replace the AI generated ships with some procedural generated ships - lets have a look:
 
 ![Image](procedural-ships.png)
 

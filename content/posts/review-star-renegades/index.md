@@ -5,7 +5,7 @@ date = 2024-01-09
 tags = ["gamedev", "review"]
 +++
 
-I promised a review [before](@content/unnamed-game/index.md). I did not [start](@content/shogun-showdown/index.md) with it, oops. So let me catch up!
+I promised a review [before]({{< relref "unnamed-game" >}}). I did not [start]({{< relref "shogun-showdown" >}}) with it, oops. So let me catch up!
 
 # What Came Before
 I was a bit surprised to find that the game was developed by [Massive Damage, Inc.](https://store.steampowered.com/developer/massivedamage?snr=1_5_9__2000). They are the makers of [Halcyon 6](https://store.steampowered.com/app/651660/Halcyon_6_Starbase_Commander_LIGHTSPEED_EDITION/) - which gained some small hype 2017/2018. I bought the game and found it to be Okish. I played it a few hours and it seemed to lack focus. There were only a few updates, I'm not sure they "fixed" that. It could be a "me" problem. This however, is not a review of Halcyon.
