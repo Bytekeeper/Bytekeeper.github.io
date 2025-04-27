@@ -1,7 +1,6 @@
 +++
 title = "Comments for static pages? - Part 1"
 date = 2020-01-21
-[taxonomies]
 tags = ["tech"]
 +++
 
@@ -92,9 +91,9 @@ struct Post {
 For those who have never seen C, a `struct` is like a `class`: A container for fields.
 
 That's it! The `derive` attribute with the `Deserialize` argument will create the code to dump in a `urlendcoded` string and get out an instance of `Post`:
-{% highlight Rust %}
+```rust
 let post: Post = serde_urlencoded::from_bytes(body.as_slice()).unwrap();
-{% endhighlight %}
+```
 
 I omitted the boilerplate code to read the data from `stdin` - which is how you get data with `CGI`. The full code can be seen in my [GitHub repo](https://github.com/Bytekeeper/github_comment_rs/blob/master/src/main.rs).
 

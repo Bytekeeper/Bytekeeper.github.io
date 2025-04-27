@@ -1,7 +1,6 @@
 +++
 title = "MOO resp. ROTPR inspired 4X game"
 date = 2022-07-30
-[taxonomies]
 tags = ["gamedev"]
 +++
 

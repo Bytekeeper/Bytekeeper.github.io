@@ -1,7 +1,6 @@
 +++
 title = "4X Game Loop"
 date = 2022-08-05
-[taxonomies]
 tags = ["gamedev"]
 +++
 

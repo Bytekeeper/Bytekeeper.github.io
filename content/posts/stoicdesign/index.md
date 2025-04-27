@@ -1,7 +1,7 @@
 +++
 title = "Software Design: A Stoic Approach"
 date = 2024-10-06
-[taxonomies]
+draft = true
 tags = ["design & architecture"]
 +++
 

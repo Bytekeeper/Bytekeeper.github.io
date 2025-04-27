@@ -1,7 +1,6 @@
 +++
 title = "Game Development: A Personal Journey"
 date = 2023-11-09
-[taxonomies]
 tags = ["gamedev"]
 +++
 

@@ -1,7 +1,6 @@
 +++
 title = "Unit Testing: Test Coverage"
 date = 2025-02-02
-[taxonomies]
 tags = ["design & architecture", "testing"]
 +++
 

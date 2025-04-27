@@ -1,7 +1,6 @@
 +++
 title = "GameDev Review: Star Renegades"
 date = 2024-01-09
-[taxonomies]
 tags = ["gamedev", "review"]
 +++
 

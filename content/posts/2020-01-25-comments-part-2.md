@@ -1,6 +1,6 @@
 +++
 title =  "Comments for static pages? - Part 2"
-[taxonomies]
+date = 2020-01-25
 tags = ["tech", "jekyll"]
 +++
 

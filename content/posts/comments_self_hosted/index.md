@@ -2,7 +2,6 @@
 title = "Comments - Take 3 - On Zola"
 date = 2023-11-03
 updated = 2023-11-04
-[taxonomies]
 tags = ["tech"]
 +++
 

@@ -1,7 +1,6 @@
 +++
 title = "Remnants of the Vanquished"
 date = 2023-12-19
-[taxonomies]
 tags = ["gamedev"]
 +++
 

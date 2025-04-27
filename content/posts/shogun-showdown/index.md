@@ -1,7 +1,6 @@
 +++
 title = "Shogun Showdown Core Mechanics"
 date = 2023-12-06
-[taxonomies]
 tags = ["gamedev", "review"]
 +++
 

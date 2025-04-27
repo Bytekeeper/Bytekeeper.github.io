@@ -1,6 +1,5 @@
 +++
 title = "Slow bots on Basil"
-[taxonomies]
 tags = ["basil"]
 +++
 

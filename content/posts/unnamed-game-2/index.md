@@ -1,7 +1,6 @@
 +++
 title = "The Yet to be Named Game - Continued"
 date = 2023-11-25
-[taxonomies]
 tags = ["gamedev"]
 +++
 
