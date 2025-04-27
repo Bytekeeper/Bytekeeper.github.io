@@ -1,0 +1,14 @@
+digraph G {
+	graph [bgcolor="transparent"]
+	node [style="filled", color="black", fillcolor="lightgray", fontcolor="black"]
+	edge [color="darkgray", dir=none]
+
+	rankdir=LR;
+	eXplore [pos = "0,0!"];
+	eXplore -> eXpand;
+	eXpand -> eXploit;
+	eXploit -> eXterminate;
+	eXplore -> eXploit;
+	eXplore -> eXterminate;
+	eXpand -> eXterminate;
+}

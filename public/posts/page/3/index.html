@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>List of blog posts | bytekeeper.org</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.146.7">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+    
+      <link href="/posts/index.xml" rel="alternate" type="application/rss+xml" title="bytekeeper.org" />
+      <link href="/posts/index.xml" rel="feed" type="application/rss+xml" title="bytekeeper.org" />
+      
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/">
+  <meta property="og:site_name" content="bytekeeper.org">
+  <meta property="og:title" content="List of blog posts">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="website">
+
+  <meta itemprop="name" content="List of blog posts">
+  <meta itemprop="datePublished" content="2025-02-02T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-02-02T00:00:00+00:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="List of blog posts">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        bytekeeper.org
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          List of blog posts
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links mid-gray">
+      
+    </section>
+    <aside class="flex-ns mt5 flex-wrap justify-around">
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+    <h1 class="f3 near-black">
+      <a href="/posts/2023-06-04-solar-power/" class="link black dim">
+        How to bring solar power to Grafana
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="solar-power">Solar Power</h1>
+<h1 id="deye-sunxyz-microinverter">Deye SUNxyz Microinverter</h1>
+<h1></h1>
+<h1 id="clap">Clap</h1>
+<p>Everytime I use clap, I somehow get the feeling, I&rsquo;m wrestling a sumo, but they&rsquo;re also a bird-of-paradise: It&rsquo;s a bit too much for what I want, and lacks a bit in areas I want.</p>
+<p>For example, trying to call <code>get_matches</code> will panic if arguments are wrong. Ok, then lets try <code>try_get_matches</code>! Oh, it also panics?</p>
+<p>Now, how to get those values into my InfluxDB to finally show them in Grafana? I want to use v2 of the InfluxDB API, so the <a href="https://crates.io/crates/influxdb">influxdb</a> crate won&rsquo;t cut it.
+The crate <a href="TODO">influxdb2</a> looked promising. Alas, it requires an async runtime. I tried using <a href="TODO">block_on</a>, but there&rsquo;s some <a href="TODO">hyper</a> in there.
+Now I could have switched to <a href="TODO">tokio</a>. But this tool is supposed to run once every minute or so, concurrent performance won&rsquo;t be an issue.</p>
+    </div>
+  <a href="/posts/2023-06-04-solar-power/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+
+        </div>
+      
+        <div class="w-100 w-30-l mb4 relative bg-white">
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+    <h1 class="f3 near-black">
+      <a href="/posts/2020-01-13-basil-timeouts/" class="link black dim">
+        Slow bots on Basil
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <p>If you haven&rsquo;t yet, check out <a href="https://basil.bytekeeper.org/">BASIL</a>. It&rsquo;s a 24/7 Starcraft league, but for bots!
+It usually runs fine nowadays. But sometimes an external hiccup occurs. One of those is the problem of detecting who to blame if a game times out.
+It works fine if the game ends with the in-game timeout of 60min, since the <a href="https://github.com/basil-ladder/sc-tm">Tournament Module</a> BASIL uses
+will make both bots leave and select the winner based on the score (That might be unfair, but that&rsquo;s a topic for another post).</p>
+    </div>
+  <a href="/posts/2020-01-13-basil-timeouts/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+  </div>
+
+        </div>
+      
+    </aside>
+    
+    <ul class="pagination pagination-default">
+      <li class="page-item">
+        <a href="/posts/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/2/" aria-label="Previous" class="page-link" role="button"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 3" class="page-link" role="button">3</a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Next" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Last" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul>
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  bytekeeper.org 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

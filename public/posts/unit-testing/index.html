@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Unit Testing: Test Coverage | bytekeeper.org</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Testing != Proofing
+It&rsquo;s pretty simple:
+A proven piece of code will need no tests at all. A tested piece of code almost always is not guaranteed to work.
+No One Size Fits All
+Zero unit test coverage surely is wrong! Wait, are you sure?
+Did you write a unit test for all those pesky shell and PowerShell scripts? Why not?
+I see, your build server executes them all the time? So they&rsquo;re integration tested.">
+    <meta name="generator" content="Hugo 0.146.7">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/unit-testing/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/unit-testing/">
+  <meta property="og:site_name" content="bytekeeper.org">
+  <meta property="og:title" content="Unit Testing: Test Coverage">
+  <meta property="og:description" content="Testing != Proofing It’s pretty simple:
+A proven piece of code will need no tests at all. A tested piece of code almost always is not guaranteed to work.
+No One Size Fits All Zero unit test coverage surely is wrong! Wait, are you sure?
+Did you write a unit test for all those pesky shell and PowerShell scripts? Why not?
+I see, your build server executes them all the time? So they’re integration tested.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-02-02T00:00:00+00:00">
+
+  <meta itemprop="name" content="Unit Testing: Test Coverage">
+  <meta itemprop="description" content="Testing != Proofing It’s pretty simple:
+A proven piece of code will need no tests at all. A tested piece of code almost always is not guaranteed to work.
+No One Size Fits All Zero unit test coverage surely is wrong! Wait, are you sure?
+Did you write a unit test for all those pesky shell and PowerShell scripts? Why not?
+I see, your build server executes them all the time? So they’re integration tested.">
+  <meta itemprop="datePublished" content="2025-02-02T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-02-02T00:00:00+00:00">
+  <meta itemprop="wordCount" content="431">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Unit Testing: Test Coverage">
+  <meta name="twitter:description" content="Testing != Proofing It’s pretty simple:
+A proven piece of code will need no tests at all. A tested piece of code almost always is not guaranteed to work.
+No One Size Fits All Zero unit test coverage surely is wrong! Wait, are you sure?
+Did you write a unit test for all those pesky shell and PowerShell scripts? Why not?
+I see, your build server executes them all the time? So they’re integration tested.">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        bytekeeper.org
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        List of blog posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Unit Testing: Test Coverage</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2025-02-02T00:00:00Z">February 2, 2025</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="testing--proofing">Testing != Proofing</h1>
+<p>It&rsquo;s pretty simple:</p>
+<p>A proven piece of code will need no tests at all. A tested piece of code almost always is not guaranteed to work.</p>
+<h1 id="no-one-size-fits-all">No One Size Fits All</h1>
+<p>Zero unit test coverage surely is wrong! Wait, are you sure?</p>
+<p>Did you write a unit test for all those pesky shell and PowerShell scripts? Why not?</p>
+<p>I see, your build server executes them all the time? So they&rsquo;re integration tested.</p>
+<p>No? You run them on your local machine? So you actually execute them in &ldquo;production&rdquo; without test.
+&ldquo;They&rsquo;re an exception&rdquo; I hear you say? I say &ldquo;the exception is the rule&rdquo;.</p>
+<h2 id="why-do-we-test">Why Do We Test</h2>
+<p>Before we try to estimate how and what we want to test, we need to establish <em>why</em> we want to.</p>
+<p>The sage programmer would not need tests. All code they write is perfect, adding tests would slow them down.</p>
+<h4 id="code-coverage">Code Coverage</h4>
+<p>So you have to get a Code Coverage of 80 percent (or 70, or 90, ..)? And it&rsquo;s the same for all of your code?</p>
+<p>What a stupid question you ask? Let me try to answer, why in might no be:
+Programming languages differ. Dynamically typed languages for example, require a lot more tests that statically typed languages. There&rsquo;s a huge amount of things that can&rsquo;t be determined by the compiler/VM before executing the code. To name a few:</p>
+<ul>
+<li>Are the accessed methods present?</li>
+<li>Are the accessed fields present?</li>
+<li>Is the variable being passed of the expected type?</li>
+</ul>
+<p>Statically typed languages will be able to answer some of these questions. There are still problems:</p>
+<ul>
+<li>Is the reference/pointer valid? (null, anyone?)</li>
+<li>Do we use-after-free some data structure?</li>
+</ul>
+<h3 id="for-whom-do-we-write-tests">For Whom Do We Write Tests</h3>
+<p>A large portion of our daily work revolves around writing tests. If you&rsquo;re a Test Driven Design (TDD) proponent, this will be quite a lot more.</p>
+<p>But <em>why</em> do we write them in the first place? Or better, who requires us to do so?</p>
+<h2 id="why-dont-we-write-tests">Why Don&rsquo;t We Write Tests</h2>
+<h3 id="tests-help-learning-the-api">Tests Help Learning the API</h3>
+<p>This is something, some well known developers repeat often to support test-driven design.</p>
+<p>Tests <em>could</em> help other people learn how to use the API. That would be a by-product, and <strong>not</strong> the responsibility of a test.</p>
+<p>I agree that developers rarely read the documentation. But it&rsquo;s not the tests you taking a first glance at.
+It&rsquo;s the examples! Either by some other Blogger, or those provided by the &ldquo;vendor&rdquo;.</p>
+<p>Examples <em>should</em> be present in any library. Examples <em>should</em> compile. Examples <em>needn&rsquo;t</em> <strong>test</strong> anything, it is expected to execute them and observe as a human.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  bytekeeper.org 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

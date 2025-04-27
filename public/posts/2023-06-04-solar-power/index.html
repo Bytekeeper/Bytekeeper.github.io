@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>How to bring solar power to Grafana | bytekeeper.org</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Solar Power
+Deye SUNxyz Microinverter
+
+Clap
+Everytime I use clap, I somehow get the feeling, I&rsquo;m wrestling a sumo, but they&rsquo;re also a bird-of-paradise: It&rsquo;s a bit too much for what I want, and lacks a bit in areas I want.
+For example, trying to call get_matches will panic if arguments are wrong. Ok, then lets try try_get_matches! Oh, it also panics?
+Now, how to get those values into my InfluxDB to finally show them in Grafana? I want to use v2 of the InfluxDB API, so the influxdb crate won&rsquo;t cut it.
+The crate influxdb2 looked promising. Alas, it requires an async runtime. I tried using block_on, but there&rsquo;s some hyper in there.
+Now I could have switched to tokio. But this tool is supposed to run once every minute or so, concurrent performance won&rsquo;t be an issue.">
+    <meta name="generator" content="Hugo 0.146.7">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/2023-06-04-solar-power/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/2023-06-04-solar-power/">
+  <meta property="og:site_name" content="bytekeeper.org">
+  <meta property="og:title" content="How to bring solar power to Grafana">
+  <meta property="og:description" content="Solar Power Deye SUNxyz Microinverter Clap Everytime I use clap, I somehow get the feeling, I’m wrestling a sumo, but they’re also a bird-of-paradise: It’s a bit too much for what I want, and lacks a bit in areas I want.
+For example, trying to call get_matches will panic if arguments are wrong. Ok, then lets try try_get_matches! Oh, it also panics?
+Now, how to get those values into my InfluxDB to finally show them in Grafana? I want to use v2 of the InfluxDB API, so the influxdb crate won’t cut it. The crate influxdb2 looked promising. Alas, it requires an async runtime. I tried using block_on, but there’s some hyper in there. Now I could have switched to tokio. But this tool is supposed to run once every minute or so, concurrent performance won’t be an issue.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+  <meta itemprop="name" content="How to bring solar power to Grafana">
+  <meta itemprop="description" content="Solar Power Deye SUNxyz Microinverter Clap Everytime I use clap, I somehow get the feeling, I’m wrestling a sumo, but they’re also a bird-of-paradise: It’s a bit too much for what I want, and lacks a bit in areas I want.
+For example, trying to call get_matches will panic if arguments are wrong. Ok, then lets try try_get_matches! Oh, it also panics?
+Now, how to get those values into my InfluxDB to finally show them in Grafana? I want to use v2 of the InfluxDB API, so the influxdb crate won’t cut it. The crate influxdb2 looked promising. Alas, it requires an async runtime. I tried using block_on, but there’s some hyper in there. Now I could have switched to tokio. But this tool is supposed to run once every minute or so, concurrent performance won’t be an issue.">
+  <meta itemprop="wordCount" content="514">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How to bring solar power to Grafana">
+  <meta name="twitter:description" content="Solar Power Deye SUNxyz Microinverter Clap Everytime I use clap, I somehow get the feeling, I’m wrestling a sumo, but they’re also a bird-of-paradise: It’s a bit too much for what I want, and lacks a bit in areas I want.
+For example, trying to call get_matches will panic if arguments are wrong. Ok, then lets try try_get_matches! Oh, it also panics?
+Now, how to get those values into my InfluxDB to finally show them in Grafana? I want to use v2 of the InfluxDB API, so the influxdb crate won’t cut it. The crate influxdb2 looked promising. Alas, it requires an async runtime. I tried using block_on, but there’s some hyper in there. Now I could have switched to tokio. But this tool is supposed to run once every minute or so, concurrent performance won’t be an issue.">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        bytekeeper.org
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        List of blog posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">How to bring solar power to Grafana</h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="solar-power">Solar Power</h1>
+<h1 id="deye-sunxyz-microinverter">Deye SUNxyz Microinverter</h1>
+<h1></h1>
+<h1 id="clap">Clap</h1>
+<p>Everytime I use clap, I somehow get the feeling, I&rsquo;m wrestling a sumo, but they&rsquo;re also a bird-of-paradise: It&rsquo;s a bit too much for what I want, and lacks a bit in areas I want.</p>
+<p>For example, trying to call <code>get_matches</code> will panic if arguments are wrong. Ok, then lets try <code>try_get_matches</code>! Oh, it also panics?</p>
+<p>Now, how to get those values into my InfluxDB to finally show them in Grafana? I want to use v2 of the InfluxDB API, so the <a href="https://crates.io/crates/influxdb">influxdb</a> crate won&rsquo;t cut it.
+The crate <a href="TODO">influxdb2</a> looked promising. Alas, it requires an async runtime. I tried using <a href="TODO">block_on</a>, but there&rsquo;s some <a href="TODO">hyper</a> in there.
+Now I could have switched to <a href="TODO">tokio</a>. But this tool is supposed to run once every minute or so, concurrent performance won&rsquo;t be an issue.</p>
+<p>Now, the v2 of the API is just a set of REST calls. And even better, I only need the <a href="https://docs.influxdata.com/influxdb/v2.0/api/#tag/Write">write</a> call. This will require the use of InfluxDB&rsquo;s <a href="https://docs.influxdata.com/influxdb/v2.7/reference/syntax/line-protocol/">line protocol</a>, which happens to be very easy as well.</p>
+<p>I decided to go with this:</p>
+<pre tabindex="0"><code>measurement,device=.. currentPower=..,yieldToday=.., totalYield=..
+</code></pre><p>I&rsquo;m not even bothering with a timestamp, whatever the DB will come up with will be good enough.</p>
+<h1 id="docker-or-how-to-build-a-statically-linked-binary-in-rust">Docker or how to build a statically linked binary in Rust</h1>
+<p>I started out using docker-compose to build and fire up the app. Mostly, because I wanted to use a minimal Docker image. That is, from <code>scratch</code>.
+Because of this, I decided to include this chapter, although the result does not use docker.</p>
+<p>So, lets start with my docker-compose file:
+docker-compose.yml:</p>
+<pre tabindex="0"><code>services:
+  solar-grabber:
+    environment:
+      - SG_INVERTERS=[{&#34;statusPageUrl&#34;:&#34;http://INVERTER/status.html&#34;,&#34;user&#34;:&#34;admin&#34;,&#34;password&#34;:&#34;admin&#34;}]
+      - SG_INFLUXDBS=[{&#34;influxUrl&#34;:&#34;http://influxdb:8086&#34;, &#34;bucket&#34;: &#34;bucket&#34;, &#34;org&#34;: &#34;org&#34;, &#34;token&#34;: &#34;Token you generated in the InfluxDB web interface&#34;,&#34;measurement&#34;:&#34;measurement&#34;}]
+    build: .
+</code></pre><p>Nothing spectacular, it just builds and starts my little application (it does not even try to restart it).</p>
+<p>The Dockerfile itself is, as expected, tiny:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> scratch</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">add</span> sun-status-grabber /<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;/sun-status-grabber&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Now lets run this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose up
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>... Docker building the image ...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>exec /sun-status-grabber: no such file or directory
+</span></span></code></pre></div><p>Wait! What? Turns out, Rust does link dynamically against <code>libc.c</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; ldd target/x86_64-unknown-linux-gnu/release/sun-status-grabber
+</span></span><span style="display:flex;"><span>linux-vdso.so.1 <span style="color:#f92672">(</span>0x00007ffdae1a0000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>libgcc_s.so.1 <span style="color:#f92672">=</span>&gt; /usr/lib/libgcc_s.so.1 <span style="color:#f92672">(</span>0x00007fe51e33d000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>libc.so.6 <span style="color:#f92672">=</span>&gt; /usr/lib/libc.so.6 <span style="color:#f92672">(</span>0x00007fe51de16000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>/lib64/ld-linux-x86-64.so.2 <span style="color:#f92672">=</span>&gt; /usr/lib64/ld-linux-x86-64.so.2 <span style="color:#f92672">(</span>0x00007fe51e3a7000<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><code>scratch</code> is pretty much empty, so this won&rsquo;t work. So lets statically link everything. Hello <a href="https://musl.libc.org/">musl</a>! Using the Rust target <code>x86_64-unknown-linux-musl</code> allows us to statically link <em>everything</em>.</p>
+<p>So start by the target via rustup:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; rustup target add x86_64-unknown-linux-musl
+</span></span><span style="display:flex;"><span>info: downloading component <span style="color:#e6db74">&#39;rust-std&#39;</span> <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;x86_64-unknown-linux-musl&#39;</span>
+</span></span><span style="display:flex;"><span>info: installing component <span style="color:#e6db74">&#39;rust-std&#39;</span> <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#39;x86_64-unknown-linux-musl&#39;</span>
+</span></span></code></pre></div><p>Now, instead of passing the <code>--target=x86_64-unknown-linux-musl</code> argument to <code>cargo build</code> all the time, let&rsquo;s create a config file for cargo:
+Create the file <code>.cargo/config.toml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">build</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">target</span> = <span style="color:#e6db74">&#34;x86_64-unknown-linux-musl&#34;</span>
+</span></span></code></pre></div><p>Now lets build the app:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; cargo b
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>&gt; ls target/x86_64-unknown-linux-musl/debug/ -1
+</span></span><span style="display:flex;"><span>build/
+</span></span><span style="display:flex;"><span>deps/
+</span></span><span style="display:flex;"><span>examples/
+</span></span><span style="display:flex;"><span>incremental/
+</span></span><span style="display:flex;"><span>sun-status-grabber*
+</span></span><span style="display:flex;"><span>sun-status-grabber.d
+</span></span></code></pre></div><p>Now lets rebuild</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; docker-compose build
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>... Docker building the image ...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>&gt; docker-compose up
+</span></span><span style="display:flex;"><span>Starting solargrabber_solar-grabber_1 ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Attaching to solargrabber_solar-grabber_1
+</span></span><span style="display:flex;"><span>solar-grabber_1  | StatusData <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>solar-grabber_1  |     device_sn: <span style="color:#e6db74">&#34;...&#34;</span>
+</span></span><span style="display:flex;"><span>solar-grabber_1  |     current_power: ...,
+</span></span><span style="display:flex;"><span>solar-grabber_1  |     yield_today: ...,
+</span></span><span style="display:flex;"><span>solar-grabber_1  |     total_yield: ...,
+</span></span><span style="display:flex;"><span>solar-grabber_1  | <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>solargrabber_solar-grabber_1 exited with code <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  bytekeeper.org 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

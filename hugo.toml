@@ -1,0 +1,4 @@
+baseURL = 'https://www.bytekeeper.org/'
+languageCode = 'en-us'
+title = 'bytekeeper.org'
+theme = 'ananke'

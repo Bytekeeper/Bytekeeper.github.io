@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>4X Game Loop | bytekeeper.org</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="I think I don&rsquo;t really need to explain what a 4X game is, maybe not even what the 4X stand for.
+But, I&rsquo;ll do it anyway - the gameplay loop of a typical 4X game is:
+{{ fit_img(path=&ldquo;4x_game.dot.png&rdquo;, alt=&ldquo;The 4 Xs&rdquo;, caption=&ldquo;A loop of loops - that is 4X&rdquo;) }}
+
+eXplore
+eXpand
+eXploit
+eXterminate
+
+Much of the fun of this simple formula comes from the fact that none of those factors stands on its own.
+You usually cannot expand without exploring first. Sometimes to expand by exterminating an enemy at a location first.
+What is there to exploit, if you did not expand before?
+And how will you exterminate, if you lack the resources you ought to have exploited first.">
+    <meta name="generator" content="Hugo 0.146.7">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/game_loop/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/game_loop/">
+  <meta property="og:site_name" content="bytekeeper.org">
+  <meta property="og:title" content="4X Game Loop">
+  <meta property="og:description" content="I think I don’t really need to explain what a 4X game is, maybe not even what the 4X stand for. But, I’ll do it anyway - the gameplay loop of a typical 4X game is: {{ fit_img(path=“4x_game.dot.png”, alt=“The 4 Xs”, caption=“A loop of loops - that is 4X”) }}
+eXplore eXpand eXploit eXterminate Much of the fun of this simple formula comes from the fact that none of those factors stands on its own. You usually cannot expand without exploring first. Sometimes to expand by exterminating an enemy at a location first. What is there to exploit, if you did not expand before? And how will you exterminate, if you lack the resources you ought to have exploited first.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-08-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-08-05T00:00:00+00:00">
+
+  <meta itemprop="name" content="4X Game Loop">
+  <meta itemprop="description" content="I think I don’t really need to explain what a 4X game is, maybe not even what the 4X stand for. But, I’ll do it anyway - the gameplay loop of a typical 4X game is: {{ fit_img(path=“4x_game.dot.png”, alt=“The 4 Xs”, caption=“A loop of loops - that is 4X”) }}
+eXplore eXpand eXploit eXterminate Much of the fun of this simple formula comes from the fact that none of those factors stands on its own. You usually cannot expand without exploring first. Sometimes to expand by exterminating an enemy at a location first. What is there to exploit, if you did not expand before? And how will you exterminate, if you lack the resources you ought to have exploited first.">
+  <meta itemprop="datePublished" content="2022-08-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-08-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="881">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="4X Game Loop">
+  <meta name="twitter:description" content="I think I don’t really need to explain what a 4X game is, maybe not even what the 4X stand for. But, I’ll do it anyway - the gameplay loop of a typical 4X game is: {{ fit_img(path=“4x_game.dot.png”, alt=“The 4 Xs”, caption=“A loop of loops - that is 4X”) }}
+eXplore eXpand eXploit eXterminate Much of the fun of this simple formula comes from the fact that none of those factors stands on its own. You usually cannot expand without exploring first. Sometimes to expand by exterminating an enemy at a location first. What is there to exploit, if you did not expand before? And how will you exterminate, if you lack the resources you ought to have exploited first.">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        bytekeeper.org
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        List of blog posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">4X Game Loop</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2022-08-05T00:00:00Z">August 5, 2022</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>I think I don&rsquo;t really need to explain what a 4X game is, maybe not even what the 4X stand for.
+But, I&rsquo;ll do it anyway - the gameplay loop of a typical 4X game is:
+{{ fit_img(path=&ldquo;4x_game.dot.png&rdquo;, alt=&ldquo;The 4 Xs&rdquo;, caption=&ldquo;A loop of loops - that is 4X&rdquo;) }}</p>
+<ul>
+<li>eXplore</li>
+<li>eXpand</li>
+<li>eXploit</li>
+<li>eXterminate</li>
+</ul>
+<p>Much of the fun of this simple formula comes from the fact that none of those factors stands on its own.
+You usually cannot expand without exploring first. Sometimes to expand by exterminating an enemy at a location first.
+What is there to exploit, if you did not expand before?
+And how will you exterminate, if you lack the resources you ought to have exploited first.</p>
+<p>Let&rsquo;s dive deeper into the <del>abyss</del> parts of such a game:</p>
+<h2 id="exploration">Exploration</h2>
+<p>The most basic approach is sending out scouts. An alternative would be spying.
+Maybe diplomacy uncovers some secrets as well.</p>
+<p>Keywords:</p>
+<ul>
+<li>Scouts</li>
+<li>Diplomacy</li>
+<li>Special events</li>
+<li>Spies</li>
+<li>Racial abilities</li>
+<li>Tech abilities</li>
+</ul>
+<h2 id="expansion">Expansion</h2>
+<p>Again, there&rsquo;s the direct way of sending a colony ship (settler). Alternatively you can take over an enemy colony.
+A random encounter could grant you a new colony.</p>
+<p>Keywords:</p>
+<ul>
+<li>Colony ships</li>
+<li>Outposts</li>
+<li>Diplomacy</li>
+</ul>
+<h2 id="exploitation">Exploitation</h2>
+<p>Pumping up the population. Building factories. Gather food. There could be a lot of resources to be gathered.
+Also things like research are part of this.
+There are also hidden resources. A large army could incline neighbours for that large tribute.</p>
+<p>Keywords:</p>
+<ul>
+<li>Research</li>
+<li>Mining</li>
+<li>Taxation</li>
+<li>Diplomacy</li>
+<li>Spies</li>
+<li>Production</li>
+</ul>
+<h2 id="extermination">Extermination</h2>
+<p>Send your force and crush your foes. Or let your spies sabotage the heck out of them. Or let some allies or vassals handle it.</p>
+<p>Keywords:</p>
+<ul>
+<li>Battle ships</li>
+<li>Planetary defense</li>
+<li>Spies</li>
+<li>Diplomacy</li>
+</ul>
+<h1 id="design-for-my-game">Design for my Game</h1>
+<p>I planned on covering all topics above, but that is basically to large for a single post.
+In the last post I covered a few basics of research.
+I will try a breadth-first approach in design and switch to another topic.</p>
+<p>Let&rsquo;s tackle&hellip;</p>
+<h2 id="exploration-1">Exploration</h2>
+<p>The basis for almost all games here is using some sort of scout.
+It would not make sense to change that, it is pretty much what players expect to find.</p>
+<p>But, what is a scout? A special ship (surveyor anyone)? A player designed ship?
+Pre-designed units have a large benefit: They can be balanced pretty well.
+The player chooses which ship to build, but not what it is composed of.</p>
+<p>Player designed ships are way more interesting in concept.
+In practice, it boils down to a few ships with a specific purpose (like scouting).
+Remnants of the Precursors for example allows only a few designs, which emphasizes that.</p>
+<h3 id="ship-design">Ship Design</h3>
+<p>I do think, limiting the number of designs is good idea.
+But for the actual design of a ship I have another idea. As usual, ships are composed of different modules.
+Each module modifies some attributes of a ship:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Attribute</th>
+          <th>Effect</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Cost</td>
+          <td>Makes your ship more expensive (but shiny and pretty as well)</td>
+      </tr>
+      <tr>
+          <td>Space</td>
+          <td>Most modules take up some precious space on a ship, but some can extend it</td>
+      </tr>
+      <tr>
+          <td>Range Bonus</td>
+          <td>Increases/Decreases the range a ship can distance itself to the nearest colony</td>
+      </tr>
+      <tr>
+          <td>Interstellar Speed Bonus</td>
+          <td>Increases/Decreases speed for long range travel</td>
+      </tr>
+      <tr>
+          <td>Interstellar Stealth Bonus</td>
+          <td>Makes ships more/less detectable while in flight</td>
+      </tr>
+      <tr>
+          <td>Hit point Bonus</td>
+          <td>Increases/Decreases the hull of a ship to take more of a punch</td>
+      </tr>
+      <tr>
+          <td>Shield Bonus</td>
+          <td>Similar to hit points, but weak against energy weapons - strong against physical weapons</td>
+      </tr>
+      <tr>
+          <td>Combat Speed Bonus</td>
+          <td>Increases/Decreases speed for combat</td>
+      </tr>
+      <tr>
+          <td>Combat Repair</td>
+          <td>Repairs ships by a small amount each combat turn</td>
+      </tr>
+      <tr>
+          <td>Particle Damage</td>
+          <td>Adds particle beams with some strength as combat and point defense weapons</td>
+      </tr>
+      <tr>
+          <td>Projectile Damage</td>
+          <td>Adds projectile weapons with some strength as combat weapon</td>
+      </tr>
+      <tr>
+          <td>Missile Damage</td>
+          <td>Adds missiles with some strength as combat weapons</td>
+      </tr>
+      <tr>
+          <td>Combat Stealth</td>
+          <td>Makes ships harder to hit or easier to hit in combat</td>
+      </tr>
+      <tr>
+          <td>Colonists</td>
+          <td>This allows a ship to colonize an empty planet</td>
+      </tr>
+  </tbody>
+</table>
+<p>A ship, by itself is just a hull. The collection of modules selected will determine its purpose.
+But, there&rsquo;s no free lunch. All modules will be balanced, one way or another.</p>
+<p>For example, a missile launcher weapon will most likely take up a lot of space and will not be cheap.
+A particle beam weapon on the other hand could be smaller and cheaper.
+But at the cost of reduced combat stealth, and a weakness in damaging the hull of enemy ships.</p>
+<p>Once again this reminds of RPG attributes on items:
+<img src="Simple%20Weapon.png" alt="Simple Weapon" title="Impressive"></p>
+<p>That is intentional.</p>
+<p>I really want to enforce that ships are good at some things and bad at others.
+Otherwise you will end up with the typical &ldquo;high tech jack of all trades&rdquo; ships.
+Also, the number of designs should be limited, as with <a href="https://rayfowler.itch.io/remnants-of-the-precursors">ROTP</a>.
+I would like the player to see each design as a &ldquo;character&rdquo;. Although with some serious multiple personality disorder.</p>
+<p>So modifying a design should be possible. What happens with the existing ships?
+They could keep their original design. But then, the game could just have unlimited designs.
+They could be scrapped. They could be retrofitted. Or something in-between.</p>
+<p>No code was <del>harmed</del> written for this post. As mentioned before, I already have a small code base.
+But exploring (no pun intended) the design space is more of an issue for now.
+So next time we take a look at <em>Expanding</em>.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  bytekeeper.org 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>IamWorkingOn | bytekeeper.org</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="I decided to take a break from gamedev (albeit not blogging, I still did work on the game the last few months). So, let&rsquo;s dive into something else for the time being.
+I won&rsquo;t just disclose what it&rsquo;s about. But let&rsquo;s talk tech:
+It&rsquo;s going to be a web-app based on SvelteKit and Axum. You might have heard of Svelte, but maybe not of Axum. Axum is a Rust web framework. This might surprise some, but let me explain:">
+    <meta name="generator" content="Hugo 0.146.7">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/iamworkingon/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/iamworkingon/">
+  <meta property="og:site_name" content="bytekeeper.org">
+  <meta property="og:title" content="IamWorkingOn">
+  <meta property="og:description" content="I decided to take a break from gamedev (albeit not blogging, I still did work on the game the last few months). So, let’s dive into something else for the time being.
+I won’t just disclose what it’s about. But let’s talk tech:
+It’s going to be a web-app based on SvelteKit and Axum. You might have heard of Svelte, but maybe not of Axum. Axum is a Rust web framework. This might surprise some, but let me explain:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-09-27T00:00:00+00:00">
+
+  <meta itemprop="name" content="IamWorkingOn">
+  <meta itemprop="description" content="I decided to take a break from gamedev (albeit not blogging, I still did work on the game the last few months). So, let’s dive into something else for the time being.
+I won’t just disclose what it’s about. But let’s talk tech:
+It’s going to be a web-app based on SvelteKit and Axum. You might have heard of Svelte, but maybe not of Axum. Axum is a Rust web framework. This might surprise some, but let me explain:">
+  <meta itemprop="datePublished" content="2024-09-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-09-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="269">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="IamWorkingOn">
+  <meta name="twitter:description" content="I decided to take a break from gamedev (albeit not blogging, I still did work on the game the last few months). So, let’s dive into something else for the time being.
+I won’t just disclose what it’s about. But let’s talk tech:
+It’s going to be a web-app based on SvelteKit and Axum. You might have heard of Svelte, but maybe not of Axum. Axum is a Rust web framework. This might surprise some, but let me explain:">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        bytekeeper.org
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        List of blog posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">IamWorkingOn</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-09-27T00:00:00Z">September 27, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>I decided to take a break from gamedev (albeit not blogging, I still did work on the game the last few months). So, let&rsquo;s dive into something else for the time being.</p>
+<p>I won&rsquo;t just disclose what it&rsquo;s about. But let&rsquo;s talk tech:</p>
+<p>It&rsquo;s going to be a web-app based on <a href="https://kit.svelte.dev/">SvelteKit</a> and <a href="https://github.com/tokio-rs/axum">Axum</a>. You might have heard of Svelte, but maybe not of Axum. Axum is a Rust web framework. This might surprise some, but let me explain:</p>
+<p>I&rsquo;m mostly a backend developer. I&rsquo;m not particular fond of using JS or TS on the backend. I won&rsquo;t go into details why here, but if you&rsquo;re interested - let me now. I might consider explaining myself.</p>
+<p>My work here is based on <a href="https://www.brendonotto.com/">Brendon Otto</a>&rsquo;s post on <a href="https://www.brendonotto.com/posts/hello-world-with-axum-and-svelte">Axum and Svelte</a>.</p>
+<p>Let&rsquo;s pickup where he left. I also want <code>npm run dev</code> to work. To do that, we modify the <code>svelte.config.js</code> file again. Replace the adapter import with two imports:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JS" data-lang="JS"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">adapterStatic</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@sveltejs/adapter-static&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">adapterAuto</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@sveltejs/adapter-auto&#39;</span>;
+</span></span></code></pre></div><p><a href="https://nodejs.org/">Node.js</a> modifies the <a href="https://nodejs.org/en/learn/getting-started/nodejs-the-difference-between-development-and-production">NODE_ENV</a>, using <code>production</code> for production builds (<code>npm build</code>). So we will use that:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JS" data-lang="JS"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isProduction</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">NODE_ENV</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;production&#39;</span>;
+</span></span></code></pre></div><p>And modify the adapter config to use static/auto depending on the environment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JS" data-lang="JS"><span style="display:flex;"><span>        <span style="color:#a6e22e">adapter</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">isProduction</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">adapterStatic</span>({
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">pages</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;build&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">assets</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;build&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fallback</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">undefined</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">precompress</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">strict</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>		}) <span style="color:#f92672">:</span> <span style="color:#a6e22e">adapterAuto</span>()
+</span></span></code></pre></div><p>Resulting in <code>svelte.config.js</code> looking like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-JS" data-lang="JS"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">adapterStatic</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@sveltejs/adapter-static&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">adapterAuto</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@sveltejs/adapter-auto&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isProduction</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">NODE_ENV</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;production&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/** @type {import(&#39;@sveltejs/kit&#39;).Config} */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">config</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">kit</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">adapter</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">isProduction</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">adapterStatic</span>({
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">pages</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;build&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">assets</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;build&#39;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fallback</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">undefined</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">precompress</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">strict</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>		}) <span style="color:#f92672">:</span> <span style="color:#a6e22e">adapterAuto</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">config</span>;
+</span></span></code></pre></div><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  bytekeeper.org 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
