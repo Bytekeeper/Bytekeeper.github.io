@@ -7,7 +7,7 @@ tags = ["gamedev"]
 
 I think I don't really need to explain what a 4X game is, maybe not even what the 4X stand for.
 But, I'll do it anyway - the gameplay loop of a typical 4X game is:
-{{ fit_img(path="4x_game.dot.png", alt="The 4 Xs", caption="A loop of loops - that is 4X") }}
+![Image](4x_game.dot.png", alt="The 4 Xs", caption="A loop of loops - that is 4X)
 * eXplore
 * eXpand
 * eXploit

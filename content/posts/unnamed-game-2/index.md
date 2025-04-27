@@ -7,7 +7,7 @@ tags = ["gamedev"]
 
 In the [last](@unnamed-game/index.md) post, I showed some of the goals I want to achieve with my game. Including some early screen shots. I decided to replace the AI generated ships with some procedural generated ships - lets have a look:
 
-{{ fit_img(path="procedural-ships.png") }}
+![Image](procedural-ships.png)
 
 While not exactly beautiful, and not even in the style I want the game to be - it's a better placeholder. It should not agitate people as much, as AI generated art would.
 
@@ -42,7 +42,7 @@ But how should systems react to that? In real-time games its pretty easy: You as
 I cannot tell for you, but I can tell for me: Components are there to capture the state of the application/game. But attacking in a turn based game is not a state change itself. The state of the game should reflect the action, but not necessarily contain the action as part of the state. (Of course there are exceptions to that rule, this is just the general advice of avoiding littering your entities with input components)
 
 
-{{ fit_img(path="trigger-vs-state.png", alt="That is why your mouse button has that depression") }}
+![Image](trigger-vs-state.png", alt="That is why your mouse button has that depression)
 
 `Events` (or Signals) are part of most ECS'. And a good fit for the discrete nature of input in a turn based game. You would not want to use it for real-time games mostly. For example, pulling the trigger to fire non-stop in an action game does not lend itself well for events. The player holding the trigger is *part* of the state of the game. On the other hand, the player pressing `jump` should only be part of a component, if they can vary the height of the jump by pressing longer or shorter. If not, an event will most likely suffice.
 
@@ -70,7 +70,7 @@ This is, of course, dangerous to some degree. If you are careless, this might le
 * Non core game logic systems may add and modify their components to game logic entities. They must also ensure to clean up after themselves by removing components when systems go out of scope.
 * Non core game logic systems must handle entities suddenly disappearing and appearing.
 
-{{ fit_img(path="data-model.png") }}
+![Image](data-model.png)
 
 # Conclusion
 This time we have taken a look at how to design entities to work for the core game and one or more scenes. Events are a key element to keep things simpler and loosely coupled. ECS obviously is not the one-size-fits-all solution, but with some thinking the shoe fits quite good.

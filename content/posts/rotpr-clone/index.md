@@ -27,13 +27,13 @@ Almost none of the games inspired by it (or being successor to) seem to do that.
 > Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.
 - Antoine de Saint-Exupéry, Airman's Odyssey 
 
-{{ fit_img(path="rotpr.png", alt="Remnants of the Precursors") }}
+![Image](rotpr.png", alt="Remnants of the Precursors)
 Remnants of the Precursors (ROTPR for now) has a simple interface. Maybe even a bit to bland. But it gets the job done. I did not really play the original [Master of Orion](https://en.wikipedia.org/wiki/Master_of_Orion), I was still ~~wasting~~ enjoying my time with [Civilization](https://en.wikipedia.org/wiki/Civilization_\(video_game\)).
 
 I do like the simpler colony management, which avoids going through every colony in the mid-late game. Spying is a bit strange, it is not really obvious what multiple networks and/or high spendings are doing.
 
 
-{{ fit_img(path="moo2.jpg", alt="Master of Orion 2") }}
+![Image](moo2.jpg", alt="Master of Orion 2)
 Master of Orion 2 (not 1) is a bit different, more complex in some aspects (colony management) and less so in others (less diplomacy/spying).
 
 The UI is a bit dated, and looks only good when shrunk down. Still looks nice though.
@@ -54,7 +54,7 @@ I know a few things I *want* in the game design:
 * Colonization should be per star system (like ROTPR). Colonizing individual planets really takes its toll on usability. Multiple different factions owning each a planet in a system? A separate UI for planets in a system? It just makes things more tedious.
 * Research based on a RPG like skill tree. Even ROTPR, which tries to make research meaningful succumbs to the "unimportant research item" problem.
 
-{{ fit_img(path="tech_tree.dot.png", alt="Tech tree like skill tree", caption="Imagine some more tier levels here...") }}
+![Image](tech_tree.dot.png", alt="Tech tree like skill tree", caption="Imagine some more tier levels here...)
 
 Tech items above are just examples (for some I don't have an idea on what they do), I do want to make it unconventional - yet useful. Every tech has 3 upgrades which will improve on the previous state in one way or the other.
 

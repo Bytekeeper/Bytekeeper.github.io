@@ -32,7 +32,7 @@ To the left is a representative entity. It contains hit points as a model compon
 **Conclusion**: This is essentially a bad option, the game is for the player - not for the CPU or my peace of mind.
 
 ### Delayed Model Updates: So-So
-{{ fit_img(path="shared_entities_delayed_model.png") }}
+![Image](shared_entities_delayed_model.png)
 
 A similar representation as before, but this time the entity is not destroyed immediately. Instead, the "planned" destruction is communicated by an event or a flag in some component.
 
@@ -44,7 +44,7 @@ This will obviously work, but is a bit "ugly" from a technical point of view. Th
 **Conclusion**: This approach works but carry the stench of potential problems when restoring the game state.
 
 ## Separate Entities: Good, but More Effort
-{{ fit_img(path="separate_entities.png") }}
+![Image](separate_entities.png)
 
 With this design, there are no "reds". There is an entity for the model and an entity for the UI. The UI will try to keep entities in sync. If an entity in the model is destroyed, the UI can keep its entity around and start the destruction animation. 
 
@@ -55,7 +55,7 @@ The model's invariants are held, and the player won't be confused. But we pay a 
 ## Summary
 As always, there is no single best solution - all have draw-backs. Coming from a business development perspective, it often pays to separate domain models:
 
-{{ fit_img(path="domain_models.png") }}
+![Image](domain_models.png)
 
 "Sourcing" is the term for where data is coming from. Basically, that is, what I will be doing. That means "Separate Entities" is the way to go from here.
 

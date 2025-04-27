@@ -43,11 +43,11 @@ The game is pretty forgiving, for a rogue-like. Health flasks and other consumab
 The stacks in my prototype are similar to the one dimensional "board" in this game. This choice naturally leads to a reduced set of actions. The player can not attack any random enemy, but will have to select one of a few viable targets. Same for the enemies, many just can't target the player due to other units being in the way. Its more natural than the stacks in my prototype, which allow targeting the top ship only, most of the time.
 
 ### Damage Management
-{{ fit_img(path="damage-management.png", alt="A real artist") }}
+![Image](damage-management.png", alt="A real artist)
 Another thing is the damage management. Its basically the core of Into the Breach, and also of Shogun Showdown. My prototype does things differently. You can almost never avoid taking damage. Instead, something that fits the lore of a science fiction game, I added shields. Shields get replenished fully at the start of each combat. Since damage cannot be avoided, the goal is to distribute the damage across all player ships to avoid actual hull damage.
 
 ### Movement
-{{ fit_img(path="movement.png", alt="Shake it") }}
+![Image](movement.png", alt="Shake it)
 There is no actual movement per se in my game idea. Actions will usually put a ship to the bottom of the stack. Some can actions allow changing the player stack. Some modify the enemy stack. This differs a lot from Into the Breach and Shogun Showdown. In both games the player can actively move unit(s). For Shogun Showdown, this means an actual turn. For Into the Breach, the player still can perform an action. Not diving into this too much for now, it essentially means I might need to re-design movement in my game.
 
 # The Other Scenes

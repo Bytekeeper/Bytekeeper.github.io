@@ -17,21 +17,21 @@ Lucky for me, we have a spare room - otherwise working would be very hard due to
 
 A little human goes through a lot of development phases. There is the cute phase...
 
-{{ fit_img(path="Cute-Baby.jpg", alt="Not mine", caption="Not mine") }}
+![Image](Cute-Baby.jpg", alt="Not mine", caption="Not mine)
 
 Then there is the crying phase...
 
-{{ fit_img(path="crying_baby.jpg", alt="Still not mine", caption="Nope, still not mine") }}
+![Image](crying_baby.jpg", alt="Still not mine", caption="Nope, still not mine)
 
 And there is the default happy phase
 
-{{ fit_img(path="screaming-yoda.jpg", alt="Really, what the", caption="Definitely not mine ") }}
+![Image](screaming-yoda.jpg", alt="Really, what the", caption="Definitely not mine )
 
 OK, the last one might be slightly exaggerated. And it is not the default. At least for my son, most of the time he is pretty happy.
 
 You are supposed to react to the baby's needs. Ignore that at your own peril (eardrums). Really, a lot of time I look at my son and this is what I see:
 
-{{ fit_img(path="mischievous-baby.jpeg", alt="Are the all able to look like thatReally, what the?", caption="Same smirk, but not mine") }}
+![Image](mischievous-baby.jpeg", alt="Are the all able to look like thatReally, what the?", caption="Same smirk, but not mine)
 
 I believe the general baby package works like this:
 * You receive it

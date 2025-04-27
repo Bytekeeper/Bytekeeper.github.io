@@ -19,7 +19,7 @@ I've been reading books and listening to audiobooks on the topic for a few years
 Disclaimer: I did not yet publish or finish any game. This is what I learned from various sources I read.
 
 This is a rough diagram on how I imagine the development process generally works:
-{{ fit_img(path="game-development-process.png", alt="Game Development Process Diagram") }}
+![Image](game-development-process.png", alt="Game Development Process Diagram)
 The arced arrows represent loops on the timeline of development. I also think the span of the loops are essentially "true" in relation to each other. The prototyping phase will be shorter than the release phase. It, in turn, will be shorter than the implementation phase. This is not a reflection of my experience, but of the things I learned, reading from other gamedev blogs and post mortems.
 
 As you can see, I believe marketing should start even before the design or the prototype is done. There's no point were you should stop doing it.
@@ -49,6 +49,6 @@ I did not fully flesh out the design on paper, but I had some nice narrative goi
 So, I am still in the early stages. I don't want to reveal the current game design. Not for fear of someone stealing my ideas, ideas are available in [abundance](https://www.escapistmagazine.com/Why-Your-Game-Idea-Sucks/). Let's just say I got my inspiration from games like [Slay the Spire](https://store.steampowered.com/app/646570/Slay_the_Spire/) and [Into the Breach](https://store.steampowered.com/app/590380/Into_the_Breach/). And yet, it is neither a card battler, nor has a chess-board like map.
 
 I'm currently iterating, trying to flesh out my idea. I don't yet see my prototype or core gameplay loop being fun. But I am convinced that I can change it, to be fun:
-{{ fit_img(path="current-position-in-process.png", alt="You are here") }}
+![Image](current-position-in-process.png", alt="You are here)
 
 The goal now, and my main focus of work, is to "fix" this problem. If I can make it *click* - the rest will follow.
