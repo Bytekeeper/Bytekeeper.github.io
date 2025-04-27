@@ -5,3 +5,8 @@ theme = 'PaperMod'
 
 [params]
 ShowRssButtonInSectionTermList = true
+
+[[params.socialIcons]]
+name = "github"
+title = "My GitHub"
+url = "https://github.com/Bytekeeper/"
