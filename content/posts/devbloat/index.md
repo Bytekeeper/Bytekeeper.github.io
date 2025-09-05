@@ -1,7 +1,6 @@
 +++
 title = "A Rant on Software Development Bloat"
 date = 2025-09-05
-draft = true
 tags = ["design & architecture"]
 +++
 
