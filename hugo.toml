@@ -1,7 +1,7 @@
 baseURL = 'https://www.bytekeeper.org/'
 languageCode = 'en-us'
 title = 'bytekeeper.org'
-theme = 'PaperMod'
+theme = ['PaperMod', 'plausible-hugo']
 
 [params]
 ShowRssButtonInSectionTermList = true
@@ -10,3 +10,8 @@ ShowRssButtonInSectionTermList = true
 name = "github"
 title = "My GitHub"
 url = "https://github.com/Bytekeeper/"
+
+[params.plausible]
+enable = true
+domain = "bytekeeper.org"
+selfhosted_domain = "plausible.bytekeeper.org"
