@@ -5,8 +5,9 @@ theme = ['PaperMod', 'plausible-hugo']
 
 [params]
 ShowRssButtonInSectionTermList = true
+Author = "Dennis Waldherr"
 
-[[params.socialIcons]]
+[params.socialIcons]
 name = "github"
 title = "My GitHub"
 url = "https://github.com/Bytekeeper/"
@@ -15,3 +16,9 @@ url = "https://github.com/Bytekeeper/"
 enable = true
 domain = "bytekeeper.org"
 selfhosted_domain = "plausible.bytekeeper.org"
+
+[params.staticman]
+username = ""
+repository = ""
+branch = "master"
+notifications = false
