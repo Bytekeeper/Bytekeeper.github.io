@@ -16,3 +16,5 @@ author = "Dennis Waldherr"
 github = "https://github.com/Bytekeeper/"
 plausible_domain = "bytekeeper.org"
 plausible_selfhosted = "plausible.bytekeeper.org"
+comment = true
+comment_server_url = "https://comment.bytekeeper.org"

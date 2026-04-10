@@ -1,0 +1,69 @@
+{#
+  Comment section shortcode for Laberbox.
+  https://github.com/Bytekeeper/laberbox
+
+  Setup:
+    1. Copy this file to your site's templates/shortcodes/comments.html
+    2. Add to config.toml:
+         [extra]
+         comment_server_url = "https://your-comment-server.example.com"
+    3. Add {{ comments() }} to any page's markdown, or add
+         {% include "shortcodes/comments.html" %}
+       to your page template (templates/page.html) to enable comments on all posts.
+#}
+
+{% set server_url = config.extra.comment_server_url | default(value="http://localhost:3000") %}
+
+{# page.path is always /section/slug/ — matches the server's path construction exactly #}
+{% set comments_path = "content" ~ page.path ~ "comments.yaml" %}
+{% set comments = load_data(path=comments_path, required=false) %}
+
+<section class="not-prose" id="comments">
+  <h2 class="mb-6 text-xl font-bold">Comments</h2>
+
+  {% if comments %}
+    {% for comment in comments %}
+    <article class="block-bg mb-4 rounded-lg p-4 lg:p-6" id="comment-{{ comment.id }}">
+      <header class="mb-2 font-bold">
+        {%- if comment.url and comment.url != "" -%}
+          <a class="secondary-link hover:underline" href="{{ comment.url | escape_xml | safe }}" rel="nofollow noopener noreferrer" target="_blank">
+            {{- comment.name -}}
+          </a>
+        {%- else -%}
+          {{- comment.name -}}
+        {%- endif -%}
+      </header>
+      <div class="text-sm leading-relaxed">{{ comment.message }}</div>
+    </article>
+    {% endfor %}
+  {% else %}
+    <p class="text-sm opacity-60 mb-6">No comments yet. Be the first!</p>
+  {% endif %}
+
+  <form id="new-comment" class="block-bg rounded-lg p-4 lg:p-6" method="POST" action="{{ server_url | escape_xml | safe }}">
+    <h3 class="mb-4 font-bold">Leave a comment</h3>
+    <input type="hidden" name="path" value="{{ page.path | escape_xml | safe }}">
+    <input type="hidden" name="redirect_url" value="{{ page.permalink | escape_xml | safe }}#comments">
+
+    <div class="mb-4">
+      <label class="mb-1 block text-sm font-medium" for="comment-name">Name</label>
+      <input class="comment-input"
+        type="text" id="comment-name" name="name" required autocomplete="name">
+    </div>
+
+    <div class="mb-4">
+      <label class="mb-1 block text-sm font-medium" for="comment-url">Website</label>
+      <input class="comment-input"
+        type="url" id="comment-url" name="url" autocomplete="url" placeholder="https://">
+    </div>
+
+    <div class="mb-4">
+      <label class="mb-1 block text-sm font-medium" for="comment-message">Message</label>
+      <textarea class="comment-input"
+        id="comment-message" name="message" rows="5" required></textarea>
+    </div>
+
+    <button class="rounded-full bg-black px-4 py-2 text-sm text-white no-underline dark:bg-white/80 dark:text-black"
+      type="submit">Submit comment</button>
+  </form>
+</section>
