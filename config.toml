@@ -2,7 +2,7 @@ base_url = "https://www.bytekeeper.org"
 title = "bytekeeper.org"
 compile_sass = false
 generate_feeds = true
-feed_filenames = ["index.xml"]
+feed_filenames = ["atom.xml", "rss.xml"]
 theme = "linkita"
 
 taxonomies = [{ name = "tags", feed = true }]
