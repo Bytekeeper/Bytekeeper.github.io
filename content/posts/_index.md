@@ -1,7 +1,7 @@
 +++
-title = "List of blog posts"
+title = "Posts"
 sort_by = "date"
-template = "index.html"
+template = "section.html"
 page_template = "page.html"
 paginate_by = 20
 insert_anchor_links = "left"

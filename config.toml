@@ -1,0 +1,18 @@
+base_url = "https://www.bytekeeper.org"
+title = "bytekeeper.org"
+compile_sass = false
+generate_feeds = true
+feed_filenames = ["index.xml"]
+theme = "linkita"
+
+taxonomies = [{ name = "tags", feed = true }]
+
+[markdown.highlighting]
+light_theme = "github-light"
+dark_theme = "github-dark"
+
+[extra]
+author = "Dennis Waldherr"
+github = "https://github.com/Bytekeeper/"
+plausible_domain = "bytekeeper.org"
+plausible_selfhosted = "plausible.bytekeeper.org"

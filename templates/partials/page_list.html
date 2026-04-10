@@ -1,0 +1,55 @@
+<!-- Page List -->
+{%- set hellip = _str::tr(key=`hellip`, d=g_d) %}
+{%- for page in paginator.pages | default(value=(section.pages | default(value=term.pages))) %}
+<section
+  class="block-bg relative mb-4 rounded-lg p-4 first-of-type:mt-0 last-of-type:mb-0 lg:mb-6 lg:p-6"
+>
+  {%- if page.extra.cover.image %}
+  <figure class="mt-0 mb-4">
+    <img
+      class="h-auto w-full rounded-lg"
+      {%- set cover_image = _link::cover_image(path=page.extra.cover.image, assets=page.assets) %}
+      {%- if cover_image %}
+      src="{{ _link::rel(dest=get_url(path=(cover_image | trim_start_matches(pat=`/`)), lang=lang), cu=_cu, base=_base) }}"
+      {%- else %}
+      src="{{ _link::rel(dest=get_url(path=page.extra.cover.image), cu=_cu, base=_base) }}"
+      {%- endif %}
+      {%- if page.extra.cover.alt is defined %}
+      alt="{{ page.extra.cover.alt | escape_xml | safe }}"{% endif %}
+      {%- if page.extra.cover.width is defined %}
+      width="{{ page.extra.cover.width | int }}"{% endif %}
+      {%- if page.extra.cover.height is defined %}
+      height="{{ page.extra.cover.height | int }}"{% endif %}
+    />
+  </figure>
+  {%- endif %}
+
+  <h2 class="my-0! pb-1 leading-none! font-bold">{{ page.title }}</h2>
+
+  {% include "partials/page_info.html" %}
+
+  <a class="absolute inset-0 text-[0px]" href="{{ _link::rel(dest=page.permalink, cu=_cu, base=_base) }}">{{ page.title }}</a>
+</section>
+{%- endfor %}
+
+{%- if paginator is defined or taxonomy %}
+<nav class="not-prose mt-16 flex font-bold">
+  {%- if paginator.previous %}
+  <a
+    class="rounded-full bg-black px-4 py-3 text-sm text-white no-underline duration-75 dark:bg-white/80 dark:text-black"
+    href="{{ _link::rel(dest=paginator.previous, cu=_cu, base=_base) }}" rel="prev" accesskey=","
+    >&#8249; {{ _str::tr(key=`word_prev_page`, d=g_d) }}</a>
+  {%- elif taxonomy.name and taxonomy.slug %}
+  <a
+    class="rounded-full bg-black px-4 py-3 text-sm text-white no-underline duration-75 dark:bg-white/80 dark:text-black"
+    href="{{ _link::rel(dest=get_url(path=taxonomy.slug, lang=lang, trailing_slash=true), cu=_cu, base=_base) }}" accesskey=","
+    >&#8249; {{ _str::get_taxonomy_title(key=taxonomy.name, d=g_d) }}</a>
+  {%- endif %}
+  {%- if paginator.next %}
+  <a
+    class="ml-auto rounded-full bg-black px-4 py-3 text-sm text-white no-underline duration-75 dark:bg-white/80 dark:text-black"
+    href="{{ _link::rel(dest=paginator.next, cu=_cu, base=_base) }}" rel="next" accesskey="."
+    >{{ _str::tr(key=`word_next_page`, d=g_d) }} &#8250;</a>
+  {%- endif %}
+</nav>
+{%- endif %}
