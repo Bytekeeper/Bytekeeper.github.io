@@ -41,7 +41,7 @@ But how should systems react to that? In real-time games its pretty easy: You as
 I cannot tell for you, but I can tell for me: Components are there to capture the state of the application/game. But attacking in a turn based game is not a state change itself. The state of the game should reflect the action, but not necessarily contain the action as part of the state. (Of course there are exceptions to that rule, this is just the general advice of avoiding littering your entities with input components)
 
 
-![Image](trigger-vs-state.png", alt="That is why your mouse button has that depression)
+![That is why your mouse button has that depression](trigger-vs-state.png)
 
 `Events` (or Signals) are part of most ECS'. And a good fit for the discrete nature of input in a turn based game. You would not want to use it for real-time games mostly. For example, pulling the trigger to fire non-stop in an action game does not lend itself well for events. The player holding the trigger is *part* of the state of the game. On the other hand, the player pressing `jump` should only be part of a component, if they can vary the height of the jump by pressing longer or shorter. If not, an event will most likely suffice.
 

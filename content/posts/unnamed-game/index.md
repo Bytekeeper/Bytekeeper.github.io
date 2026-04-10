@@ -9,7 +9,7 @@ Or, to be more precise, the model in my mind. I plan on refining and correcting 
 
 ## Current State of My Game
 I can actually show a screenshot of my prototype:
-![Image](prototype-screenshot.png", alt="Not much to see yet)
+![Not much to see yet](prototype-screenshot.png)
 It contains a background I made and some ships an AI model created (for the prototype only, I will create or commission the real art). To the left are the player ships, to the right the enemy ships (I did not even bother to make the "look" toward the player ships).
 
 ### Game of Stacks
@@ -46,7 +46,7 @@ Besides using [bevy](https://bevyengine.org/), which might be a questionable dec
 Since systems run all the time, they need to "not do anything" as long as neither the player, nor the AI makes moves. There's also the problem that AI actions should be delayed - or appear delayed to avoid confusing the player.
 
 But the harder challenge was and is making the core mechanics "fun". I am a firm believer of "less is more" - so I am trying to add as little as possible at a time to test if I can improve the prototype. It kind of boils down towards the target audience, which in turn is also determined by the number of choices a player has at each "turn" when "playing" something:
-![Image](player-choice.png", alt="Object might appear larger than they are)
+![Object might appear larger than they are](player-choice.png)
 
 Obviously this plot has no indication of "fun" in it. There's always a "player" having fun at any point. Depending on the person, almost everything on that plot might "fit" at some point.
 

@@ -16,21 +16,21 @@ Lucky for me, we have a spare room - otherwise working would be very hard due to
 
 A little human goes through a lot of development phases. There is the cute phase...
 
-![Image](Cute-Baby.jpg", alt="Not mine", caption="Not mine)
+![Not mine](Cute-Baby.jpg)
 
 Then there is the crying phase...
 
-![Image](crying_baby.jpg", alt="Still not mine", caption="Nope, still not mine)
+![Still not mine](crying_baby.jpg)
 
 And there is the default happy phase
 
-![Image](screaming-yoda.jpg", alt="Really, what the", caption="Definitely not mine )
+![Definitely not mine](screaming-yoda.jpg)
 
 OK, the last one might be slightly exaggerated. And it is not the default. At least for my son, most of the time he is pretty happy.
 
 You are supposed to react to the baby's needs. Ignore that at your own peril (eardrums). Really, a lot of time I look at my son and this is what I see:
 
-![Image](mischievous-baby.jpeg", alt="Are the all able to look like thatReally, what the?", caption="Same smirk, but not mine)
+![Same smirk, but not mine](mischievous-baby.jpeg)
 
 I believe the general baby package works like this:
 * You receive it
