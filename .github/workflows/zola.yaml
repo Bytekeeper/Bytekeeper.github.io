@@ -20,7 +20,22 @@ jobs:
       - name: checkout
         uses: actions/checkout@v6.0.1
         with:
-          submodules: 'true'
+          submodules: false
+
+      - name: Fetch submodules
+        run: |
+          n=0
+          until [ "$n" -ge 5 ]
+          do
+            git submodule sync --recursive && git submodule update --init --recursive --depth 1 && break
+            n=$((n + 1))
+            echo "Submodule checkout failed (attempt $n/5), retrying in 10s..."
+            sleep 10
+          done
+          if [ "$n" -ge 5 ]; then
+            echo "Submodule checkout failed after 5 attempts"
+            exit 1
+          fi
 
       - name: Build Zola + upload Pages artifact
         uses: getzola/github-pages@066755243e69f508fd1a74739fbf1a65f656c790
