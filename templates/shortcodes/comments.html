@@ -23,6 +23,8 @@
 
   {% if comments %}
     {% for comment in comments %}
+    {% set comment_reply_to = comment.reply_to | default(value="") %}
+    {% if comment_reply_to == "" %}
     <article class="block-bg mb-4 rounded-lg p-4 lg:p-6" id="comment-{{ comment.id }}">
       <header class="mb-2 font-bold">
         {%- if comment.url and comment.url != "" -%}
@@ -34,7 +36,62 @@
         {%- endif -%}
       </header>
       <div class="text-sm leading-relaxed">{{ comment.message }}</div>
+
+      {% for reply in comments %}
+      {% set reply_reply_to = reply.reply_to | default(value="") %}
+      {% if reply_reply_to == comment.id %}
+      <article class="comment-reply" id="comment-{{ reply.id }}">
+        <header class="mb-2 font-bold">
+          {%- if reply.url and reply.url != "" -%}
+            <a class="secondary-link hover:underline" href="{{ reply.url | escape_xml | safe }}" rel="nofollow noopener noreferrer" target="_blank">
+              {{- reply.name -}}
+            </a>
+          {%- else -%}
+            {{- reply.name -}}
+          {%- endif -%}
+        </header>
+        <div class="text-sm leading-relaxed">{{ reply.message }}</div>
+      </article>
+      {% endif %}
+      {% endfor %}
+
+      <details>
+        <summary class="reply-toggle secondary-link hover:underline">Reply</summary>
+        <form class="reply-form" method="POST" action="{{ server_url | escape_xml | safe }}">
+          <input type="hidden" name="path" value="{{ page.path | escape_xml | safe }}">
+          <input type="hidden" name="redirect_url" value="{{ page.permalink | escape_xml | safe }}#comment-{{ comment.id }}">
+          <input type="hidden" name="reply_to" value="{{ comment.id }}">
+
+          <div class="mb-4">
+            <label class="mb-1 block text-sm font-medium" for="reply-name-{{ comment.id }}">Name</label>
+            <input class="comment-input"
+              type="text" id="reply-name-{{ comment.id }}" name="name" required autocomplete="name">
+          </div>
+
+          <div class="mb-4">
+            <label class="mb-1 block text-sm font-medium" for="reply-url-{{ comment.id }}">Website</label>
+            <input class="comment-input"
+              type="url" id="reply-url-{{ comment.id }}" name="url" autocomplete="url" placeholder="https://">
+          </div>
+
+          <div class="mb-4">
+            <label class="mb-1 block text-sm font-medium" for="reply-message-{{ comment.id }}">Message</label>
+            <textarea class="comment-input"
+              id="reply-message-{{ comment.id }}" name="message" rows="3" required></textarea>
+          </div>
+
+          {# Honeypot: real visitors never see this field; bots that auto-fill forms do. #}
+          <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+            <label for="reply-email-{{ comment.id }}">Email</label>
+            <input type="text" id="reply-email-{{ comment.id }}" name="email" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button class="rounded-full bg-black px-4 py-2 text-sm text-white no-underline dark:bg-white/80 dark:text-black"
+            type="submit">Submit reply</button>
+        </form>
+      </details>
     </article>
+    {% endif %}
     {% endfor %}
   {% else %}
     <p class="text-sm opacity-60 mb-6">No comments yet. Be the first!</p>
@@ -61,6 +118,12 @@
       <label class="mb-1 block text-sm font-medium" for="comment-message">Message</label>
       <textarea class="comment-input"
         id="comment-message" name="message" rows="5" required></textarea>
+    </div>
+
+    {# Honeypot: real visitors never see this field; bots that auto-fill forms do. #}
+    <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+      <label for="comment-email">Email</label>
+      <input type="text" id="comment-email" name="email" tabindex="-1" autocomplete="off">
     </div>
 
     <button class="rounded-full bg-black px-4 py-2 text-sm text-white no-underline dark:bg-white/80 dark:text-black"
